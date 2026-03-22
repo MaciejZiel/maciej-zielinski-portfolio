@@ -14,7 +14,7 @@
   width: 100%;
   max-width: 1480px;
   margin: 0 auto;
-  padding: 24px 28px 56px;
+  padding: 24px clamp(16px, 2.4vw, 28px) 56px;
   overflow-x: clip;
   isolation: isolate;
 }
@@ -136,6 +136,7 @@
   display: flex;
   align-items: center;
   gap: 18px;
+  min-width: 0;
 }
 
 .site-nav__link {
@@ -245,6 +246,7 @@
   z-index: 1;
   max-width: 860px;
   padding-top: 1rem;
+  min-width: 0;
 }
 
 .hero-copy::before {
@@ -312,8 +314,9 @@
   display: grid;
   gap: 4px;
   margin-top: 18px;
-  font-size: clamp(5.2rem, 12.8vw, 9.3rem);
-  line-height: 0.88;
+  max-width: 9ch;
+  font-size: clamp(4.2rem, 10vw, 7.8rem);
+  line-height: 0.9;
 }
 
 .hero-copy__title span:last-child {
@@ -321,14 +324,14 @@
 }
 
 .hero-copy__headline {
-  max-width: 18ch;
+  max-width: 20ch;
   margin: 22px 0 0;
   color: #eef5fd;
   font-family: var(--heading-font);
-  font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+  font-size: clamp(1.2rem, 2.3vw, 1.8rem);
   font-weight: 500;
   letter-spacing: -0.04em;
-  line-height: 1.08;
+  line-height: 1.18;
 }
 
 .hero-copy__summary,
@@ -347,9 +350,9 @@
 }
 
 .hero-copy__summary {
-  max-width: 62ch;
+  max-width: 58ch;
   margin-top: 20px;
-  font-size: clamp(1.05rem, 1.5vw, 1.18rem);
+  font-size: clamp(1rem, 1.3vw, 1.12rem);
 }
 
 .hero-copy__ledger {
@@ -400,6 +403,7 @@
   padding: 0 18px;
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 999px;
+  text-align: center;
   font-size: 0.96rem;
   font-weight: 600;
   transition:
@@ -435,6 +439,7 @@
   display: grid;
   align-items: start;
   padding-top: 22px;
+  min-width: 0;
 }
 
 .hero-stage::before {
@@ -478,7 +483,7 @@
   overflow: hidden;
   display: grid;
   gap: 16px;
-  padding: 26px;
+  padding: 24px;
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 38px 38px 18px 38px;
   background: rgba(6, 10, 18, 0.82);
@@ -502,6 +507,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
   color: rgba(180, 196, 214, 0.72);
   font-family: var(--mono-font);
   font-size: 0.72rem;
@@ -580,7 +586,7 @@
   display: block;
   margin: 0;
   color: var(--color-text);
-  font-size: 1rem;
+  font-size: 0.96rem;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -713,6 +719,7 @@
   background: rgba(8, 12, 20, 0.68);
   color: var(--color-text-muted);
   font-size: 0.88rem;
+  text-align: center;
 }
 
 .about-section,
@@ -735,13 +742,13 @@
 }
 
 .section-heading {
-  max-width: 18ch;
-  font-size: clamp(2.5rem, 5vw, 4.8rem);
-  line-height: 0.98;
+  max-width: 16ch;
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  line-height: 1.02;
 }
 
 .section-copy {
-  max-width: 56ch;
+  max-width: 54ch;
   margin-top: 18px;
 }
 
@@ -759,14 +766,14 @@
 }
 
 .about-section__statement {
-  max-width: 18ch;
+  max-width: 16ch;
 }
 
 .about-section__statement p {
   color: var(--color-text);
   font-family: var(--heading-font);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.1;
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  line-height: 1.18;
   letter-spacing: -0.05em;
 }
 
@@ -837,7 +844,7 @@
 }
 
 .projects-section__intro .section-heading {
-  max-width: 14ch;
+  max-width: 15ch;
 }
 
 .projects-section::before {
@@ -870,6 +877,7 @@
   position: relative;
   grid-column: span 7;
   padding-left: 6%;
+  min-width: 0;
 }
 
 .project-showcase__stage {
@@ -901,7 +909,7 @@
   left: -2%;
   color: rgba(226, 235, 244, 0.05);
   font-family: var(--heading-font);
-  font-size: clamp(4.6rem, 12vw, 10rem);
+  font-size: clamp(3.8rem, 10vw, 8rem);
   letter-spacing: -0.08em;
   line-height: 0.88;
   pointer-events: none;
@@ -926,27 +934,28 @@
   margin: 10px 0 0;
   color: rgba(223, 234, 244, 0.14);
   font-family: var(--mono-font);
-  font-size: clamp(3.4rem, 7vw, 6rem);
+  font-size: clamp(2.6rem, 5.6vw, 4.8rem);
   line-height: 0.9;
 }
 
 .project-showcase__name {
-  font-size: clamp(2.3rem, 5vw, 4.3rem);
-  line-height: 0.92;
+  max-width: 12ch;
+  font-size: clamp(2rem, 4.1vw, 3.5rem);
+  line-height: 0.98;
 }
 
 .project-showcase__headline {
-  max-width: 24ch;
+  max-width: 26ch;
   margin: 12px 0 0;
   color: var(--color-text);
   font-family: var(--heading-font);
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-size: clamp(1.02rem, 1.6vw, 1.24rem);
   letter-spacing: -0.03em;
-  line-height: 1.35;
+  line-height: 1.48;
 }
 
 .project-showcase__summary {
-  max-width: 62ch;
+  max-width: 58ch;
   margin-top: 26px;
 }
 
@@ -983,6 +992,7 @@
 .project-showcase__metric {
   padding-top: 14px;
   border-top: 1px solid rgba(148, 163, 184, 0.12);
+  min-width: 0;
 }
 
 .project-showcase__footer {
@@ -1003,6 +1013,7 @@
   width: fit-content;
   color: var(--color-text);
   font-weight: 600;
+  line-height: 1.5;
   transition:
     transform 220ms ease,
     opacity 220ms ease;
@@ -1030,7 +1041,8 @@
   top: 112px;
   overflow: hidden;
   isolation: isolate;
-  padding: 30px;
+  min-width: 0;
+  padding: 28px;
   border: 1px solid rgba(148, 163, 184, 0.12);
   border-radius: 40px 40px 18px 40px;
   background: rgba(8, 12, 20, 0.8);
@@ -1101,7 +1113,9 @@
   bottom: 20px;
   color: rgba(241, 246, 250, 0.06);
   font-family: var(--heading-font);
-  font-size: clamp(3.8rem, 9vw, 7rem);
+  max-width: 80%;
+  text-align: right;
+  font-size: clamp(3rem, 7vw, 5.8rem);
   letter-spacing: -0.08em;
   line-height: 0.88;
   pointer-events: none;
@@ -1119,9 +1133,9 @@
 .project-showcase__stage-metric strong {
   max-width: 20ch;
   font-family: var(--heading-font);
-  font-size: clamp(1.2rem, 2.3vw, 1.7rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
   letter-spacing: -0.04em;
-  line-height: 1.08;
+  line-height: 1.18;
 }
 
 .project-showcase__stage-stack {
@@ -1208,7 +1222,7 @@
 .projects-rail__item-name {
   color: var(--color-text);
   font-family: var(--heading-font);
-  font-size: 1.2rem;
+  font-size: 1.08rem;
   letter-spacing: -0.04em;
 }
 
@@ -1313,15 +1327,16 @@
 }
 
 .contact-section__lead-copy {
-  max-width: 44ch;
+  max-width: 40ch;
 }
 
 .contact-section__email {
   display: inline-block;
   margin-top: 30px;
   color: var(--color-text);
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  line-height: 0.95;
+  max-width: 12ch;
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  line-height: 1;
   transition:
     color 220ms ease,
     transform 220ms ease;
@@ -1377,8 +1392,9 @@
 .contact-section__link-value {
   color: var(--color-text);
   font-family: var(--heading-font);
-  font-size: 1.2rem;
+  font-size: 1.08rem;
   letter-spacing: -0.04em;
+  line-height: 1.45;
 }
 
 .contact-section__link-icon {
@@ -1442,6 +1458,10 @@
     padding-left: 0;
   }
 
+  .hero-section__beam {
+    display: none;
+  }
+
   .contact-section::after,
   .skills-section::after {
     display: none;
@@ -1473,6 +1493,21 @@
   .hero-stage {
     padding-top: 32px;
   }
+
+  .hero-copy__body::after,
+  .project-showcase__heading-backdrop,
+  .project-showcase__stage-word {
+    display: none;
+  }
+
+  .hero-meta {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .hero-meta__facts {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1500,6 +1535,10 @@
   .site-nav {
     gap: 12px;
     overflow-x: auto;
+  }
+
+  .site-nav__link {
+    white-space: nowrap;
   }
 
   .hero-copy__actions {
@@ -1530,8 +1569,31 @@
     transform: none;
   }
 
+  .about-section__signals,
+  .project-showcase__metrics,
+  .skill-lane,
+  .contact-section__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .project-showcase__stage,
+  .project-showcase--reverse .project-showcase__stage {
+    padding-top: 12px;
+  }
+
+  .project-showcase__stage-frame {
+    padding: 22px;
+    border-radius: 28px;
+  }
+
+  .project-showcase__details,
+  .projects-rail__items,
+  .contact-section__links {
+    gap: 12px;
+  }
+
   .contact-section__email {
-    font-size: clamp(2.2rem, 12vw, 4.2rem);
+    font-size: clamp(2rem, 11vw, 3.6rem);
   }
 
   .contact-section__link {
@@ -1564,6 +1626,30 @@
 
   .project-showcase__index {
     margin-top: 0;
+  }
+
+  .hero-copy__title,
+  .section-heading,
+  .project-showcase__name,
+  .contact-section__email {
+    overflow-wrap: break-word;
+  }
+
+  .hero-copy__summary,
+  .project-showcase__summary,
+  .about-section__paragraph p,
+  .projects-rail__item-description,
+  .contact-section__lead-copy {
+    line-height: 1.7;
+  }
+
+  .hero-stage__frame {
+    padding: 20px;
+    border-radius: 26px;
+  }
+
+  .hero-stage__status {
+    border-radius: 24px;
   }
 
   .contact-section__link-value {
