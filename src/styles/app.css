@@ -63,6 +63,10 @@
   gap: 0;
 }
 
+.main-content > section {
+  isolation: isolate;
+}
+
 .site-header {
   position: sticky;
   top: 16px;
@@ -717,6 +721,17 @@
   border-top: 1px solid rgba(148, 163, 184, 0.12);
 }
 
+.about-section::before,
+.projects-section::before,
+.skills-section::before,
+.contact-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .section-heading {
   max-width: 18ch;
   font-size: clamp(2.5rem, 5vw, 4.8rem);
@@ -733,6 +748,12 @@
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: clamp(2rem, 5vw, 5rem);
   margin-top: 48px;
+}
+
+.about-section::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%),
+    radial-gradient(circle at 16% 34%, rgba(166, 188, 206, 0.08), transparent 22%);
 }
 
 .about-section__statement {
@@ -782,6 +803,20 @@
   border-top: 1px solid rgba(148, 163, 184, 0.12);
 }
 
+.about-section__signals-label {
+  position: relative;
+}
+
+.about-section__signals-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -18px;
+  width: 72px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(223, 234, 244, 0.32), transparent);
+}
+
 .about-section__signals-list {
   display: grid;
   gap: 14px;
@@ -801,6 +836,12 @@
 
 .projects-section__intro .section-heading {
   max-width: 14ch;
+}
+
+.projects-section::before {
+  background:
+    radial-gradient(circle at 84% 20%, rgba(173, 190, 213, 0.08), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 24%);
 }
 
 .projects-section__list {
@@ -1137,6 +1178,10 @@
   border-top: 1px solid rgba(148, 163, 184, 0.12);
 }
 
+.projects-rail__intro {
+  position: relative;
+}
+
 .projects-rail__items {
   display: grid;
   gap: 16px;
@@ -1176,11 +1221,31 @@
   margin-top: 48px;
 }
 
+.skills-section::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 18%),
+    radial-gradient(circle at 72% 68%, rgba(160, 179, 196, 0.07), transparent 24%);
+}
+
+.skills-section::after {
+  content: 'STACK';
+  position: absolute;
+  top: 36px;
+  right: 0;
+  z-index: -1;
+  color: rgba(223, 234, 244, 0.04);
+  font-family: var(--heading-font);
+  font-size: clamp(4rem, 14vw, 12rem);
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+  pointer-events: none;
+}
+
 .skill-lane {
   display: grid;
   grid-template-columns: minmax(220px, 0.58fr) minmax(0, 1.42fr);
   gap: 24px;
-  padding: 26px 0;
+  padding: 32px 0;
   border-top: 1px solid rgba(148, 163, 184, 0.12);
 }
 
@@ -1191,6 +1256,10 @@
 .skill-lane__summary {
   margin-top: 10px;
   max-width: 34ch;
+}
+
+.skill-lane__label {
+  font-size: 0.82rem;
 }
 
 .skill-lane__items {
@@ -1218,6 +1287,29 @@
   margin-top: 44px;
 }
 
+.contact-section {
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.contact-section::before {
+  background:
+    radial-gradient(circle at 74% 30%, rgba(178, 198, 217, 0.1), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%);
+}
+
+.contact-section::after {
+  content: '';
+  position: absolute;
+  right: 8%;
+  top: 16%;
+  width: min(320px, 38vw);
+  height: min(320px, 38vw);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 48px;
+  transform: rotate(18deg);
+  pointer-events: none;
+}
+
 .contact-section__lead-copy {
   max-width: 44ch;
 }
@@ -1242,6 +1334,7 @@
 .contact-section__links {
   display: grid;
   gap: 0;
+  padding-top: 12px;
 }
 
 .contact-section__link-wrap {
@@ -1345,6 +1438,11 @@
 
   .project-showcase__content {
     padding-left: 0;
+  }
+
+  .contact-section::after,
+  .skills-section::after {
+    display: none;
   }
 }
 
