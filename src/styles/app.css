@@ -11,9 +11,11 @@
 
 .site-shell {
   position: relative;
+  width: 100%;
   max-width: 1480px;
   margin: 0 auto;
   padding: 24px 28px 56px;
+  overflow-x: clip;
   isolation: isolate;
 }
 

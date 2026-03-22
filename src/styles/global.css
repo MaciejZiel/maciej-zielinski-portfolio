@@ -31,12 +31,14 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: clip;
   color: var(--color-text);
   background:
     radial-gradient(circle at top left, rgba(77, 182, 255, 0.14), transparent 32%),
@@ -71,6 +73,8 @@ svg {
 
 #root {
   min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
 }
 
 .skip-link {
