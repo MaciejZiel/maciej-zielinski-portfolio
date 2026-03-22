@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Maciej Zieliński Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single-page portfolio website built with Vite, React, and TypeScript. The site is designed for backend, Python, AI, and software engineering internship or junior-role applications.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Vite
+- React 19
+- TypeScript
+- Plain CSS with a modular component structure
 
-## React Compiler
+## Local development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Production build:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+## Deployment
+
+The project is prepared for static deployment on Cloudflare Pages.
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Root directory: `/`
+
+The `public/_headers` file ships basic security-related headers and cache hints for static assets.
+
+## Project structure
+
+```text
+src/
+  components/
+    layout/
+    sections/
+    ui/
+  data/
+    portfolio.ts
+  styles/
+    app.css
+    global.css
+  types/
+    portfolio.ts
+  App.tsx
+  main.tsx
+public/
+  _headers
+  favicon.svg
+```
+
+## Content model
+
+Most editable content lives in [`src/data/portfolio.ts`](./src/data/portfolio.ts).
+
+That includes:
+
+- hero copy
+- navigation links
+- featured projects
+- skill groups
+- contact details
+
+## Notes
+
+- `CaseFlow` is presented as a featured backend project with a profile link because the main implementation is private.
+- The site uses semantic sections and basic accessibility support, including a skip link and keyboard-friendly link states.
