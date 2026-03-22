@@ -11,7 +11,7 @@ export function AboutSection({
   projectSignals,
 }: AboutSectionProps) {
   return (
-    <section id="about" className="section">
+    <section id="about" className="section about-section">
       <Reveal delay={40}>
         <SectionIntro
           eyebrow="About"

@@ -9,7 +9,7 @@ interface ContactSectionProps {
 
 export function ContactSection({ contactMethods }: ContactSectionProps) {
   return (
-    <section id="contact" className="section">
+    <section id="contact" className="section contact-section">
       <Reveal delay={40}>
         <SectionIntro
           eyebrow="Contact"

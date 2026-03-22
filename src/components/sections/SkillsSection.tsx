@@ -8,7 +8,7 @@ interface SkillsSectionProps {
 
 export function SkillsSection({ skillGroups }: SkillsSectionProps) {
   return (
-    <section id="skills" className="section">
+    <section id="skills" className="section skills-section">
       <Reveal delay={40}>
         <SectionIntro
           eyebrow="Tech Stack"
@@ -17,7 +17,7 @@ export function SkillsSection({ skillGroups }: SkillsSectionProps) {
         />
       </Reveal>
 
-      <div className="skills-grid">
+      <div className="skills-grid skills-grid--mosaic">
         {skillGroups.map((group, index) => (
           <Reveal
             key={group.title}

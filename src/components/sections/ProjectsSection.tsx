@@ -10,7 +10,7 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
-    <section id="projects" className="section">
+    <section id="projects" className="section projects-section">
       <Reveal delay={40}>
         <SectionIntro
           eyebrow="Featured Projects"
@@ -19,7 +19,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         />
       </Reveal>
 
-      <div className="projects-grid">
+      <div className="projects-grid projects-grid--editorial">
         {projects.map((project, index) => (
           <Reveal
             key={project.name}
