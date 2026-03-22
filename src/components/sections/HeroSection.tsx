@@ -1,17 +1,24 @@
 import type { Profile } from '../../types/portfolio'
 import { ButtonLink } from '../ui/ButtonLink'
+import { Reveal } from '../ui/Reveal'
 
 interface HeroSectionProps {
   profile: Profile
 }
 
 export function HeroSection({ profile }: HeroSectionProps) {
+  const [firstName, ...lastNameParts] = profile.name.split(' ')
+  const lastName = lastNameParts.join(' ')
+
   return (
     <section id="top" className="section hero-section">
       <div className="hero">
-        <div className="hero__content">
+        <Reveal className="hero__content" delay={50}>
           <p className="hero__eyebrow">Python backend and AI portfolio</p>
-          <h1 className="hero__title">{profile.name}</h1>
+          <h1 className="hero__title">
+            <span>{firstName}</span>
+            <span>{lastName}</span>
+          </h1>
           <p className="hero__headline">{profile.headline}</p>
           <p className="hero__summary">{profile.intro}</p>
 
@@ -34,15 +41,23 @@ export function HeroSection({ profile }: HeroSectionProps) {
             <li className="hero__meta-item">{profile.location}</li>
             <li className="hero__meta-item">{profile.education}</li>
           </ul>
-        </div>
+        </Reveal>
 
-        <aside className="hero__panel" aria-label="Current profile details">
-          <div className="hero-card hero-card--status">
+        <Reveal
+          as="aside"
+          className="hero__panel"
+          aria-label="Current profile details"
+          delay={180}
+        >
+          <div className="hero-card hero-card--status hero-card--terminal">
             <span className="hero-card__status-dot" aria-hidden="true" />
-            <p>{profile.availability}</p>
+            <div>
+              <p className="hero-card__terminal-label">Now building</p>
+              <p>{profile.availability}</p>
+            </div>
           </div>
 
-          <div className="hero-card">
+          <div className="hero-card hero-card--focus">
             <p className="hero-card__label">Current focus</p>
             <ul className="hero-focus-list">
               {profile.focusAreas.map((item) => (
@@ -59,7 +74,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
               </div>
             ))}
           </dl>
-        </aside>
+        </Reveal>
       </div>
     </section>
   )

@@ -1,5 +1,6 @@
 import type { ContactMethod } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
+import { Reveal } from '../ui/Reveal'
 import { SectionIntro } from '../ui/SectionIntro'
 
 interface ContactSectionProps {
@@ -9,14 +10,16 @@ interface ContactSectionProps {
 export function ContactSection({ contactMethods }: ContactSectionProps) {
   return (
     <section id="contact" className="section">
-      <SectionIntro
-        eyebrow="Contact"
-        title="Open to backend and AI engineering conversations."
-        description="If you are hiring for a backend, Python, or applied AI internship or junior role, I am interested in teams where engineering quality and practical problem-solving matter."
-      />
+      <Reveal delay={40}>
+        <SectionIntro
+          eyebrow="Contact"
+          title="Open to backend and AI engineering conversations."
+          description="If you are hiring for a backend, Python, or applied AI internship or junior role, I am interested in teams where engineering quality and practical problem-solving matter."
+        />
+      </Reveal>
 
       <div className="contact-grid">
-        <div className="contact-card">
+        <Reveal className="contact-card" delay={140}>
           <p className="contact-card__eyebrow">Best fit</p>
           <p className="contact-card__headline">
             Backend engineering, Python services, API development, and practical
@@ -27,14 +30,16 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
             fundamentals, contribute to production-quality systems, and work on
             AI features with clear engineering constraints.
           </p>
-        </div>
+        </Reveal>
 
         <div className="contact-links" role="list" aria-label="Contact methods">
-          {contactMethods.map((method) => (
-            <a
+          {contactMethods.map((method, index) => (
+            <Reveal
               key={method.label}
+              as="a"
               className="contact-link"
               href={method.href}
+              delay={220 + index * 90}
               rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
               target={method.href.startsWith('http') ? '_blank' : undefined}
             >
@@ -48,7 +53,7 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
                 </span>
               </span>
               <Icon name="arrow-up-right" className="contact-link__arrow" />
-            </a>
+            </Reveal>
           ))}
         </div>
       </div>

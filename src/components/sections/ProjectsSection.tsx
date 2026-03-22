@@ -1,5 +1,6 @@
 import type { Project } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
+import { Reveal } from '../ui/Reveal'
 import { SectionIntro } from '../ui/SectionIntro'
 import { TagList } from '../ui/TagList'
 
@@ -10,21 +11,28 @@ interface ProjectsSectionProps {
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
     <section id="projects" className="section">
-      <SectionIntro
-        eyebrow="Featured Projects"
-        title="Projects that emphasize backend depth and applied AI."
-        description="Each project is framed around real engineering concerns: architecture, auth, data flow, testing, operational edges, and the practical limits of AI systems in production-like workflows."
-      />
+      <Reveal delay={40}>
+        <SectionIntro
+          eyebrow="Featured Projects"
+          title="Projects that emphasize backend depth and applied AI."
+          description="Each project is framed around real engineering concerns: architecture, auth, data flow, testing, operational edges, and the practical limits of AI systems in production-like workflows."
+        />
+      </Reveal>
 
       <div className="projects-grid">
-        {projects.map((project) => (
-          <article
+        {projects.map((project, index) => (
+          <Reveal
             key={project.name}
+            as="article"
             className={`project-card${project.featured ? ' project-card--featured' : ''}`}
+            delay={120 + index * 90}
           >
             <div className="project-card__header">
-              <div>
-                <p className="project-card__category">{project.category}</p>
+              <div className="project-card__heading-group">
+                <div className="project-card__topline">
+                  <p className="project-card__category">{project.category}</p>
+                  <p className="project-card__index">0{index + 1}</p>
+                </div>
                 <h3 className="project-card__title">{project.name}</h3>
               </div>
 
@@ -56,7 +64,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 <p className="project-card__note">{project.repositoryNote}</p>
               ) : null}
             </div>
-          </article>
+          </Reveal>
         ))}
       </div>
     </section>
