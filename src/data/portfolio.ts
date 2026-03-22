@@ -23,10 +23,10 @@ export const profile: Profile = {
   intro:
     'I build backend systems and AI-powered applications, focused on practical AI, scalable APIs, and real-world engineering.',
   summary:
-    'Computer Science student at PJATK focused on Python backend development, LLM integrations, and production-minded system design.',
+    'Computer Science student focused on Python backend development and applied AI systems.',
   availability: 'Open to backend, Python, and AI internship or junior roles.',
   location: 'Warsaw, Poland',
-  education: 'PJATK, Computer Science',
+  education: 'PJATK, 3rd year Computer Science',
   focusAreas: [
     'Designing APIs with clear domain logic, auth, and maintainable data models.',
     'Building applied AI workflows with RAG pipelines, LLM integrations, and grounded prompts.',

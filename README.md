@@ -31,6 +31,7 @@ The project is prepared for static deployment on Cloudflare Pages.
 - Root directory: `/`
 
 The `public/_headers` file ships basic security-related headers and cache hints for static assets.
+The `public/_redirects` file keeps the single-page setup safe for direct entry on future client-side routes if the site expands.
 
 ## Project structure
 
@@ -51,6 +52,7 @@ src/
   main.tsx
 public/
   _headers
+  _redirects
   favicon.svg
 ```
 

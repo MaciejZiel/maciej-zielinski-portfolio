@@ -154,6 +154,7 @@
 .section {
   position: relative;
   overflow: hidden;
+  scroll-margin-top: 112px;
   padding: clamp(28px, 4vw, 40px);
   border: 1px solid var(--color-border);
   border-radius: 32px;
@@ -807,6 +808,7 @@
   }
 
   .section {
+    scroll-margin-top: 96px;
     padding: 24px 20px;
     border-radius: 26px;
   }
