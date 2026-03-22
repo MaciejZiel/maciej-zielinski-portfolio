@@ -1,3 +1,5 @@
+import { motion, useScroll, useSpring } from 'framer-motion'
+
 import { SiteHeader } from './components/layout/SiteHeader'
 import { AboutSection } from './components/sections/AboutSection'
 import { ContactSection } from './components/sections/ContactSection'
@@ -7,15 +9,23 @@ import { SkillsSection } from './components/sections/SkillsSection'
 import {
   aboutPoints,
   contactMethods,
+  featuredProjects,
   navigationItems,
   profile,
+  projectRail,
   projectSignals,
-  projects,
-  skillGroups,
+  skillLanes,
 } from './data/portfolio'
 import './styles/app.css'
 
 function App() {
+  const { scrollYProgress } = useScroll()
+  const progressScaleX = useSpring(scrollYProgress, {
+    stiffness: 160,
+    damping: 28,
+    mass: 0.22,
+  })
+
   return (
     <>
       <a className="skip-link" href="#main-content">
@@ -23,8 +33,19 @@ function App() {
       </a>
 
       <div className="site-shell">
-        <div className="site-shell__glow site-shell__glow--primary" aria-hidden="true" />
-        <div className="site-shell__glow site-shell__glow--secondary" aria-hidden="true" />
+        <motion.div
+          aria-hidden="true"
+          className="scroll-progress"
+          style={{ scaleX: progressScaleX }}
+        />
+        <div
+          className="site-shell__glow site-shell__glow--primary"
+          aria-hidden="true"
+        />
+        <div
+          className="site-shell__glow site-shell__glow--secondary"
+          aria-hidden="true"
+        />
 
         <SiteHeader
           name={profile.name}
@@ -39,8 +60,11 @@ function App() {
             aboutPoints={aboutPoints}
             projectSignals={projectSignals}
           />
-          <ProjectsSection projects={projects} />
-          <SkillsSection skillGroups={skillGroups} />
+          <ProjectsSection
+            featuredProjects={featuredProjects}
+            projectRail={projectRail}
+          />
+          <SkillsSection skillLanes={skillLanes} />
           <ContactSection contactMethods={contactMethods} />
         </main>
 

@@ -1,72 +1,62 @@
-import type { Project } from '../../types/portfolio'
-import { Icon } from '../ui/Icon'
-import { Reveal } from '../ui/Reveal'
-import { SectionIntro } from '../ui/SectionIntro'
-import { TagList } from '../ui/TagList'
+import type { FeaturedProject, ProjectRailItem } from '../../types/portfolio'
+import { MotionReveal } from '../ui/MotionReveal'
+import { ProjectShowcase } from './ProjectShowcase'
 
 interface ProjectsSectionProps {
-  projects: Project[]
+  featuredProjects: FeaturedProject[]
+  projectRail: ProjectRailItem[]
 }
 
-export function ProjectsSection({ projects }: ProjectsSectionProps) {
+export function ProjectsSection({
+  featuredProjects,
+  projectRail,
+}: ProjectsSectionProps) {
   return (
-    <section id="projects" className="section projects-section">
-      <Reveal delay={40}>
-        <SectionIntro
-          eyebrow="Featured Projects"
-          title="Projects that emphasize backend depth and applied AI."
-          description="Each project is framed around real engineering concerns: architecture, auth, data flow, testing, operational edges, and the practical limits of AI systems in production-like workflows."
-        />
-      </Reveal>
+    <section id="projects" className="projects-section">
+      <MotionReveal className="projects-section__intro">
+        <p className="section-kicker">Selected Work</p>
+        <h2 className="section-heading">
+          A few projects that best show how I think about systems, not just
+          screens.
+        </h2>
+        <p className="section-copy">
+          The strongest work here is not arranged as small cards. It is shown as
+          systems with architecture, runtime behavior, and engineering tradeoffs.
+        </p>
+      </MotionReveal>
 
-      <div className="projects-grid projects-grid--editorial">
-        {projects.map((project, index) => (
-          <Reveal
-            key={project.name}
-            as="article"
-            className={`project-card${project.featured ? ' project-card--featured' : ''}`}
-            delay={120 + index * 90}
-          >
-            <div className="project-card__header">
-              <div className="project-card__heading-group">
-                <div className="project-card__topline">
-                  <p className="project-card__category">{project.category}</p>
-                  <p className="project-card__index">0{index + 1}</p>
-                </div>
-                <h3 className="project-card__title">{project.name}</h3>
-              </div>
-
-              <a
-                className="project-card__link"
-                href={project.repositoryUrl}
-                rel="noreferrer"
-                target="_blank"
-              >
-                <span>{project.repositoryLabel}</span>
-                <Icon name="arrow-up-right" className="project-card__link-icon" />
-              </a>
-            </div>
-
-            <p className="project-card__description">{project.description}</p>
-
-            <ul className="project-card__highlights">
-              {project.highlights.map((highlight) => (
-                <li key={highlight} className="project-card__highlight">
-                  <span className="project-card__highlight-dot" aria-hidden="true" />
-                  <span>{highlight}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="project-card__footer">
-              <TagList items={project.technologies} />
-              {project.repositoryNote ? (
-                <p className="project-card__note">{project.repositoryNote}</p>
-              ) : null}
-            </div>
-          </Reveal>
+      <div className="projects-section__list">
+        {featuredProjects.map((project, index) => (
+          <ProjectShowcase key={project.name} index={index} project={project} />
         ))}
       </div>
+
+      <MotionReveal className="projects-rail" delay={0.08}>
+        <div className="projects-rail__intro">
+          <p className="projects-rail__label">Additional public builds</p>
+          <p className="projects-rail__copy">
+            More recent experiments and side systems from GitHub that still feed
+            into how I build backend and AI products.
+          </p>
+        </div>
+
+        <div className="projects-rail__items">
+          {projectRail.map((item) => (
+            <a
+              key={item.name}
+              className="projects-rail__item"
+              href={item.href}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span className="projects-rail__item-name">{item.name}</span>
+              <span className="projects-rail__item-description">
+                {item.description}
+              </span>
+            </a>
+          ))}
+        </div>
+      </MotionReveal>
     </section>
   )
 }

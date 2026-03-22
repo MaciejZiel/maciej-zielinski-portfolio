@@ -1,0 +1,114 @@
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'framer-motion'
+import { useRef } from 'react'
+
+import type { FeaturedProject } from '../../types/portfolio'
+import { Icon } from '../ui/Icon'
+import { MotionReveal } from '../ui/MotionReveal'
+import { TagList } from '../ui/TagList'
+
+interface ProjectShowcaseProps {
+  index: number
+  project: FeaturedProject
+}
+
+export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  const stageY = useTransform(scrollYProgress, [0, 1], [70, -70])
+
+  return (
+    <article
+      ref={sectionRef}
+      className={`project-showcase project-showcase--${project.theme}${index % 2 === 1 ? ' project-showcase--reverse' : ''}`}
+    >
+      <MotionReveal className="project-showcase__content">
+        <div className="project-showcase__meta">
+          <p className="project-showcase__category">{project.category}</p>
+          <p className="project-showcase__status">{project.status}</p>
+        </div>
+
+        <div className="project-showcase__title-block">
+          <p className="project-showcase__index">0{index + 1}</p>
+          <div>
+            <h3 className="project-showcase__name">{project.name}</h3>
+            <p className="project-showcase__headline">{project.headline}</p>
+          </div>
+        </div>
+
+        <p className="project-showcase__summary">{project.summary}</p>
+
+        <ul className="project-showcase__details">
+          {project.details.map((detail) => (
+            <li key={detail} className="project-showcase__detail">
+              <span className="project-showcase__detail-mark" aria-hidden="true" />
+              <span>{detail}</span>
+            </li>
+          ))}
+        </ul>
+
+        <dl className="project-showcase__metrics">
+          {project.metrics.map((metric) => (
+            <div key={metric.label} className="project-showcase__metric">
+              <dt>{metric.label}</dt>
+              <dd>{metric.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className="project-showcase__footer">
+          <TagList items={project.technologies} />
+          <div className="project-showcase__link-group">
+            <a
+              className="project-showcase__link"
+              href={project.repositoryUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span>{project.repositoryLabel}</span>
+              <Icon name="arrow-up-right" className="project-showcase__link-icon" />
+            </a>
+            {project.repositoryNote ? (
+              <p className="project-showcase__note">{project.repositoryNote}</p>
+            ) : null}
+          </div>
+        </div>
+      </MotionReveal>
+
+      <motion.div
+        className="project-showcase__stage"
+        style={reduceMotion ? undefined : { y: stageY }}
+      >
+        <div className="project-showcase__stage-frame">
+          <div className="project-showcase__stage-topline">
+            <span>{project.stageLabel}</span>
+            <span>{project.year}</span>
+          </div>
+
+          <div className="project-showcase__stage-core">
+            {project.metrics.map((metric) => (
+              <div key={metric.label} className="project-showcase__stage-metric">
+                <p>{metric.label}</p>
+                <strong>{metric.value}</strong>
+              </div>
+            ))}
+          </div>
+
+          <div className="project-showcase__stage-stack">
+            {project.technologies.map((technology) => (
+              <span key={technology}>{technology}</span>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </article>
+  )
+}

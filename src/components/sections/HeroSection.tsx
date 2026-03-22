@@ -1,28 +1,48 @@
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'framer-motion'
+import { useRef } from 'react'
+
 import type { Profile } from '../../types/portfolio'
 import { ButtonLink } from '../ui/ButtonLink'
-import { Reveal } from '../ui/Reveal'
+import { MotionReveal } from '../ui/MotionReveal'
 
 interface HeroSectionProps {
   profile: Profile
 }
 
 export function HeroSection({ profile }: HeroSectionProps) {
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  })
+  const stageY = useTransform(scrollYProgress, [0, 1], [0, 120])
+  const ribbonX = useTransform(scrollYProgress, [0, 1], [0, -180])
+
   const [firstName, ...lastNameParts] = profile.name.split(' ')
   const lastName = lastNameParts.join(' ')
+  const ribbonItems = [...profile.heroRibbon, ...profile.heroRibbon]
 
   return (
-    <section id="top" className="section hero-section">
-      <div className="hero">
-        <Reveal className="hero__content" delay={50}>
-          <p className="hero__eyebrow">Python backend and AI portfolio</p>
-          <h1 className="hero__title">
+    <section ref={sectionRef} id="top" className="hero-section">
+      <div className="hero-section__mesh" aria-hidden="true" />
+
+      <div className="hero-section__grid">
+        <MotionReveal className="hero-copy" distance={48}>
+          <p className="hero-copy__eyebrow">Backend engineering / AI systems</p>
+          <h1 className="hero-copy__title">
             <span>{firstName}</span>
             <span>{lastName}</span>
           </h1>
-          <p className="hero__headline">{profile.headline}</p>
-          <p className="hero__summary">{profile.intro}</p>
+          <p className="hero-copy__headline">{profile.headline}</p>
+          <p className="hero-copy__summary">{profile.intro}</p>
 
-          <div className="hero__actions">
+          <div className="hero-copy__actions">
             {profile.heroLinks.map((link) => (
               <ButtonLink
                 key={link.label}
@@ -35,46 +55,61 @@ export function HeroSection({ profile }: HeroSectionProps) {
               </ButtonLink>
             ))}
           </div>
+        </MotionReveal>
 
-          <ul className="hero__meta">
-            <li className="hero__meta-item">{profile.summary}</li>
-            <li className="hero__meta-item">{profile.location}</li>
-            <li className="hero__meta-item">{profile.education}</li>
-          </ul>
-        </Reveal>
-
-        <Reveal
-          as="aside"
-          className="hero__panel"
-          aria-label="Current profile details"
-          delay={180}
+        <motion.aside
+          className="hero-stage"
+          style={reduceMotion ? undefined : { y: stageY }}
         >
-          <div className="hero-card hero-card--status hero-card--terminal">
-            <span className="hero-card__status-dot" aria-hidden="true" />
-            <div>
-              <p className="hero-card__terminal-label">Now building</p>
-              <p>{profile.availability}</p>
-            </div>
-          </div>
-
-          <div className="hero-card hero-card--focus">
-            <p className="hero-card__label">Current focus</p>
-            <ul className="hero-focus-list">
+          <MotionReveal className="hero-stage__surface" delay={0.14}>
+            <p className="hero-stage__label">Current focus</p>
+            <ul className="hero-stage__focus-list">
               {profile.focusAreas.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-          </div>
+          </MotionReveal>
 
-          <dl className="hero-details hero-card">
+          <MotionReveal className="hero-stage__details" delay={0.22}>
             {profile.details.map((detail) => (
-              <div key={detail.label} className="hero-details__item">
-                <dt>{detail.label}</dt>
-                <dd>{detail.value}</dd>
+              <div key={detail.label} className="hero-stage__detail">
+                <p>{detail.label}</p>
+                <strong>{detail.value}</strong>
               </div>
             ))}
-          </dl>
-        </Reveal>
+          </MotionReveal>
+
+          <MotionReveal className="hero-stage__status" delay={0.28}>
+            <span className="hero-stage__status-dot" aria-hidden="true" />
+            <div>
+              <p className="hero-stage__status-label">Availability</p>
+              <p className="hero-stage__status-value">{profile.availability}</p>
+            </div>
+          </MotionReveal>
+        </motion.aside>
+      </div>
+
+      <div className="hero-strip">
+        <motion.div
+          className="hero-strip__track"
+          style={reduceMotion ? undefined : { x: ribbonX }}
+        >
+          {ribbonItems.map((item, index) => (
+            <span key={`${item}-${index}`} className="hero-strip__item">
+              {item}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      <div className="hero-meta">
+        <MotionReveal className="hero-meta__lead" delay={0.1}>
+          <p>{profile.summary}</p>
+        </MotionReveal>
+        <MotionReveal className="hero-meta__facts" delay={0.18}>
+          <span>{profile.location}</span>
+          <span>{profile.education}</span>
+        </MotionReveal>
       </div>
     </section>
   )

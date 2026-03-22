@@ -1,9 +1,10 @@
 import type {
   ContactMethod,
+  FeaturedProject,
   NavigationItem,
   Profile,
-  Project,
-  SkillGroup,
+  ProjectRailItem,
+  SkillLane,
 } from '../types/portfolio'
 
 const githubProfileUrl = 'https://github.com/MaciejZiel'
@@ -12,7 +13,7 @@ const linkedInUrl =
 
 export const navigationItems: NavigationItem[] = [
   { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
+  { label: 'Work', href: '#projects' },
   { label: 'Stack', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -21,19 +22,19 @@ export const profile: Profile = {
   name: 'Maciej Zieliński',
   headline: 'Backend Developer (Python) | AI Systems',
   intro:
-    'I build backend systems and AI-powered applications, focused on practical AI, scalable APIs, and real-world engineering.',
+    'I build backend systems and AI-powered applications with a bias toward practical architecture, strong APIs, and software that behaves predictably under real constraints.',
   summary:
-    'Computer Science student focused on Python backend development and applied AI systems.',
+    'Computer Science student focused on Python backend development, applied AI systems, and projects that feel closer to products than coursework.',
   availability: 'Open to backend, Python, and AI internship or junior roles.',
   location: 'Warsaw, Poland',
   education: 'PJATK, 3rd year Computer Science',
   focusAreas: [
-    'Designing APIs with clear domain logic, auth, and maintainable data models.',
-    'Building applied AI workflows with RAG pipelines, LLM integrations, and grounded prompts.',
-    'Treating personal projects like engineering systems: testing, Docker, and deployment readiness.',
+    'Backend systems with clear data boundaries, auth, and domain logic.',
+    'Applied AI workflows that need retrieval, orchestration, and operational discipline.',
+    'Projects built with testing, Docker, and maintainable structure in mind.',
   ],
   heroLinks: [
-    { label: 'View Projects', href: '#projects', variant: 'primary' },
+    { label: 'View Work', href: '#projects', variant: 'primary' },
     {
       label: 'GitHub',
       href: githubProfileUrl,
@@ -64,35 +65,43 @@ export const profile: Profile = {
     },
   ],
   details: [
-    { label: 'Focus', value: 'Python backend, APIs, AI systems' },
-    { label: 'Mindset', value: 'Practical engineering over demos' },
-    { label: 'Strengths', value: 'FastAPI, Django, REST, testing, Docker' },
-    { label: 'Looking for', value: 'Internships and junior backend roles' },
+    { label: 'Primary stack', value: 'Python, FastAPI, Django, SQL' },
+    { label: 'AI layer', value: 'RAG, LLM integrations, CV pipelines' },
+    { label: 'Current bias', value: 'Backend-first, system-oriented builds' },
+    { label: 'Role target', value: 'Internship / junior backend engineering' },
+  ],
+  heroRibbon: [
+    'CaseFlow / private multi-tenant backend',
+    'clip_to_text / FastAPI + Faster-Whisper',
+    'camera_object_recognition / YOLOv8 + OpenCV',
+    'live_flights_map / real-time map + replay',
+    'Motorsport_API / DRF + JWT + OpenAPI',
   ],
 }
 
 export const aboutPoints: string[] = [
-  'I approach projects from the backend out: data flow, API boundaries, authentication, and failure handling come before surface-level polish.',
-  'My strongest work sits at the intersection of Python backend development and applied AI, especially when LLMs need retrieval, guardrails, and predictable system behavior.',
-  'I prefer practical software engineering choices over inflated claims: clear architecture, readable code, tests where they matter, and systems that can be reasoned about.',
+  'I care most about the part of software that has to stay understandable when the product gets more complex: APIs, data flow, authentication, background work, and the seams between services.',
+  'On the AI side, I am interested in systems where models are only one part of the stack. Retrieval quality, orchestration, runtime controls, and user trust matter more to me than surface-level demos.',
+  'A lot of my best work sits between backend engineering and AI tooling. I like building systems that need both solid Python fundamentals and enough product thinking to be genuinely useful.',
 ]
 
 export const projectSignals: string[] = [
-  'Production-style APIs with authentication, RBAC, and domain logic.',
-  'AI integrations designed around retrieval quality, grounding, and prompt discipline.',
-  'Containerized projects with testing, documentation, and deployment awareness.',
+  'Private B2B backend architecture with auth, auditability, and workflow logic.',
+  'Public AI and CV projects that expose orchestration, runtime state, and real-time behavior.',
+  'Recent GitHub work that covers transcription pipelines, computer vision, APIs, and live data products.',
 ]
 
-export const projects: Project[] = [
+export const featuredProjects: FeaturedProject[] = [
   {
     name: 'CaseFlow',
-    category: 'Featured project',
-    description:
-      'Production-style multi-tenant B2B backend for document-driven case workflows. Built with FastAPI, SQLAlchemy, and Alembic, with tenant-aware RBAC, session-backed authentication, audit logs, webhook delivery, retry and background processing, Dockerized services, and integration-test coverage aimed at real operational behavior rather than tutorial patterns.',
-    highlights: [
-      'Tenant isolation, role-based access control, and session-backed auth flows.',
-      'Document workflow orchestration with auditability, webhook events, and retry logic.',
-      'Docker-based local environment with integration tests for backend-critical paths.',
+    category: 'Private backend case study',
+    headline: 'A multi-tenant FastAPI backend designed like a production B2B system.',
+    summary:
+      'CaseFlow is the strongest example of how I approach backend engineering: tenant-aware architecture, RBAC, session-backed authentication, document workflow state, audit logs, webhook delivery, retry logic, background processing, Dockerized services, and integration testing around operational paths.',
+    details: [
+      'Tenant isolation with role-based access control and session-backed auth flows.',
+      'Document workflow orchestration with auditable actions and event delivery.',
+      'Retry and background processing patterns designed around reliability rather than demo-only behavior.',
     ],
     technologies: [
       'FastAPI',
@@ -106,41 +115,95 @@ export const projects: Project[] = [
     ],
     repositoryUrl: githubProfileUrl,
     repositoryLabel: 'GitHub profile',
-    featured: true,
-    repositoryNote: 'Primary implementation is private; public profile included for portfolio context.',
+    repositoryNote:
+      'Primary implementation is private. The public profile is linked for portfolio context.',
+    stageLabel: 'Workflow engine',
+    status: 'Private project / ongoing backend case study',
+    year: '2026',
+    theme: 'steel',
+    metrics: [
+      { label: 'Core stack', value: 'FastAPI + SQLAlchemy' },
+      { label: 'System concerns', value: 'Auth, workflows, auditability' },
+      { label: 'Quality bar', value: 'Docker + integration tests' },
+    ],
   },
   {
-    name: 'RAG System',
-    category: 'AI project',
-    description:
-      'Retrieval-Augmented Generation workflow in Python combining FAISS-based indexing, semantic search, and LLM integration to answer from grounded source material. The project focuses on retrieval pipeline quality, prompt engineering, and reducing hallucinations by constraining answers to retrieved context.',
-    highlights: [
-      'Chunking, embeddings, and FAISS retrieval tuned for semantic search workflows.',
-      'LLM integration with answer-grounding rules to improve reliability on document QA.',
-      'Practical experimentation around prompt structure, recall quality, and context control.',
+    name: 'clip_to_text',
+    category: 'Applied AI system',
+    headline:
+      'A local transcription workflow with queued jobs, live progress, caching, and export-ready output.',
+    summary:
+      'Built around FastAPI, FFmpeg, and Faster-Whisper, clip_to_text treats transcription as a product workflow rather than a one-shot script. It tracks jobs in real time, stores history in SQLite, caches work, and supports optional SRT export for practical downstream use.',
+    details: [
+      'FastAPI orchestration around transcription jobs instead of a single synchronous request.',
+      'Live job progress, persisted history, and caching for repeated work.',
+      'Export path designed for usable outputs, not just a raw transcript dump.',
     ],
     technologies: [
-      'Python',
-      'FAISS',
-      'RAG',
-      'LLM Integration',
-      'Semantic Search',
-      'Prompt Engineering',
-      'Qwen',
+      'FastAPI',
+      'Faster-Whisper',
+      'FFmpeg',
+      'SQLite',
+      'Job Progress',
+      'Caching',
+      'SRT Export',
     ],
-    repositoryUrl:
-      'https://github.com/MaciejZiel/RAG_Retrieval_Augmented_Generation',
+    repositoryUrl: 'https://github.com/MaciejZiel/clip_to_text',
     repositoryLabel: 'GitHub',
+    stageLabel: 'Transcription pipeline',
+    status: 'Public repo / updated 2026',
+    year: '2026',
+    theme: 'signal',
+    metrics: [
+      { label: 'Model layer', value: 'Faster-Whisper' },
+      { label: 'Runtime flow', value: 'Jobs, progress, persistence' },
+      { label: 'Delivery', value: 'Local web app + export support' },
+    ],
   },
   {
-    name: 'Motorsport API',
-    category: 'Backend project',
-    description:
-      'Production-minded Django REST Framework backend for managing teams, drivers, races, and results. The API includes JWT authentication, filtering, pagination, domain-specific business logic, OpenAPI and Swagger documentation, Dockerized local setup, testing, and CI-ready structure.',
-    highlights: [
-      'Structured domain modeling for seasons, teams, drivers, races, and standings.',
-      'JWT-protected endpoints with filtering, pagination, and documented API contracts.',
-      'Docker, testing, and CI-friendly workflow for a deployable backend codebase.',
+    name: 'camera_object_recognition',
+    category: 'Realtime AI pipeline',
+    headline:
+      'A live computer vision system with streaming, tracking, runtime controls, and per-class analytics.',
+    summary:
+      'This project combines YOLOv8, FastAPI, and OpenCV into a real-time object recognition workflow that goes beyond detection. It includes streaming, tracking, counting, snapshots, and control surfaces that make the system feel operational instead of purely experimental.',
+    details: [
+      'Real-time webcam pipeline with detection, tracking, and live streaming.',
+      'Per-class counts and snapshots that make the output measurable and inspectable.',
+      'Runtime controls exposed through a web interface instead of hard-coded parameters.',
+    ],
+    technologies: [
+      'YOLOv8',
+      'FastAPI',
+      'OpenCV',
+      'Streaming',
+      'Tracking',
+      'Angular',
+      'Runtime Controls',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/camera_object_recognition',
+    repositoryLabel: 'GitHub',
+    stageLabel: 'Realtime inference loop',
+    status: 'Public repo / updated 2026',
+    year: '2026',
+    theme: 'vision',
+    metrics: [
+      { label: 'Inference', value: 'YOLOv8 + OpenCV' },
+      { label: 'Interface', value: 'Angular + FastAPI' },
+      { label: 'Focus', value: 'Streaming, tracking, controls' },
+    ],
+  },
+  {
+    name: 'Motorsport_API',
+    category: 'Backend API',
+    headline:
+      'A production-minded Django REST API with standings logic, JWT auth, filtering, and documented contracts.',
+    summary:
+      'Motorsport_API models seasons, teams, drivers, races, and race results with domain logic that goes beyond CRUD. It layers in JWT authentication, filtering, pagination, Swagger/OpenAPI documentation, Dockerized setup, and testable backend structure.',
+    details: [
+      'Backend domain modeling for standings, race results, teams, and drivers.',
+      'JWT authentication, pagination, and filtering for usable API consumption.',
+      'OpenAPI documentation and Dockerized local workflow for maintainability.',
     ],
     technologies: [
       'Django',
@@ -154,75 +217,86 @@ export const projects: Project[] = [
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/Motorsport_API',
     repositoryLabel: 'GitHub',
-  },
-  {
-    name: 'Hand Gesture Control',
-    category: 'Computer vision project',
-    description:
-      'Real-time gesture control application using OpenCV and MediaPipe for live recognition, smoothed signals, configurable gesture mapping, and macro-style actions. Built as a systems-oriented computer vision project focused on responsiveness and control accuracy.',
-    highlights: [
-      'Real-time detection pipeline with dual-hand support and configurable profiles.',
-      'Signal smoothing to stabilize gesture recognition in practical desktop use.',
-      'Configurable mapping layer connecting recognized gestures to actions and macros.',
+    stageLabel: 'API domain layer',
+    status: 'Public repo / updated 2026',
+    year: '2026',
+    theme: 'track',
+    metrics: [
+      { label: 'Framework', value: 'Django REST Framework' },
+      { label: 'API concerns', value: 'JWT, filtering, pagination' },
+      { label: 'Contracts', value: 'Swagger + OpenAPI' },
     ],
-    technologies: [
-      'Python',
-      'OpenCV',
-      'MediaPipe',
-      'Real-time Recognition',
-      'Signal Smoothing',
-      'Gesture Mapping',
-    ],
-    repositoryUrl: 'https://github.com/MaciejZiel/hand_gesture_control',
-    repositoryLabel: 'GitHub',
   },
 ]
 
-export const skillGroups: SkillGroup[] = [
+export const projectRail: ProjectRailItem[] = [
   {
-    title: 'Backend',
-    description: 'API design, web frameworks, and data-oriented backend work.',
+    name: 'live_flights_map',
+    description: 'Real-time flight tracking workspace with replay and airport dashboards.',
+    href: 'https://github.com/MaciejZiel/live_flights_map',
+  },
+  {
+    name: 'RAG_Retrieval_Augmented_Generation',
+    description: 'Python retrieval workflow combining FAISS, semantic search, and LLM integration.',
+    href: 'https://github.com/MaciejZiel/RAG_Retrieval_Augmented_Generation',
+  },
+  {
+    name: 'hand_gesture_control',
+    description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
+    href: 'https://github.com/MaciejZiel/hand_gesture_control',
+  },
+  {
+    name: 'F1InfoMobileApp',
+    description: 'Android app for live motorsport telemetry and race-focused mobile interfaces.',
+    href: 'https://github.com/MaciejZiel/F1InfoMobileApp',
+  },
+]
+
+export const skillLanes: SkillLane[] = [
+  {
+    label: 'Backend systems',
+    summary: 'Frameworks, APIs, data flow, and the operational layer around them.',
     items: [
       'Python',
       'FastAPI',
       'Django',
       'Django REST Framework',
-      'REST API',
+      'REST API design',
       'SQL',
       'Authentication',
-      'OpenAPI',
+      'OpenAPI / Swagger',
+      'Background processing',
     ],
   },
   {
-    title: 'AI / Data',
-    description: 'Applied AI workflows built around grounding and retrieval.',
+    label: 'Applied AI',
+    summary: 'LLM and CV work where system design matters as much as the model.',
     items: [
-      'LLM Integration',
+      'LLM integration',
       'OpenAI',
       'Qwen',
-      'FAISS',
       'RAG',
-      'Semantic Search',
-      'Prompt Engineering',
+      'FAISS',
+      'Semantic search',
+      'Prompt engineering',
+      'Faster-Whisper',
+      'YOLOv8',
     ],
   },
   {
-    title: 'DevOps / Tools',
-    description: 'Tooling that makes projects easier to ship and maintain.',
+    label: 'Tooling and delivery',
+    summary: 'What I use to keep projects maintainable, testable, and ready to ship.',
     items: [
       'Docker',
       'Git',
       'CI/CD',
       'Linux',
-      'Swagger',
       'Testing',
       'Alembic',
+      'PostgreSQL',
+      'FFmpeg',
+      'OpenCV',
     ],
-  },
-  {
-    title: 'Other',
-    description: 'Additional tools and languages used across side projects.',
-    items: ['Java', 'OpenCV', 'MediaPipe', 'PostgreSQL', 'System Design Basics'],
   },
 ]
 

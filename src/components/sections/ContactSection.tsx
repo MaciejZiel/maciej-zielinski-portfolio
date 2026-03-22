@@ -1,7 +1,6 @@
 import type { ContactMethod } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
-import { Reveal } from '../ui/Reveal'
-import { SectionIntro } from '../ui/SectionIntro'
+import { MotionReveal } from '../ui/MotionReveal'
 
 interface ContactSectionProps {
   contactMethods: ContactMethod[]
@@ -9,51 +8,55 @@ interface ContactSectionProps {
 
 export function ContactSection({ contactMethods }: ContactSectionProps) {
   return (
-    <section id="contact" className="section contact-section">
-      <Reveal delay={40}>
-        <SectionIntro
-          eyebrow="Contact"
-          title="Open to backend and AI engineering conversations."
-          description="If you are hiring for a backend, Python, or applied AI internship or junior role, I am interested in teams where engineering quality and practical problem-solving matter."
-        />
-      </Reveal>
+    <section id="contact" className="contact-section">
+      <MotionReveal className="contact-section__intro">
+        <p className="section-kicker">Contact</p>
+        <h2 className="section-heading">
+          If you need someone who cares about backend fundamentals and can also
+          work comfortably with AI-heavy product surfaces, I am interested.
+        </h2>
+      </MotionReveal>
 
-      <div className="contact-grid">
-        <Reveal className="contact-card" delay={140}>
-          <p className="contact-card__eyebrow">Best fit</p>
-          <p className="contact-card__headline">
-            Backend engineering, Python services, API development, and practical
-            AI systems.
+      <div className="contact-section__layout">
+        <MotionReveal className="contact-section__lead" delay={0.08}>
+          <p className="contact-section__lead-copy">
+            Best fit: backend engineering, Python services, API development, and
+            applied AI systems with real constraints.
           </p>
-          <p className="contact-card__copy">
-            I am especially interested in roles where I can deepen backend
-            fundamentals, contribute to production-quality systems, and work on
-            AI features with clear engineering constraints.
-          </p>
-        </Reveal>
+          <a
+            className="contact-section__email"
+            href="mailto:zielinski.macio@gmail.com"
+          >
+            zielinski.macio@gmail.com
+          </a>
+        </MotionReveal>
 
-        <div className="contact-links" role="list" aria-label="Contact methods">
+        <div className="contact-section__links">
           {contactMethods.map((method, index) => (
-            <Reveal
+            <MotionReveal
               key={method.label}
-              as="a"
-              className="contact-link"
-              href={method.href}
-              delay={220 + index * 90}
-              rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
-              target={method.href.startsWith('http') ? '_blank' : undefined}
+              className="contact-section__link-wrap"
+              delay={0.14 + index * 0.08}
             >
-              <span className="contact-link__meta">
-                <span className="contact-link__icon">
-                  <Icon name={method.icon} className="contact-link__icon-svg" />
+              <a
+                className="contact-section__link"
+                href={method.href}
+                rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
+                target={method.href.startsWith('http') ? '_blank' : undefined}
+              >
+                <span className="contact-section__link-meta">
+                  <span className="contact-section__link-label">
+                    {method.label}
+                  </span>
+                  <span className="contact-section__link-value">
+                    {method.value}
+                  </span>
                 </span>
-                <span>
-                  <span className="contact-link__label">{method.label}</span>
-                  <span className="contact-link__value">{method.value}</span>
+                <span className="contact-section__link-icon">
+                  <Icon name={method.icon} className="contact-section__icon-svg" />
                 </span>
-              </span>
-              <Icon name="arrow-up-right" className="contact-link__arrow" />
-            </Reveal>
+              </a>
+            </MotionReveal>
           ))}
         </div>
       </div>

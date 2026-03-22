@@ -1,40 +1,41 @@
-import type { SkillGroup } from '../../types/portfolio'
-import { Reveal } from '../ui/Reveal'
-import { SectionIntro } from '../ui/SectionIntro'
+import type { SkillLane } from '../../types/portfolio'
+import { MotionReveal } from '../ui/MotionReveal'
 
 interface SkillsSectionProps {
-  skillGroups: SkillGroup[]
+  skillLanes: SkillLane[]
 }
 
-export function SkillsSection({ skillGroups }: SkillsSectionProps) {
+export function SkillsSection({ skillLanes }: SkillsSectionProps) {
   return (
-    <section id="skills" className="section skills-section">
-      <Reveal delay={40}>
-        <SectionIntro
-          eyebrow="Tech Stack"
-          title="Tools chosen for shipping backend systems and AI features."
-          description="The stack reflects where I spend the most time: Python backends, API architecture, retrieval-oriented AI workflows, and the tooling needed to keep projects testable and deployable."
-        />
-      </Reveal>
+    <section id="skills" className="skills-section">
+      <MotionReveal className="skills-section__intro">
+        <p className="section-kicker">Stack</p>
+        <h2 className="section-heading">
+          The tools are chosen for systems work, not for looking trendy on a
+          portfolio.
+        </h2>
+      </MotionReveal>
 
-      <div className="skills-grid skills-grid--mosaic">
-        {skillGroups.map((group, index) => (
-          <Reveal
-            key={group.title}
-            as="article"
-            className="skill-card"
-            delay={120 + index * 80}
+      <div className="skills-section__lanes">
+        {skillLanes.map((lane, index) => (
+          <MotionReveal
+            key={lane.label}
+            className="skill-lane"
+            delay={0.08 + index * 0.08}
           >
-            <p className="skill-card__title">{group.title}</p>
-            <p className="skill-card__description">{group.description}</p>
-            <ul className="skill-card__items">
-              {group.items.map((item) => (
-                <li key={item} className="skill-card__item">
+            <div className="skill-lane__header">
+              <p className="skill-lane__label">{lane.label}</p>
+              <p className="skill-lane__summary">{lane.summary}</p>
+            </div>
+
+            <div className="skill-lane__items">
+              {lane.items.map((item) => (
+                <span key={item} className="skill-lane__item">
                   {item}
-                </li>
+                </span>
               ))}
-            </ul>
-          </Reveal>
+            </div>
+          </MotionReveal>
         ))}
       </div>
     </section>

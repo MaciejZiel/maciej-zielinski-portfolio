@@ -1,5 +1,4 @@
-import { SectionIntro } from '../ui/SectionIntro'
-import { Reveal } from '../ui/Reveal'
+import { MotionReveal } from '../ui/MotionReveal'
 
 interface AboutSectionProps {
   aboutPoints: string[]
@@ -11,36 +10,45 @@ export function AboutSection({
   projectSignals,
 }: AboutSectionProps) {
   return (
-    <section id="about" className="section about-section">
-      <Reveal delay={40}>
-        <SectionIntro
-          eyebrow="About"
-          title="Backend-focused, practical, and systems-oriented."
-          description="I am a Computer Science student focused on Python backend development and AI systems that solve concrete problems. The work I care about most lives where product needs, implementation details, and operational reliability meet."
-        />
-      </Reveal>
+    <section id="about" className="about-section">
+      <MotionReveal className="about-section__intro">
+        <p className="section-kicker">About</p>
+        <h2 className="section-heading">
+          I build backend-first systems with enough product depth to feel real,
+          not just technically correct.
+        </h2>
+      </MotionReveal>
 
-      <div className="about-grid">
-        <Reveal className="content-card content-card--story" delay={120}>
-          {aboutPoints.map((point) => (
-            <p key={point} className="content-card__paragraph">
-              {point}
-            </p>
+      <div className="about-section__layout">
+        <MotionReveal className="about-section__statement" delay={0.08}>
+          <p>
+            The work I enjoy most lives where APIs, AI capabilities, runtime
+            constraints, and maintainable engineering all have to cooperate.
+          </p>
+        </MotionReveal>
+
+        <div className="about-section__body">
+          {aboutPoints.map((point, index) => (
+            <MotionReveal
+              key={point}
+              className="about-section__paragraph"
+              delay={0.12 + index * 0.08}
+            >
+              <span className="about-section__paragraph-index">0{index + 1}</span>
+              <p>{point}</p>
+            </MotionReveal>
           ))}
-        </Reveal>
-
-        <Reveal className="content-card content-card--signals" delay={220}>
-          <p className="content-card__eyebrow">What shows up in my projects</p>
-          <ul className="signal-list">
-            {projectSignals.map((signal, index) => (
-              <li key={signal} className="signal-list__item">
-                <span className="signal-list__index">0{index + 1}</span>
-                <span>{signal}</span>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+        </div>
       </div>
+
+      <MotionReveal className="about-section__signals" delay={0.18}>
+        <p className="about-section__signals-label">What stands out in the work</p>
+        <ul className="about-section__signals-list">
+          {projectSignals.map((signal) => (
+            <li key={signal}>{signal}</li>
+          ))}
+        </ul>
+      </MotionReveal>
     </section>
   )
 }
