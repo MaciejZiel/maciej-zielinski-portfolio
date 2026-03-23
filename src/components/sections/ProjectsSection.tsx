@@ -17,17 +17,18 @@ export function ProjectsSection({
         <p className="section-kicker">Selected Systems</p>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
-            The work is presented as case studies with runtime behavior,
-            architecture, and product intent in view.
+            Three builds that best show how I handle backend architecture, AI
+            orchestration, and production-minded API design.
           </h2>
           <div className="projects-section__intro-copy">
             <p className="section-copy">
-              CaseFlow anchors the section because it is the clearest expression
-              of how I build backend systems under more realistic constraints.
+              CaseFlow sits first because it is the strongest signal of how I
+              think about system boundaries, workflow state, and operational
+              behavior.
             </p>
             <p className="projects-section__intro-note">
-              The rest of the portfolio extends that pattern into applied AI,
-              realtime inference, and domain-heavy API work.
+              The rest extends that pattern into applied AI, realtime
+              inference, and domain-heavy API work.
             </p>
           </div>
         </div>

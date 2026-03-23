@@ -65,10 +65,10 @@ export const profile: Profile = {
     },
   ],
   details: [
-    { label: 'Primary stack', value: 'Python, FastAPI, Django, SQL' },
-    { label: 'AI layer', value: 'RAG, LLM integrations, CV pipelines' },
-    { label: 'Current bias', value: 'Backend-first, system-oriented builds' },
-    { label: 'Role target', value: 'Internship / junior backend engineering' },
+    { label: 'Primary stack', value: 'Python / FastAPI / Django / SQL' },
+    { label: 'AI layer', value: 'RAG / LLM integrations / CV pipelines' },
+    { label: 'Build style', value: 'Backend-first, system-oriented builds' },
+    { label: 'Role target', value: 'Internship / junior backend roles' },
   ],
   heroRibbon: [
     'CaseFlow / private multi-tenant backend',

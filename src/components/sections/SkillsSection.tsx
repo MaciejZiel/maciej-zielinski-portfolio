@@ -12,8 +12,7 @@ export function SkillsSection({ skillLanes }: SkillsSectionProps) {
         <p className="section-kicker">Stack</p>
         <div className="skills-section__intro-grid">
           <h2 className="section-heading">
-            The tools are chosen for systems work, not for looking trendy on a
-            portfolio.
+            Backend, AI, and delivery tools I actually use in systems work.
           </h2>
           <p className="skills-section__intro-note">
             Grouped by the layers I reach for most often: backend foundations,

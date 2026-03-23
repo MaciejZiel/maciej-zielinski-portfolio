@@ -13,9 +13,8 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
         <p className="section-kicker">Contact</p>
         <div className="contact-section__intro-grid">
           <h2 className="section-heading">
-            If you need someone who cares about backend fundamentals and can
-            also work comfortably with AI-heavy product surfaces, I am
-            interested.
+            If you need someone for backend, Python, or AI product work, I am
+            interested in the conversation.
           </h2>
           <p className="contact-section__intro-note">
             Looking for internship or junior roles where backend discipline,
