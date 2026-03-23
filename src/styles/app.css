@@ -208,6 +208,7 @@
 }
 
 .section-shortcut__inner {
+  position: relative;
   display: grid;
   gap: 10px;
   padding: 14px 10px;
@@ -218,7 +219,27 @@
   backdrop-filter: blur(12px);
 }
 
+.section-shortcut__progress-track,
+.section-shortcut__progress-fill {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  left: calc(50% - 4.5px);
+  width: 1px;
+  border-radius: 999px;
+  transform-origin: top;
+}
+
+.section-shortcut__progress-track {
+  background: rgba(20, 61, 53, 0.14);
+}
+
+.section-shortcut__progress-fill {
+  background: linear-gradient(180deg, rgba(20, 61, 53, 0.92), rgba(90, 140, 122, 0.4));
+}
+
 .section-shortcut__link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
@@ -233,6 +254,7 @@
   border: 1px solid rgba(20, 61, 53, 0.3);
   border-radius: 50%;
   background: rgba(255, 253, 249, 0.78);
+  box-shadow: 0 0 0 4px rgba(255, 252, 247, 0.78);
   transition:
     transform 180ms ease,
     background-color 180ms ease,
