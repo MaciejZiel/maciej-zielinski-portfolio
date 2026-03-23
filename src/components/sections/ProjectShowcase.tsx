@@ -18,6 +18,7 @@ interface ProjectShowcaseProps {
 
 export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
+  const hasCompactName = project.name.length > 20
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -78,7 +79,11 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             <p className="project-showcase__status">{project.status}</p>
           </div>
 
-          <h3 className="project-showcase__name">{project.name}</h3>
+          <h3
+            className={`project-showcase__name${hasCompactName ? ' project-showcase__name--compact' : ''}`}
+          >
+            {project.name}
+          </h3>
           <p className="project-showcase__headline">{project.headline}</p>
           <p className="project-showcase__context">{project.context}</p>
 

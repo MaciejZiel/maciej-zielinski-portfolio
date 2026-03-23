@@ -1049,6 +1049,13 @@
   word-break: break-word;
 }
 
+.project-showcase__name--compact {
+  max-width: none;
+  font-size: clamp(1.55rem, 2.5vw, 2.45rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
 .project-showcase__headline {
   margin: 0;
   color: var(--color-text);
