@@ -420,7 +420,6 @@
 .hero-copy__title,
 .section-heading,
 .project-showcase__name,
-.contact-section__lead-title,
 .hero-artifact__title,
 .project-showcase__artifact-title {
   margin: 0;
@@ -466,7 +465,6 @@
 .projects-rail__copy,
 .projects-rail__item-description,
 .skill-lane__summary,
-.contact-section__lead-copy,
 .about-section__intro-note,
 .skills-section__intro-note,
 .contact-section__intro-note,
@@ -652,7 +650,6 @@
 .project-showcase__metrics,
 .projects-rail,
 .skill-lane,
-.contact-section__lead,
 .contact-section__link {
   border: 1px solid rgba(78, 59, 40, 0.1);
   border-radius: 24px;
@@ -819,6 +816,11 @@
 
 .contact-section__intro-grid {
   grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.contact-section .section-heading {
+  max-width: 18ch;
 }
 
 .about-section__layout {
@@ -1324,34 +1326,12 @@
 
 .contact-section__layout {
   display: grid;
-  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
-  gap: 22px;
-  margin-top: 30px;
-}
-
-.contact-section__lead {
-  display: grid;
-  align-items: end;
-  min-width: 0;
-  min-height: 100%;
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border-color: rgba(20, 61, 53, 0.08);
-  color: #f8f4ec;
-  background:
-    radial-gradient(circle at top right, rgba(180, 218, 205, 0.14), transparent 22%),
-    linear-gradient(180deg, #173a33 0%, #224b43 100%);
-}
-
-.contact-section__lead-title {
-  max-width: 100%;
-  font-size: clamp(2.8rem, 6vw, 5.2rem);
-  line-height: 0.92;
-  color: #fffaf2;
-  text-transform: uppercase;
+  margin-top: 26px;
 }
 
 .contact-section__links {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -1376,6 +1356,7 @@
 
 .contact-section__link-value {
   color: var(--color-text);
+  overflow-wrap: anywhere;
 }
 
 .contact-section__link-icon {
@@ -1415,12 +1396,15 @@
   .hero-section__grid,
   .projects-rail,
   .skill-lane,
-  .contact-section__layout,
   .about-section__intro-grid,
   .skills-section__intro-grid,
   .contact-section__intro-grid,
   .projects-section__intro-grid {
     grid-template-columns: 1fr;
+  }
+
+  .contact-section__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .project-showcase {
@@ -1540,18 +1524,17 @@
   .about-section__signals,
   .projects-rail,
   .skill-lane,
-  .contact-section__lead,
   .contact-section__link {
     padding: 20px;
     border-radius: 20px;
   }
 
-  .contact-section__link {
-    grid-template-columns: auto 1fr;
+  .contact-section__links {
+    grid-template-columns: 1fr;
   }
 
-  .contact-section__lead {
-    min-height: 0;
+  .contact-section__link {
+    grid-template-columns: auto 1fr;
   }
 
   .contact-section__link-icon {
@@ -1594,14 +1577,9 @@
 
   .section-heading,
   .project-showcase__name,
-  .contact-section__lead-title,
   .hero-artifact__title,
   .project-showcase__artifact-title {
     max-width: none;
-  }
-
-  .contact-section__lead-title {
-    font-size: clamp(2.4rem, 13vw, 3.4rem);
   }
 }
 

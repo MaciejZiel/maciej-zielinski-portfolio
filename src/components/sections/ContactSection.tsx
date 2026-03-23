@@ -19,14 +19,13 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
             If you are hiring for backend, Python, or applied AI work, let&apos;s
             talk.
           </h2>
+          <p className="contact-section__intro-note">
+            Contact details below.
+          </p>
         </div>
       </MotionReveal>
 
       <div className="contact-section__layout">
-        <MotionReveal className="contact-section__lead" delay={0.08}>
-          <p className="contact-section__lead-title">Contact</p>
-        </MotionReveal>
-
         <div className="contact-section__links">
           {contactMethods.map((method, index) => (
             <MotionReveal
