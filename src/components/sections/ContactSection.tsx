@@ -11,10 +11,17 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
     <section id="contact" className="contact-section">
       <MotionReveal className="contact-section__intro">
         <p className="section-kicker">Contact</p>
-        <h2 className="section-heading">
-          If you need someone who cares about backend fundamentals and can also
-          work comfortably with AI-heavy product surfaces, I am interested.
-        </h2>
+        <div className="contact-section__intro-grid">
+          <h2 className="section-heading">
+            If you need someone who cares about backend fundamentals and can
+            also work comfortably with AI-heavy product surfaces, I am
+            interested.
+          </h2>
+          <p className="contact-section__intro-note">
+            Looking for internship or junior roles where backend discipline,
+            Python delivery, and applied AI all matter in the same product.
+          </p>
+        </div>
       </MotionReveal>
 
       <div className="contact-section__layout">
@@ -44,6 +51,7 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
                 rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
                 target={method.href.startsWith('http') ? '_blank' : undefined}
               >
+                <span className="contact-section__link-index">0{index + 1}</span>
                 <span className="contact-section__link-meta">
                   <span className="contact-section__link-label">
                     {method.label}

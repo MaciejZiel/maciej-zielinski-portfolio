@@ -13,10 +13,17 @@ export function AboutSection({
     <section id="about" className="about-section">
       <MotionReveal className="about-section__intro">
         <p className="section-kicker">About</p>
-        <h2 className="section-heading">
-          I build backend-first systems with enough product depth to feel real,
-          not just technically correct.
-        </h2>
+        <div className="about-section__intro-grid">
+          <h2 className="section-heading">
+            I build backend-first systems with enough product depth to feel
+            real, not just technically correct.
+          </h2>
+          <p className="about-section__intro-note">
+            Computer Science student in Warsaw, focused on Python backends, AI
+            workflows, and engineering that survives contact with real product
+            constraints.
+          </p>
+        </div>
       </MotionReveal>
 
       <div className="about-section__layout">

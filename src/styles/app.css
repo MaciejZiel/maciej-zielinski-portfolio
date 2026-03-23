@@ -852,6 +852,31 @@
   margin-top: 18px;
 }
 
+.about-section__intro-grid,
+.skills-section__intro-grid,
+.contact-section__intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  gap: clamp(1.8rem, 4vw, 4rem);
+  align-items: end;
+  margin-top: 14px;
+}
+
+.about-section__intro-note,
+.skills-section__intro-note,
+.contact-section__intro-note {
+  margin: 0;
+  max-width: 34ch;
+  color: rgba(180, 196, 214, 0.68);
+  font-family: var(--mono-font);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  line-height: 1.9;
+  text-transform: uppercase;
+  padding-left: min(4vw, 28px);
+  border-left: 1px solid rgba(148, 163, 184, 0.12);
+}
+
 .about-section__layout {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -1601,6 +1626,16 @@
 .contact-section__link-meta {
   display: grid;
   gap: 4px;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.contact-section__link-index {
+  color: rgba(191, 206, 220, 0.42);
+  font-family: var(--mono-font);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .contact-section__link-label {
@@ -1655,11 +1690,17 @@
   .about-section__layout,
   .contact-section__layout,
   .projects-rail,
+  .about-section__intro-grid,
+  .skills-section__intro-grid,
+  .contact-section__intro-grid,
   .projects-section__intro-grid,
   .project-showcase__body {
     grid-template-columns: 1fr;
   }
 
+  .about-section__intro-note,
+  .skills-section__intro-note,
+  .contact-section__intro-note,
   .projects-section__intro-copy {
     padding-left: 0;
     border-left: 0;

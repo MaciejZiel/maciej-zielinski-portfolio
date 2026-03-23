@@ -10,10 +10,17 @@ export function SkillsSection({ skillLanes }: SkillsSectionProps) {
     <section id="skills" className="skills-section">
       <MotionReveal className="skills-section__intro">
         <p className="section-kicker">Stack</p>
-        <h2 className="section-heading">
-          The tools are chosen for systems work, not for looking trendy on a
-          portfolio.
-        </h2>
+        <div className="skills-section__intro-grid">
+          <h2 className="section-heading">
+            The tools are chosen for systems work, not for looking trendy on a
+            portfolio.
+          </h2>
+          <p className="skills-section__intro-note">
+            Grouped by the layers I reach for most often: backend foundations,
+            applied AI, deployment tooling, and supporting engineering
+            utilities.
+          </p>
+        </div>
       </MotionReveal>
 
       <div className="skills-section__lanes">
