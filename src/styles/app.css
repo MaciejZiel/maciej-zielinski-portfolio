@@ -549,8 +549,7 @@
     background-color 180ms ease;
 }
 
-.hero-copy__focus-listing li::before,
-.about-section__signals-list li::before {
+.hero-copy__focus-listing li::before {
   content: '';
   position: absolute;
   left: 18px;
@@ -1028,8 +1027,19 @@
 }
 
 .about-section__signals-list li {
-  position: relative;
-  padding-left: 18px;
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.about-section__signals-list li::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 1px;
+  margin-top: 0.85rem;
+  background: rgba(20, 61, 53, 0.42);
 }
 
 .about-section__statement:hover,
