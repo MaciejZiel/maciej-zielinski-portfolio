@@ -7,9 +7,6 @@ interface ContactSectionProps {
 }
 
 export function ContactSection({ contactMethods }: ContactSectionProps) {
-  const primaryEmail =
-    contactMethods.find((method) => method.label === 'Email') ?? contactMethods[0]
-
   return (
     <section id="contact" className="contact-section" data-section-word="Contact">
       <MotionReveal className="contact-section__intro">
@@ -35,9 +32,9 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
             Best fit: backend engineering, Python services, API development, and
             applied AI systems with real constraints.
           </p>
-          <a className="contact-section__email" href={primaryEmail.href}>
-            {primaryEmail.value}
-          </a>
+          <p className="contact-section__lead-title">
+            Open to backend, Python, and applied AI roles.
+          </p>
         </MotionReveal>
 
         <div className="contact-section__links">
