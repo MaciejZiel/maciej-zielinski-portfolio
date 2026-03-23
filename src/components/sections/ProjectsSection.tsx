@@ -14,15 +14,23 @@ export function ProjectsSection({
   return (
     <section id="projects" className="projects-section">
       <MotionReveal className="projects-section__intro">
-        <p className="section-kicker">Selected Work</p>
-        <h2 className="section-heading">
-          A few projects that best show how I think about systems, not just
-          screens.
-        </h2>
-        <p className="section-copy">
-          The strongest work here is not arranged as small cards. It is shown as
-          systems with architecture, runtime behavior, and engineering tradeoffs.
-        </p>
+        <p className="section-kicker">Selected Systems</p>
+        <div className="projects-section__intro-grid">
+          <h2 className="section-heading">
+            The work is presented as case studies with runtime behavior,
+            architecture, and product intent in view.
+          </h2>
+          <div className="projects-section__intro-copy">
+            <p className="section-copy">
+              CaseFlow anchors the section because it is the clearest expression
+              of how I build backend systems under more realistic constraints.
+            </p>
+            <p className="projects-section__intro-note">
+              The rest of the portfolio extends that pattern into applied AI,
+              realtime inference, and domain-heavy API work.
+            </p>
+          </div>
+        </div>
       </MotionReveal>
 
       <div className="projects-section__list">
@@ -41,7 +49,7 @@ export function ProjectsSection({
         </div>
 
         <div className="projects-rail__items">
-          {projectRail.map((item) => (
+          {projectRail.map((item, index) => (
             <a
               key={item.name}
               className="projects-rail__item"
@@ -49,9 +57,12 @@ export function ProjectsSection({
               rel="noreferrer"
               target="_blank"
             >
-              <span className="projects-rail__item-name">{item.name}</span>
-              <span className="projects-rail__item-description">
-                {item.description}
+              <span className="projects-rail__item-index">0{index + 1}</span>
+              <span className="projects-rail__item-body">
+                <span className="projects-rail__item-name">{item.name}</span>
+                <span className="projects-rail__item-description">
+                  {item.description}
+                </span>
               </span>
             </a>
           ))}
