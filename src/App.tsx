@@ -1,6 +1,7 @@
 import { motion, useScroll, useSpring } from 'framer-motion'
 
 import { SiteHeader } from './components/layout/SiteHeader'
+import { SectionShortcut } from './components/layout/SectionShortcut'
 import { AboutSection } from './components/sections/AboutSection'
 import { ContactSection } from './components/sections/ContactSection'
 import { HeroSection } from './components/sections/HeroSection'
@@ -45,6 +46,7 @@ function App() {
           navigationItems={navigationItems}
           socialLinks={profile.socialLinks}
         />
+        <SectionShortcut items={navigationItems} />
 
         <main id="main-content" className="main-content">
           <HeroSection profile={profile} />

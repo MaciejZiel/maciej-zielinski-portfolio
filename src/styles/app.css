@@ -188,6 +188,79 @@
   height: 14px;
 }
 
+.section-shortcut {
+  position: fixed;
+  right: clamp(10px, 2vw, 28px);
+  top: 50%;
+  z-index: 45;
+  transform: translateY(-50%);
+}
+
+.section-shortcut__inner {
+  display: grid;
+  gap: 10px;
+  padding: 14px 10px;
+  border: 1px solid rgba(78, 59, 40, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.8);
+  box-shadow: var(--color-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.section-shortcut__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-height: 20px;
+  color: var(--color-text-muted);
+}
+
+.section-shortcut__dot {
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(20, 61, 53, 0.3);
+  border-radius: 50%;
+  background: rgba(255, 253, 249, 0.78);
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.section-shortcut__label {
+  max-width: 0;
+  overflow: hidden;
+  color: var(--color-accent-strong);
+  font-family: var(--mono-font);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(4px);
+  transition:
+    max-width 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.section-shortcut__link:hover .section-shortcut__dot,
+.section-shortcut__link:focus-visible .section-shortcut__dot,
+.section-shortcut__link--active .section-shortcut__dot {
+  transform: scale(1.18);
+  border-color: var(--color-accent-strong);
+  background: var(--color-accent-strong);
+}
+
+.section-shortcut__link:hover .section-shortcut__label,
+.section-shortcut__link:focus-visible .section-shortcut__label,
+.section-shortcut__link--active .section-shortcut__label {
+  max-width: 90px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .hero-section {
   padding-top: clamp(3.5rem, 7vw, 5.75rem);
   border-top: 0;
@@ -1202,6 +1275,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px 14px;
+  }
+
+  .section-shortcut {
+    display: none;
   }
 
   .about-section__layout {
