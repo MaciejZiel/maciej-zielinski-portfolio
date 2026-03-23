@@ -31,6 +31,18 @@
   opacity: 0.18;
 }
 
+.site-shell::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent 12%, transparent 88%, rgba(255, 255, 255, 0.18)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 10%, transparent 90%, rgba(120, 95, 70, 0.06));
+  opacity: 0.45;
+}
+
 .main-content {
   display: flex;
   flex-direction: column;
@@ -515,7 +527,8 @@
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
 .hero-copy__fact span,
@@ -536,6 +549,14 @@
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.45;
+}
+
+.hero-copy__fact:hover,
+.hero-copy__fact:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(20, 61, 53, 0.18);
+  background: rgba(255, 253, 249, 0.92);
+  box-shadow: 0 18px 34px rgba(76, 58, 41, 0.08);
 }
 
 .hero-artifact {
@@ -748,6 +769,10 @@
   gap: 16px;
   align-items: start;
   padding: 20px 22px;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .about-section__paragraph-index,
@@ -767,6 +792,14 @@
   padding: 22px 24px;
 }
 
+.about-section__statement,
+.about-section__signals {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
 .about-section__signals-list {
   display: grid;
   gap: 12px;
@@ -778,6 +811,19 @@
 .about-section__signals-list li {
   position: relative;
   padding-left: 18px;
+}
+
+.about-section__statement:hover,
+.about-section__statement:focus-within,
+.about-section__paragraph:hover,
+.about-section__paragraph:focus-within,
+.about-section__signals:hover,
+.about-section__signals:focus-within,
+.skill-lane:hover,
+.skill-lane:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(20, 61, 53, 0.16);
+  box-shadow: 0 20px 40px rgba(76, 58, 41, 0.1);
 }
 
 .projects-section__list {
@@ -1029,6 +1075,12 @@
   box-shadow: var(--color-shadow);
 }
 
+.projects-rail__item:hover,
+.projects-rail__item:focus-visible {
+  border-color: rgba(20, 61, 53, 0.16);
+  background: rgba(255, 253, 249, 0.9);
+}
+
 .project-showcase__link:hover,
 .project-showcase__link:focus-visible {
   border-color: var(--project-accent);
@@ -1116,7 +1168,8 @@
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
 .projects-rail__item-body {
@@ -1145,6 +1198,10 @@
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 252, 247, 0.82)),
     rgba(255, 252, 247, 0.72);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .skill-lane__header {
