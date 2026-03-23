@@ -30,13 +30,15 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       ref={sectionRef}
       className={`project-showcase project-showcase--${project.theme}`}
     >
-      <MotionReveal className="project-showcase__rail" delay={0.04}>
-        <p className="project-showcase__rail-index">0{index + 1}</p>
-        <div className="project-showcase__rail-copy">
-          <span>{project.category}</span>
-          <span>{project.year}</span>
-        </div>
-      </MotionReveal>
+      <div className="project-showcase__rail-wrap">
+        <MotionReveal className="project-showcase__rail" delay={0.04}>
+          <p className="project-showcase__rail-index">0{index + 1}</p>
+          <div className="project-showcase__rail-copy">
+            <span>{project.category}</span>
+            <span>{project.year}</span>
+          </div>
+        </MotionReveal>
+      </div>
 
       <div className="project-showcase__body">
         <MotionReveal className="project-showcase__content">
