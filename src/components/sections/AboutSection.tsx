@@ -53,7 +53,15 @@ export function AboutSection({
               className="about-section__paragraph"
               delay={0.12 + index * 0.08}
             >
-              <span className="about-section__paragraph-index">0{index + 1}</span>
+              <div className="about-section__paragraph-head">
+                <span className="about-section__paragraph-index">
+                  0{index + 1}
+                </span>
+                <span
+                  className="about-section__paragraph-rule"
+                  aria-hidden="true"
+                />
+              </div>
               <p>{point}</p>
             </MotionReveal>
           ))}

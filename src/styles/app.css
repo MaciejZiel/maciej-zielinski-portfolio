@@ -967,8 +967,7 @@
 
 .about-section__paragraph {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  gap: 14px;
+  gap: 10px;
   align-items: start;
   padding: 20px 0;
   border-top: 1px solid rgba(78, 59, 40, 0.1);
@@ -983,6 +982,12 @@
   max-width: 52ch;
 }
 
+.about-section__paragraph-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .about-section__paragraph-index,
 .contact-section__link-index,
 .projects-rail__item-index {
@@ -995,13 +1000,18 @@
 
 .about-section__paragraph-index {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   min-width: 24px;
-  margin-top: 0.3rem;
   color: var(--color-accent-strong);
-  font-size: 0.74rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+}
+
+.about-section__paragraph-rule {
+  width: 40px;
+  height: 1px;
+  background: rgba(20, 61, 53, 0.18);
 }
 
 .about-section__signals {
