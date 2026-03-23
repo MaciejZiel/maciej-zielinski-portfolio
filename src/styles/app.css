@@ -159,6 +159,7 @@
 
 .site-nav__link:hover,
 .site-nav__link:focus-visible,
+.site-nav__link--active,
 .site-socials__link:hover,
 .site-socials__link:focus-visible {
   color: var(--color-text);
@@ -166,7 +167,8 @@
 }
 
 .site-nav__link:hover::after,
-.site-nav__link:focus-visible::after {
+.site-nav__link:focus-visible::after,
+.site-nav__link--active::after {
   transform: scaleX(1);
 }
 

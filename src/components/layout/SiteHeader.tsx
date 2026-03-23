@@ -1,4 +1,5 @@
 import type { ActionLink, NavigationItem } from '../../types/portfolio'
+import { useActiveSection } from '../../hooks/useActiveSection'
 import { Icon } from '../ui/Icon'
 
 interface SiteHeaderProps {
@@ -14,6 +15,8 @@ export function SiteHeader({
   navigationItems,
   socialLinks,
 }: SiteHeaderProps) {
+  const activeHref = useActiveSection(navigationItems)
+
   return (
     <header className="site-header">
       <div className="site-header__inner">
@@ -28,7 +31,11 @@ export function SiteHeader({
         <div className="site-header__right">
           <nav className="site-nav" aria-label="Section navigation">
             {navigationItems.map((item) => (
-              <a key={item.label} className="site-nav__link" href={item.href}>
+              <a
+                key={item.label}
+                className={`site-nav__link${item.href === activeHref ? ' site-nav__link--active' : ''}`}
+                href={item.href}
+              >
                 {item.label}
               </a>
             ))}
