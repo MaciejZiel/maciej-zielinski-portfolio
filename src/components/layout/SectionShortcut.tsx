@@ -1,10 +1,3 @@
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-} from 'framer-motion'
-
 import { useActiveSection } from '../../hooks/useActiveSection'
 import type { NavigationItem } from '../../types/portfolio'
 
@@ -14,23 +7,10 @@ interface SectionShortcutProps {
 
 export function SectionShortcut({ items }: SectionShortcutProps) {
   const activeHref = useActiveSection(items)
-  const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll()
-  const progressScaleY = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 30,
-    mass: 0.24,
-  })
 
   return (
     <aside className="section-shortcut" aria-label="Section shortcut">
       <div className="section-shortcut__inner">
-        <span className="section-shortcut__progress-track" aria-hidden="true" />
-        <motion.span
-          aria-hidden="true"
-          className="section-shortcut__progress-fill"
-          style={reduceMotion ? undefined : { scaleY: progressScaleY }}
-        />
         {items.map((item) => {
           const isActive = item.href === activeHref
 
