@@ -21,28 +21,23 @@ export function HeroSection({ profile }: HeroSectionProps) {
     target: sectionRef,
     offset: ['start start', 'end start'],
   })
-  const stageY = useTransform(scrollYProgress, [0, 1], [0, 92])
-  const stageRotate = useTransform(scrollYProgress, [0, 1], [-2.5, 1.5])
-  const ribbonX = useTransform(scrollYProgress, [0, 1], [0, -180])
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, 28])
+  const stageY = useTransform(scrollYProgress, [0, 1], [0, 28])
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 16])
 
   const [firstName, ...lastNameParts] = profile.name.split(' ')
   const lastName = lastNameParts.join(' ')
-  const ribbonItems = [...profile.heroRibbon, ...profile.heroRibbon]
 
   return (
     <section ref={sectionRef} id="top" className="hero-section">
-      <div className="hero-section__mesh" aria-hidden="true" />
-      <div className="hero-section__beam hero-section__beam--left" aria-hidden="true" />
-      <div className="hero-section__beam hero-section__beam--right" aria-hidden="true" />
-
       <div className="hero-section__grid">
         <motion.div
           className="hero-copy"
           style={reduceMotion ? undefined : { y: copyY }}
         >
-          <MotionReveal className="hero-copy__body" distance={48}>
-            <p className="hero-copy__eyebrow">Backend engineering / AI systems</p>
+          <MotionReveal className="hero-copy__body" distance={28}>
+            <p className="hero-copy__eyebrow">
+              Backend developer / AI systems / {profile.location}
+            </p>
 
             <div className="hero-copy__masthead">
               <h1 className="hero-copy__title">
@@ -55,6 +50,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
             <div className="hero-copy__body-grid">
               <div className="hero-copy__narrative">
                 <p className="hero-copy__summary">{profile.intro}</p>
+                <p className="hero-copy__support">{profile.summary}</p>
 
                 <ul className="hero-copy__focus-listing">
                   {profile.focusAreas.map((item) => (
@@ -76,42 +72,34 @@ export function HeroSection({ profile }: HeroSectionProps) {
                   ))}
                 </div>
               </div>
-
-              <dl className="hero-copy__proof">
-                {profile.details.map((detail) => (
-                  <div key={detail.label} className="hero-copy__proof-item">
-                    <dt>{detail.label}</dt>
-                    <dd>{detail.value}</dd>
-                  </div>
-                ))}
-              </dl>
             </div>
           </MotionReveal>
 
-          <MotionReveal className="hero-copy__ledger" delay={0.18}>
-            <p className="hero-copy__ledger-label">Engineering through-lines</p>
+          <MotionReveal className="hero-copy__ledger" delay={0.12}>
+            <p className="hero-copy__ledger-label">Core strengths</p>
             <div className="hero-copy__ledger-items">
-              <span>APIs</span>
-              <span>Orchestration</span>
-              <span>Auth</span>
-              <span>RAG</span>
-              <span>Realtime AI</span>
+              {profile.details.map((detail) => (
+                <div key={detail.label} className="hero-copy__fact">
+                  <span>{detail.label}</span>
+                  <strong>{detail.value}</strong>
+                </div>
+              ))}
             </div>
           </MotionReveal>
         </motion.div>
 
         <motion.aside
           className="hero-artifact"
-          style={reduceMotion ? undefined : { y: stageY, rotate: stageRotate }}
+          style={reduceMotion ? undefined : { y: stageY }}
         >
-          <MotionReveal className="hero-artifact__frame" delay={0.14}>
+          <MotionReveal className="hero-artifact__frame" delay={0.1}>
             <div className="hero-artifact__topline">
-              <span>Flagship build</span>
+              <span>Flagship project</span>
               <span>{profile.availability}</span>
             </div>
 
             <div className="hero-artifact__header">
-              <p className="hero-artifact__label">CaseFlow / system dossier</p>
+              <p className="hero-artifact__label">CaseFlow / private backend</p>
               <h2 className="hero-artifact__title">{profile.heroArtifactTitle}</h2>
               <p className="hero-artifact__summary">{profile.heroArtifactSummary}</p>
             </div>
@@ -142,29 +130,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
             </div>
           </MotionReveal>
         </motion.aside>
-      </div>
-
-      <div className="hero-strip">
-        <motion.div
-          className="hero-strip__track"
-          style={reduceMotion ? undefined : { x: ribbonX }}
-        >
-          {ribbonItems.map((item, index) => (
-            <span key={`${item}-${index}`} className="hero-strip__item">
-              {item}
-            </span>
-          ))}
-        </motion.div>
-      </div>
-
-      <div className="hero-meta">
-        <MotionReveal className="hero-meta__lead" delay={0.1}>
-          <p>{profile.summary}</p>
-        </MotionReveal>
-        <MotionReveal className="hero-meta__facts" delay={0.18}>
-          <span>{profile.location}</span>
-          <span>{profile.education}</span>
-        </MotionReveal>
       </div>
     </section>
   )

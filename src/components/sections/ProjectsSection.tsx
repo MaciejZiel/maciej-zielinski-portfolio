@@ -14,21 +14,21 @@ export function ProjectsSection({
   return (
     <section id="projects" className="projects-section">
       <MotionReveal className="projects-section__intro">
-        <p className="section-kicker">Selected Systems</p>
+        <p className="section-kicker">Selected Work</p>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
-            Three builds that best show how I handle backend architecture, AI
-            orchestration, and production-minded API design.
+            Projects that best show how I build backend-heavy products and
+            practical AI tools.
           </h2>
           <div className="projects-section__intro-copy">
             <p className="section-copy">
-              CaseFlow sits first because it is the strongest signal of how I
-              think about system boundaries, workflow state, and operational
-              behavior.
+              CaseFlow sits first because it says the most about how I think:
+              clear boundaries, explicit workflow state, and predictable
+              operational behavior.
             </p>
             <p className="projects-section__intro-note">
-              The rest extends that pattern into applied AI, realtime
-              inference, and domain-heavy API work.
+              The rest extends that same mindset into transcription, computer
+              vision, and domain-heavy API work.
             </p>
           </div>
         </div>
@@ -42,10 +42,10 @@ export function ProjectsSection({
 
       <MotionReveal className="projects-rail" delay={0.08}>
         <div className="projects-rail__intro">
-          <p className="projects-rail__label">Additional public builds</p>
+          <p className="projects-rail__label">More from GitHub</p>
           <p className="projects-rail__copy">
-            More recent experiments and side systems from GitHub that still feed
-            into how I build backend and AI products.
+            Smaller public projects and experiments that still feed into how I
+            design backend and AI systems.
           </p>
         </div>
 

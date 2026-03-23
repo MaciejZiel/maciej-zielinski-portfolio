@@ -19,8 +19,8 @@ export function AboutSection({
             real constraints.
           </h2>
           <p className="about-section__intro-note">
-            Computer Science student in Warsaw, targeting backend, Python, and
-            applied AI internship or junior roles.
+            Computer Science student in Warsaw, focused on backend, Python, and
+            applied AI roles where engineering quality matters.
           </p>
         </div>
       </MotionReveal>
@@ -48,7 +48,9 @@ export function AboutSection({
       </div>
 
       <MotionReveal className="about-section__signals" delay={0.18}>
-        <p className="about-section__signals-label">What stands out in the work</p>
+        <p className="about-section__signals-label">
+          What shows up across the projects
+        </p>
         <ul className="about-section__signals-list">
           {projectSignals.map((signal) => (
             <li key={signal}>{signal}</li>

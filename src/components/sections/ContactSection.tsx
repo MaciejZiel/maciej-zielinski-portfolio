@@ -7,18 +7,21 @@ interface ContactSectionProps {
 }
 
 export function ContactSection({ contactMethods }: ContactSectionProps) {
+  const primaryEmail =
+    contactMethods.find((method) => method.label === 'Email') ?? contactMethods[0]
+
   return (
     <section id="contact" className="contact-section">
       <MotionReveal className="contact-section__intro">
         <p className="section-kicker">Contact</p>
         <div className="contact-section__intro-grid">
           <h2 className="section-heading">
-            If you need someone for backend, Python, or AI product work, I am
-            interested in the conversation.
+            If you are hiring for backend, Python, or applied AI work, let&apos;s
+            talk.
           </h2>
           <p className="contact-section__intro-note">
             Looking for internship or junior roles where backend discipline,
-            Python delivery, and applied AI all matter in the same product.
+            product thinking, and practical AI all matter.
           </p>
         </div>
       </MotionReveal>
@@ -29,11 +32,8 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
             Best fit: backend engineering, Python services, API development, and
             applied AI systems with real constraints.
           </p>
-          <a
-            className="contact-section__email"
-            href="mailto:zielinski.macio@gmail.com"
-          >
-            zielinski.macio@gmail.com
+          <a className="contact-section__email" href={primaryEmail.href}>
+            {primaryEmail.value}
           </a>
         </MotionReveal>
 

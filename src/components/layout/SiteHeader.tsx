@@ -18,7 +18,7 @@ export function SiteHeader({
     <header className="site-header">
       <div className="site-header__inner">
         <a className="brand" href="#top" aria-label="Go to homepage top">
-          <span className="brand__mark">MZ / 2026</span>
+          <span className="brand__mark">MZ</span>
           <span className="brand__text">
             <span className="brand__name">{name}</span>
             <span className="brand__headline">{headline}</span>

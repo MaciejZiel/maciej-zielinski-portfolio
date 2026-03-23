@@ -9,15 +9,14 @@ export function SkillsSection({ skillLanes }: SkillsSectionProps) {
   return (
     <section id="skills" className="skills-section">
       <MotionReveal className="skills-section__intro">
-        <p className="section-kicker">Stack</p>
+        <p className="section-kicker">Toolbox</p>
         <div className="skills-section__intro-grid">
           <h2 className="section-heading">
-            Backend, AI, and delivery tools I actually use in systems work.
+            Tools I actually use when building backend and AI projects.
           </h2>
           <p className="skills-section__intro-note">
-            Grouped by the layers I reach for most often: backend foundations,
-            applied AI, deployment tooling, and supporting engineering
-            utilities.
+            Grouped by the layers I reach for most often, from backend
+            foundations through AI workflows to delivery tooling.
           </p>
         </div>
       </MotionReveal>

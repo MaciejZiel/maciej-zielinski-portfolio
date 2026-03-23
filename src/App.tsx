@@ -38,14 +38,6 @@ function App() {
           className="scroll-progress"
           style={{ scaleX: progressScaleX }}
         />
-        <div
-          className="site-shell__glow site-shell__glow--primary"
-          aria-hidden="true"
-        />
-        <div
-          className="site-shell__glow site-shell__glow--secondary"
-          aria-hidden="true"
-        />
 
         <SiteHeader
           name={profile.name}
@@ -69,8 +61,8 @@ function App() {
         </main>
 
         <footer className="site-footer">
-          <p>Maciej Zieliński</p>
-          <p>Built with React, TypeScript, and Vite. Ready for Cloudflare Pages.</p>
+          <p>{profile.name}</p>
+          <p>Portfolio focused on backend systems, Python, and applied AI.</p>
         </footer>
       </div>
     </>
