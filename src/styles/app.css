@@ -361,6 +361,14 @@
   min-width: 0;
 }
 
+.hero-copy__eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
 .hero-copy__body {
   display: grid;
   gap: 24px;
@@ -417,6 +425,21 @@
   gap: 12px;
 }
 
+.hero-copy__availability {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(78, 59, 40, 0.08);
+  border-radius: 999px;
+  color: var(--color-accent-strong);
+  font-family: var(--mono-font);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(255, 252, 247, 0.72);
+}
+
 .hero-copy__title,
 .section-heading,
 .project-showcase__name,
@@ -456,6 +479,13 @@
   gap: 20px;
 }
 
+.hero-copy__lead {
+  display: grid;
+  gap: 12px;
+  padding: 18px 0 0 18px;
+  border-left: 2px solid rgba(20, 61, 53, 0.14);
+}
+
 .hero-copy__summary,
 .hero-copy__support,
 .section-copy,
@@ -485,7 +515,8 @@
 .hero-copy__summary {
   max-width: 54ch;
   color: var(--color-text);
-  font-size: 1.08rem;
+  font-size: 1.12rem;
+  line-height: 1.82;
 }
 
 .hero-copy__support {
@@ -494,6 +525,7 @@
 
 .hero-copy__focus-listing {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   padding: 18px 0 0;
   margin: 0;
@@ -503,21 +535,38 @@
 
 .hero-copy__focus-listing li {
   position: relative;
-  padding-left: 18px;
+  min-height: 100%;
+  padding: 18px 18px 18px 32px;
+  border: 1px solid rgba(78, 59, 40, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 252, 247, 0.68);
   color: var(--color-text);
   line-height: 1.7;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
 .hero-copy__focus-listing li::before,
 .about-section__signals-list li::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0.72em;
+  left: 18px;
+  top: 1.45rem;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--color-accent);
+}
+
+.hero-copy__focus-listing li:hover,
+.hero-copy__focus-listing li:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(20, 61, 53, 0.16);
+  background: rgba(255, 253, 249, 0.9);
+  box-shadow: 0 18px 34px rgba(76, 58, 41, 0.08);
 }
 
 .hero-copy__actions {
@@ -787,6 +836,65 @@
 
 .hero-artifact__foot {
   color: rgba(248, 244, 236, 0.64);
+}
+
+.hero-ribbon {
+  display: grid;
+  gap: 14px;
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+}
+
+.hero-ribbon__label {
+  color: var(--color-accent-strong);
+  font-family: var(--mono-font);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-ribbon__viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+
+.hero-ribbon__marquee {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: hero-ribbon-scroll 28s linear infinite;
+}
+
+.hero-ribbon__track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  flex-shrink: 0;
+}
+
+.hero-ribbon__item {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid rgba(78, 59, 40, 0.08);
+  border-radius: 999px;
+  color: var(--color-text);
+  font-family: var(--mono-font);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  background: rgba(255, 253, 249, 0.8);
+}
+
+@keyframes hero-ribbon-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 6px));
+  }
 }
 
 .section-kicker {
@@ -1498,6 +1606,7 @@
   }
 
   .hero-copy__ledger-items,
+  .hero-copy__focus-listing,
   .project-showcase__narrative,
   .project-showcase__metrics {
     grid-template-columns: 1fr;
@@ -1533,6 +1642,10 @@
 
   .hero-copy__title {
     font-size: clamp(3rem, 14vw, 4.8rem);
+  }
+
+  .hero-copy__lead {
+    padding-left: 14px;
   }
 
   .about-section::after,
@@ -1577,6 +1690,26 @@
     display: grid;
   }
 
+  .hero-ribbon__viewport {
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .hero-ribbon__marquee {
+    display: grid;
+    width: 100%;
+    animation: none;
+  }
+
+  .hero-ribbon__track {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .hero-ribbon__track--duplicate {
+    display: none;
+  }
+
   .hero-copy__fact,
   .project-showcase__content {
     box-shadow: 0 16px 38px rgba(76, 58, 41, 0.09);
@@ -1617,5 +1750,9 @@
   .projects-rail__item,
   .contact-section__link {
     transition: none;
+  }
+
+  .hero-ribbon__marquee {
+    animation: none;
   }
 }

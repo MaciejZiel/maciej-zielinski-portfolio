@@ -35,9 +35,14 @@ export function HeroSection({ profile }: HeroSectionProps) {
           style={reduceMotion ? undefined : { y: copyY }}
         >
           <MotionReveal className="hero-copy__body" distance={28}>
-            <p className="hero-copy__eyebrow">
-              Backend developer / AI systems / {profile.location}
-            </p>
+            <div className="hero-copy__eyebrow-row">
+              <p className="hero-copy__eyebrow">
+                Backend developer / AI systems / {profile.location}
+              </p>
+              <span className="hero-copy__availability">
+                Open to internship / junior roles
+              </span>
+            </div>
 
             <div className="hero-copy__masthead">
               <h1 className="hero-copy__title">
@@ -49,8 +54,10 @@ export function HeroSection({ profile }: HeroSectionProps) {
 
             <div className="hero-copy__body-grid">
               <div className="hero-copy__narrative">
-                <p className="hero-copy__summary">{profile.intro}</p>
-                <p className="hero-copy__support">{profile.summary}</p>
+                <div className="hero-copy__lead">
+                  <p className="hero-copy__summary">{profile.intro}</p>
+                  <p className="hero-copy__support">{profile.summary}</p>
+                </div>
 
                 <ul className="hero-copy__focus-listing">
                   {profile.focusAreas.map((item) => (
@@ -95,7 +102,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           <MotionReveal className="hero-artifact__frame" delay={0.1}>
             <div className="hero-artifact__topline">
               <span>Flagship project</span>
-              <span>{profile.availability}</span>
+              <span>System view</span>
             </div>
 
             <div className="hero-artifact__header">
@@ -131,6 +138,28 @@ export function HeroSection({ profile }: HeroSectionProps) {
           </MotionReveal>
         </motion.aside>
       </div>
+
+      <MotionReveal className="hero-ribbon" delay={0.18}>
+        <div className="hero-ribbon__label">Selected work signals</div>
+        <div className="hero-ribbon__viewport">
+          <div className="hero-ribbon__marquee">
+            <div className="hero-ribbon__track">
+              {profile.heroRibbon.map((item) => (
+                <span key={item} className="hero-ribbon__item">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="hero-ribbon__track hero-ribbon__track--duplicate" aria-hidden="true">
+              {profile.heroRibbon.map((item) => (
+                <span key={`${item}-duplicate`} className="hero-ribbon__item">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </MotionReveal>
     </section>
   )
 }
