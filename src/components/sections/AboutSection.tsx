@@ -10,9 +10,12 @@ export function AboutSection({
   projectSignals,
 }: AboutSectionProps) {
   return (
-    <section id="about" className="about-section">
+    <section id="about" className="about-section" data-section-word="About">
       <MotionReveal className="about-section__intro">
-        <p className="section-kicker">About</p>
+        <div className="section-intro__eyebrow">
+          <span className="section-index">01</span>
+          <p className="section-kicker">About</p>
+        </div>
         <div className="about-section__intro-grid">
           <h2 className="section-heading">
             I build backend-first systems that still make product sense under

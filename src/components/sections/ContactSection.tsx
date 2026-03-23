@@ -11,9 +11,12 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
     contactMethods.find((method) => method.label === 'Email') ?? contactMethods[0]
 
   return (
-    <section id="contact" className="contact-section">
+    <section id="contact" className="contact-section" data-section-word="Contact">
       <MotionReveal className="contact-section__intro">
-        <p className="section-kicker">Contact</p>
+        <div className="section-intro__eyebrow">
+          <span className="section-index">04</span>
+          <p className="section-kicker">Contact</p>
+        </div>
         <div className="contact-section__intro-grid">
           <h2 className="section-heading">
             If you are hiring for backend, Python, or applied AI work, let&apos;s

@@ -12,9 +12,16 @@ export function ProjectsSection({
   projectRail,
 }: ProjectsSectionProps) {
   return (
-    <section id="projects" className="projects-section">
+    <section
+      id="projects"
+      className="projects-section"
+      data-section-word="Work"
+    >
       <MotionReveal className="projects-section__intro">
-        <p className="section-kicker">Selected Work</p>
+        <div className="section-intro__eyebrow">
+          <span className="section-index">02</span>
+          <p className="section-kicker">Selected Work</p>
+        </div>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
             Projects that best show how I build backend-heavy products and
