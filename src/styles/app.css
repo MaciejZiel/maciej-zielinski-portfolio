@@ -968,7 +968,7 @@
 
 .about-section__paragraph {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-columns: 56px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
   padding: 20px 0;
@@ -992,6 +992,20 @@
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.about-section__paragraph-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-top: 2px;
+  border: 1px solid rgba(20, 61, 53, 0.12);
+  border-radius: 999px;
+  color: var(--color-accent-strong);
+  background: rgba(255, 253, 249, 0.74);
+  box-shadow: 0 10px 22px rgba(76, 58, 41, 0.06);
 }
 
 .about-section__signals {
