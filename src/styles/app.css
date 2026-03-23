@@ -1045,6 +1045,8 @@
   max-width: 12ch;
   font-size: clamp(2rem, 3.4vw, 3.4rem);
   line-height: 0.98;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .project-showcase__headline {
@@ -1264,6 +1266,7 @@
 
 .projects-rail__item-body {
   display: grid;
+  min-width: 0;
   gap: 6px;
 }
 
@@ -1272,6 +1275,8 @@
   font-family: var(--heading-font);
   font-size: 1.12rem;
   line-height: 1.15;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .skills-section__lanes {
