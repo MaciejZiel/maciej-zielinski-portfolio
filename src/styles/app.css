@@ -817,6 +817,10 @@
   align-items: end;
 }
 
+.contact-section__intro-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .about-section__layout {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
@@ -1320,17 +1324,17 @@
 
 .contact-section__layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1.05fr);
-  gap: 18px;
+  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+  gap: 22px;
   margin-top: 30px;
 }
 
 .contact-section__lead {
   display: grid;
-  gap: 18px;
+  align-items: end;
   min-width: 0;
-  align-content: start;
-  padding: 24px;
+  min-height: 100%;
+  padding: clamp(1.5rem, 3vw, 2rem);
   border-color: rgba(20, 61, 53, 0.08);
   color: #f8f4ec;
   background:
@@ -1339,15 +1343,11 @@
 }
 
 .contact-section__lead-title {
-  max-width: 11ch;
-  font-size: clamp(1.8rem, 3.2vw, 3rem);
-  line-height: 1.02;
+  max-width: 100%;
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  line-height: 0.92;
   color: #fffaf2;
-  text-wrap: balance;
-}
-
-.contact-section__lead-copy {
-  color: rgba(240, 245, 243, 0.76);
+  text-transform: uppercase;
 }
 
 .contact-section__links {
@@ -1550,6 +1550,10 @@
     grid-template-columns: auto 1fr;
   }
 
+  .contact-section__lead {
+    min-height: 0;
+  }
+
   .contact-section__link-icon {
     grid-column: 2;
     justify-self: start;
@@ -1597,7 +1601,7 @@
   }
 
   .contact-section__lead-title {
-    font-size: clamp(1.6rem, 9vw, 2.5rem);
+    font-size: clamp(2.4rem, 13vw, 3.4rem);
   }
 }
 

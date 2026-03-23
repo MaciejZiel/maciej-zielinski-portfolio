@@ -19,22 +19,12 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
             If you are hiring for backend, Python, or applied AI work, let&apos;s
             talk.
           </h2>
-          <p className="contact-section__intro-note">
-            Looking for internship or junior roles where backend discipline,
-            product thinking, and practical AI all matter.
-          </p>
         </div>
       </MotionReveal>
 
       <div className="contact-section__layout">
         <MotionReveal className="contact-section__lead" delay={0.08}>
-          <p className="contact-section__lead-copy">
-            Best fit: backend engineering, Python services, API development, and
-            applied AI systems with real constraints.
-          </p>
-          <p className="contact-section__lead-title">
-            Open to backend, Python, and applied AI roles.
-          </p>
+          <p className="contact-section__lead-title">Contact</p>
         </MotionReveal>
 
         <div className="contact-section__links">
