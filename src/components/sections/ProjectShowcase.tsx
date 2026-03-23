@@ -85,6 +85,10 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             {project.name}
           </h3>
           <p className="project-showcase__headline">{project.headline}</p>
+          <div className="project-showcase__spotlight">
+            <p className="project-showcase__spotlight-label">Why it matters</p>
+            <p className="project-showcase__spotlight-copy">{project.outcome}</p>
+          </div>
           <p className="project-showcase__context">{project.context}</p>
 
           <div className="project-showcase__narrative">
@@ -150,6 +154,12 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
           }
         >
           <div className="project-showcase__artifact-frame">
+            <div className="project-showcase__artifact-window" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+
             <div className="project-showcase__stage-topline">
               <span>{project.stageLabel}</span>
               <span>{project.year}</span>
@@ -193,8 +203,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </section>
               ))}
             </div>
-
-            <p className="project-showcase__artifact-outcome">{project.outcome}</p>
           </div>
         </motion.div>
       </div>
