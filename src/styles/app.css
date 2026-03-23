@@ -40,7 +40,6 @@
   position: relative;
   padding-block: clamp(3.75rem, 7vw, 5.75rem);
   border-top: 1px solid var(--color-border);
-  overflow: hidden;
 }
 
 .site-header {
@@ -824,11 +823,12 @@
 
 .project-showcase__rail-wrap {
   position: relative;
+  align-self: stretch;
 }
 
 .project-showcase__rail {
   position: sticky;
-  top: 112px;
+  top: 104px;
   display: grid;
   gap: 12px;
   align-content: start;
