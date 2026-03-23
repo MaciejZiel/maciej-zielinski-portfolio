@@ -34,6 +34,16 @@ export function AboutSection({
             The work I enjoy most lives where APIs, AI capabilities, runtime
             constraints, and maintainable engineering all have to cooperate.
           </p>
+          <div className="about-section__signals">
+            <p className="about-section__signals-label">
+              What shows up across the projects
+            </p>
+            <ul className="about-section__signals-list">
+              {projectSignals.map((signal) => (
+                <li key={signal}>{signal}</li>
+              ))}
+            </ul>
+          </div>
         </MotionReveal>
 
         <div className="about-section__body">
@@ -49,17 +59,6 @@ export function AboutSection({
           ))}
         </div>
       </div>
-
-      <MotionReveal className="about-section__signals" delay={0.18}>
-        <p className="about-section__signals-label">
-          What shows up across the projects
-        </p>
-        <ul className="about-section__signals-list">
-          {projectSignals.map((signal) => (
-            <li key={signal}>{signal}</li>
-          ))}
-        </ul>
-      </MotionReveal>
     </section>
   )
 }
