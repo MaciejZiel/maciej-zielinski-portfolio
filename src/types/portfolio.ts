@@ -20,6 +20,12 @@ export interface HeroDetail {
   value: string
 }
 
+export interface ArtifactLane {
+  label: string
+  summary: string
+  items: string[]
+}
+
 export interface Profile {
   name: string
   headline: string
@@ -33,6 +39,9 @@ export interface Profile {
   socialLinks: ActionLink[]
   details: HeroDetail[]
   heroRibbon: string[]
+  heroArtifactTitle: string
+  heroArtifactSummary: string
+  heroArtifactLanes: ArtifactLane[]
 }
 
 export interface ProjectMetric {
@@ -44,7 +53,10 @@ export interface FeaturedProject {
   name: string
   category: string
   headline: string
+  context: string
   summary: string
+  challenge: string
+  outcome: string
   details: string[]
   technologies: string[]
   repositoryUrl: string
@@ -55,6 +67,9 @@ export interface FeaturedProject {
   year: string
   theme: 'steel' | 'signal' | 'vision' | 'track'
   metrics: ProjectMetric[]
+  artifactTitle: string
+  artifactSummary: string
+  artifactLanes: ArtifactLane[]
 }
 
 export interface ProjectRailItem {

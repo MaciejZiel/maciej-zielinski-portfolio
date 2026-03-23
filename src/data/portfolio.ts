@@ -22,15 +22,15 @@ export const profile: Profile = {
   name: 'Maciej Zieliński',
   headline: 'Backend Developer (Python) | AI Systems',
   intro:
-    'I build backend systems and AI-powered applications with a bias toward practical architecture, strong APIs, and software that behaves predictably under real constraints.',
+    'I build backend systems and AI-powered products with a backend-first mindset: clear boundaries, reliable workflows, practical AI integration, and software that behaves predictably under real constraints.',
   summary:
-    'Computer Science student focused on Python backend development, applied AI systems, and projects that feel closer to products than coursework.',
+    'Computer Science student focused on Python backend development, applied AI systems, and projects that are structured closer to products than coursework.',
   availability: 'Open to backend, Python, and AI internship or junior roles.',
   location: 'Warsaw, Poland',
   education: 'PJATK, 3rd year Computer Science',
   focusAreas: [
-    'Backend systems with clear data boundaries, auth, and domain logic.',
-    'Applied AI workflows that need retrieval, orchestration, and operational discipline.',
+    'Backend systems with clear data boundaries, authentication, and domain logic.',
+    'Applied AI workflows that need retrieval, orchestration, and runtime control.',
     'Projects built with testing, Docker, and maintainable structure in mind.',
   ],
   heroLinks: [
@@ -77,6 +77,31 @@ export const profile: Profile = {
     'live_flights_map / real-time map + replay',
     'Motorsport_API / DRF + JWT + OpenAPI',
   ],
+  heroArtifactTitle: 'CaseFlow system snapshot',
+  heroArtifactSummary:
+    'The flagship project is a private multi-tenant backend built around the things that usually separate a demo from a product: access boundaries, workflow state, auditable events, and reliable delivery paths.',
+  heroArtifactLanes: [
+    {
+      label: 'Entry',
+      summary: 'Every request is tenant-aware before business logic runs.',
+      items: ['Session-backed auth', 'RBAC checks', 'Tenant context'],
+    },
+    {
+      label: 'Workflow',
+      summary: 'Document state changes are explicit and traceable.',
+      items: ['Document transitions', 'Action history', 'State rules'],
+    },
+    {
+      label: 'Delivery',
+      summary: 'Side effects are pushed through controlled operational paths.',
+      items: ['Webhook dispatch', 'Retry handling', 'Background jobs'],
+    },
+    {
+      label: 'Quality',
+      summary: 'The build is treated like a system, not just an endpoint set.',
+      items: ['Docker services', 'Alembic migrations', 'Integration tests'],
+    },
+  ],
 }
 
 export const aboutPoints: string[] = [
@@ -96,8 +121,14 @@ export const featuredProjects: FeaturedProject[] = [
     name: 'CaseFlow',
     category: 'Private backend case study',
     headline: 'A multi-tenant FastAPI backend designed like a production B2B system.',
+    context:
+      'A backend-first internal product focused on document workflows, tenant separation, and operational reliability.',
     summary:
       'CaseFlow is the strongest example of how I approach backend engineering: tenant-aware architecture, RBAC, session-backed authentication, document workflow state, audit logs, webhook delivery, retry logic, background processing, Dockerized services, and integration testing around operational paths.',
+    challenge:
+      'The interesting part was not exposing endpoints. It was designing a backend where permissions, workflow transitions, and downstream delivery all stay coherent as the domain gets more complex.',
+    outcome:
+      'The result is a backend case study that looks closer to a real B2B system than a student CRUD app: policy gates, operational paths, auditable state, and test coverage around failure-prone workflows.',
     details: [
       'Tenant isolation with role-based access control and session-backed auth flows.',
       'Document workflow orchestration with auditable actions and event delivery.',
@@ -126,14 +157,40 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'System concerns', value: 'Auth, workflows, auditability' },
       { label: 'Quality bar', value: 'Docker + integration tests' },
     ],
+    artifactTitle: 'Operational architecture',
+    artifactSummary:
+      'The system is organized around clear policy boundaries, explicit workflow state, and delivery infrastructure that can be observed and retried.',
+    artifactLanes: [
+      {
+        label: 'Policy boundary',
+        summary: 'The request layer enforces who can act and in which tenant context.',
+        items: ['Session auth', 'RBAC rules', 'Tenant isolation'],
+      },
+      {
+        label: 'Workflow core',
+        summary: 'Documents move through controlled transitions instead of ad hoc updates.',
+        items: ['State transitions', 'Action handlers', 'Audit records'],
+      },
+      {
+        label: 'Delivery layer',
+        summary: 'Operational side effects are dispatched outside the request path.',
+        items: ['Webhook queue', 'Retry logic', 'Background processing'],
+      },
+    ],
   },
   {
     name: 'clip_to_text',
     category: 'Applied AI system',
     headline:
       'A local transcription workflow with queued jobs, live progress, caching, and export-ready output.',
+    context:
+      'A practical transcription tool that treats speech-to-text as a repeatable workflow instead of a single model call.',
     summary:
       'Built around FastAPI, FFmpeg, and Faster-Whisper, clip_to_text treats transcription as a product workflow rather than a one-shot script. It tracks jobs in real time, stores history in SQLite, caches work, and supports optional SRT export for practical downstream use.',
+    challenge:
+      'The main challenge was orchestration: upload handling, preprocessing, model execution, progress reporting, and output persistence all needed to feel reliable from a user perspective.',
+    outcome:
+      'It ends up feeling like a small AI product, not an experiment: queued work, persisted history, observable progress, and outputs that are immediately useful downstream.',
     details: [
       'FastAPI orchestration around transcription jobs instead of a single synchronous request.',
       'Live job progress, persisted history, and caching for repeated work.',
@@ -159,14 +216,40 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'Runtime flow', value: 'Jobs, progress, persistence' },
       { label: 'Delivery', value: 'Local web app + export support' },
     ],
+    artifactTitle: 'Transcription workflow',
+    artifactSummary:
+      'The interesting work sits in the queue and runtime lifecycle around the model, not just in speech recognition itself.',
+    artifactLanes: [
+      {
+        label: 'Ingest',
+        summary: 'Media is normalized into a predictable processing path.',
+        items: ['Upload input', 'FFmpeg prep', 'Job creation'],
+      },
+      {
+        label: 'Runtime',
+        summary: 'Transcription is tracked as work with observable progress.',
+        items: ['Whisper job', 'Live progress', 'Caching'],
+      },
+      {
+        label: 'Output',
+        summary: 'Results are persisted and shaped for practical reuse.',
+        items: ['SQLite history', 'SRT export', 'Readable transcript'],
+      },
+    ],
   },
   {
     name: 'camera_object_recognition',
     category: 'Realtime AI pipeline',
     headline:
       'A live computer vision system with streaming, tracking, runtime controls, and per-class analytics.',
+    context:
+      'A realtime vision pipeline combining inference, streaming, tracking, and operator controls in one workflow.',
     summary:
       'This project combines YOLOv8, FastAPI, and OpenCV into a real-time object recognition workflow that goes beyond detection. It includes streaming, tracking, counting, snapshots, and control surfaces that make the system feel operational instead of purely experimental.',
+    challenge:
+      'The hard part was coordinating a live video loop, inference, stateful tracking, and a usable control surface without the whole thing feeling fragile or demo-only.',
+    outcome:
+      'The result behaves more like an operational vision console: live feed, object counts, snapshots, and controls that expose how the inference loop is behaving in real time.',
     details: [
       'Real-time webcam pipeline with detection, tracking, and live streaming.',
       'Per-class counts and snapshots that make the output measurable and inspectable.',
@@ -192,14 +275,40 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'Interface', value: 'Angular + FastAPI' },
       { label: 'Focus', value: 'Streaming, tracking, controls' },
     ],
+    artifactTitle: 'Realtime inference loop',
+    artifactSummary:
+      'The value is in the live runtime loop and observability around it, not just in returning detections from a model.',
+    artifactLanes: [
+      {
+        label: 'Capture',
+        summary: 'Frames are pulled and normalized for live processing.',
+        items: ['Webcam feed', 'Frame pipeline', 'Streaming path'],
+      },
+      {
+        label: 'Inference',
+        summary: 'Detection and tracking stay stateful across frames.',
+        items: ['YOLOv8 detect', 'Object tracking', 'Class counts'],
+      },
+      {
+        label: 'Control',
+        summary: 'Operators can inspect and shape runtime behavior.',
+        items: ['Angular UI', 'Snapshots', 'Runtime controls'],
+      },
+    ],
   },
   {
     name: 'Motorsport_API',
     category: 'Backend API',
     headline:
       'A production-minded Django REST API with standings logic, JWT auth, filtering, and documented contracts.',
+    context:
+      'A domain-heavy REST API where the backend has to model seasons, teams, races, results, and standings cleanly.',
     summary:
       'Motorsport_API models seasons, teams, drivers, races, and race results with domain logic that goes beyond CRUD. It layers in JWT authentication, filtering, pagination, Swagger/OpenAPI documentation, Dockerized setup, and testable backend structure.',
+    challenge:
+      'The core challenge was modeling a sports domain where standings and result logic matter, then exposing it as a clean API with documented contracts and usable auth.',
+    outcome:
+      'That makes it a solid backend API case study: domain modeling, contract clarity, authentication, and the operational basics needed for a maintainable service.',
     details: [
       'Backend domain modeling for standings, race results, teams, and drivers.',
       'JWT authentication, pagination, and filtering for usable API consumption.',
@@ -225,6 +334,26 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'Framework', value: 'Django REST Framework' },
       { label: 'API concerns', value: 'JWT, filtering, pagination' },
       { label: 'Contracts', value: 'Swagger + OpenAPI' },
+    ],
+    artifactTitle: 'API domain map',
+    artifactSummary:
+      'The strength of the project is the backend contract: coherent models, standings logic, and a usable interface for consumers.',
+    artifactLanes: [
+      {
+        label: 'Domain',
+        summary: 'The model layer reflects the season and race structure clearly.',
+        items: ['Teams', 'Drivers', 'Races'],
+      },
+      {
+        label: 'API',
+        summary: 'Endpoints are shaped for real consumption rather than raw data dumping.',
+        items: ['JWT auth', 'Filtering', 'Pagination'],
+      },
+      {
+        label: 'Contracts',
+        summary: 'The service is documented and runnable in a clean local setup.',
+        items: ['Swagger UI', 'OpenAPI', 'Docker workflow'],
+      },
     ],
   },
 ]

@@ -42,9 +42,9 @@ body {
   overflow-x: clip;
   color: var(--color-text);
   background:
-    radial-gradient(circle at top left, rgba(77, 182, 255, 0.14), transparent 32%),
-    radial-gradient(circle at 85% 18%, rgba(94, 234, 212, 0.08), transparent 24%),
-    linear-gradient(180deg, #05070d 0%, #08101b 42%, #060912 100%);
+    radial-gradient(circle at 14% 0%, rgba(118, 148, 184, 0.12), transparent 28%),
+    radial-gradient(circle at 86% 12%, rgba(87, 112, 144, 0.1), transparent 22%),
+    linear-gradient(180deg, #06080d 0%, #09121d 42%, #06090f 100%);
 }
 
 a {
@@ -82,11 +82,18 @@ p,
 h1,
 h2,
 h3,
-span,
 dd,
-dt,
-a {
-  overflow-wrap: anywhere;
+dt {
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+a,
+span {
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .skip-link {

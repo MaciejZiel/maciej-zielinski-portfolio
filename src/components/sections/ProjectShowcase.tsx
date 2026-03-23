@@ -23,19 +23,18 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
     target: sectionRef,
     offset: ['start end', 'end start'],
   })
-  const stageY = useTransform(scrollYProgress, [0, 1], [80, -90])
+  const stageY = useTransform(scrollYProgress, [0, 1], [68, -56])
   const stageRotate = useTransform(
     scrollYProgress,
     [0, 1],
-    [index % 2 === 0 ? -5 : 5, index % 2 === 0 ? 3 : -3],
+    [index % 2 === 0 ? -1.8 : 1.8, index % 2 === 0 ? 1.8 : -1.8],
   )
-  const contentY = useTransform(scrollYProgress, [0, 1], [34, -24])
-  const auraScale = useTransform(scrollYProgress, [0, 1], [0.92, 1.08])
+  const contentY = useTransform(scrollYProgress, [0, 1], [22, -18])
 
   return (
     <article
       ref={sectionRef}
-      className={`project-showcase project-showcase--${project.theme}${index % 2 === 1 ? ' project-showcase--reverse' : ''}`}
+      className={`project-showcase project-showcase--${project.theme}${index === 0 ? ' project-showcase--flagship' : ''}${index % 2 === 1 ? ' project-showcase--reverse' : ''}`}
     >
       <MotionReveal className="project-showcase__rail" delay={0.04}>
         <p className="project-showcase__rail-index">0{index + 1}</p>
@@ -55,16 +54,29 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               {project.name}
             </div>
             <div className="project-showcase__meta">
-              <p className="project-showcase__category">{project.stageLabel}</p>
+              <p className="project-showcase__category">{project.category}</p>
               <p className="project-showcase__status">{project.status}</p>
             </div>
 
             <h3 className="project-showcase__name">{project.name}</h3>
             <p className="project-showcase__headline">{project.headline}</p>
+            <p className="project-showcase__context">{project.context}</p>
+
+            <div className="project-showcase__narrative">
+              <div className="project-showcase__narrative-block">
+                <p className="project-showcase__narrative-label">What it is</p>
+                <p className="project-showcase__summary">{project.summary}</p>
+              </div>
+
+              <div className="project-showcase__narrative-block">
+                <p className="project-showcase__narrative-label">
+                  Engineering challenge
+                </p>
+                <p className="project-showcase__summary">{project.challenge}</p>
+              </div>
+            </div>
 
             <div className="project-showcase__overview">
-              <p className="project-showcase__summary">{project.summary}</p>
-
               <dl className="project-showcase__metrics">
                 {project.metrics.map((metric) => (
                   <div key={metric.label} className="project-showcase__metric">
@@ -73,16 +85,16 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                   </div>
                 ))}
               </dl>
-            </div>
 
-            <ul className="project-showcase__details">
-              {project.details.map((detail) => (
-                <li key={detail} className="project-showcase__detail">
-                  <span className="project-showcase__detail-mark" aria-hidden="true" />
-                  <span>{detail}</span>
-                </li>
-              ))}
-            </ul>
+              <ul className="project-showcase__details">
+                {project.details.map((detail) => (
+                  <li key={detail} className="project-showcase__detail">
+                    <span className="project-showcase__detail-mark" aria-hidden="true" />
+                    <span>{detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <div className="project-showcase__footer">
               <TagList items={project.technologies} />
@@ -108,49 +120,59 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
         </motion.div>
 
         <motion.div
-          className="project-showcase__stage"
+          className="project-showcase__artifact"
           style={
             reduceMotion
               ? undefined
               : { y: stageY, rotate: stageRotate }
           }
         >
-          <motion.div
-            aria-hidden="true"
-            className="project-showcase__aura"
-            style={reduceMotion ? undefined : { scale: auraScale }}
-          />
-          <div className="project-showcase__stage-frame">
+          <div className="project-showcase__artifact-frame">
             <div className="project-showcase__stage-topline">
               <span>{project.stageLabel}</span>
               <span>{project.year}</span>
             </div>
 
-            <div className="project-showcase__stage-word" aria-hidden="true">
-              {project.name}
+            <div className="project-showcase__artifact-header">
+              <p className="project-showcase__artifact-label">System map</p>
+              <h4 className="project-showcase__artifact-title">
+                {project.artifactTitle}
+              </h4>
+              <p className="project-showcase__artifact-summary">
+                {project.artifactSummary}
+              </p>
             </div>
 
-            <div className="project-showcase__stage-core">
-              {project.metrics.map((metric) => (
-                <div key={metric.label} className="project-showcase__stage-metric">
-                  <p>{metric.label}</p>
-                  <strong>{metric.value}</strong>
-                </div>
+            <div className="project-showcase__artifact-lanes">
+              {project.artifactLanes.map((lane, artifactIndex) => (
+                <section
+                  key={lane.label}
+                  className="project-showcase__artifact-lane"
+                >
+                  <div className="project-showcase__artifact-lane-head">
+                    <span className="project-showcase__artifact-lane-index">
+                      0{artifactIndex + 1}
+                    </span>
+                    <div>
+                      <p className="project-showcase__artifact-lane-label">
+                        {lane.label}
+                      </p>
+                      <p className="project-showcase__artifact-lane-summary">
+                        {lane.summary}
+                      </p>
+                    </div>
+                  </div>
+
+                  <ul className="project-showcase__artifact-lane-list">
+                    {lane.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </section>
               ))}
             </div>
 
-            <div className="project-showcase__stage-stack">
-              {project.technologies.map((technology) => (
-                <span key={technology}>{technology}</span>
-              ))}
-            </div>
-
-            <div className="project-showcase__stage-grid" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
+            <p className="project-showcase__artifact-outcome">{project.outcome}</p>
           </div>
         </motion.div>
       </div>
