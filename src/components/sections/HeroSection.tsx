@@ -43,31 +43,44 @@ export function HeroSection({ profile }: HeroSectionProps) {
           style={reduceMotion ? undefined : { y: copyY }}
         >
           <MotionReveal className="hero-copy__body" distance={48}>
-            <p className="hero-copy__eyebrow">Backend engineering / AI systems</p>
-            <h1 className="hero-copy__title">
-              <span>{firstName}</span>
-              <span>{lastName}</span>
-            </h1>
-            <p className="hero-copy__headline">{profile.headline}</p>
-            <p className="hero-copy__summary">{profile.intro}</p>
+            <div className="hero-copy__topline">
+              <p className="hero-copy__eyebrow">Backend engineering / AI systems</p>
+              <p className="hero-copy__eyebrow-note">
+                {profile.location} / {profile.education}
+              </p>
+            </div>
 
-            <div className="hero-copy__actions">
-              {profile.heroLinks.map((link) => (
-                <ButtonLink
-                  key={link.label}
-                  href={link.href}
-                  variant={link.variant}
-                  icon={link.icon}
-                  external={link.external}
-                >
-                  {link.label}
-                </ButtonLink>
-              ))}
+            <div className="hero-copy__body-grid">
+              <div className="hero-copy__masthead">
+                <h1 className="hero-copy__title">
+                  <span>{firstName}</span>
+                  <span>{lastName}</span>
+                </h1>
+                <p className="hero-copy__headline">{profile.headline}</p>
+              </div>
+
+              <div className="hero-copy__narrative">
+                <p className="hero-copy__summary">{profile.intro}</p>
+
+                <div className="hero-copy__actions">
+                  {profile.heroLinks.map((link) => (
+                    <ButtonLink
+                      key={link.label}
+                      href={link.href}
+                      variant={link.variant}
+                      icon={link.icon}
+                      external={link.external}
+                    >
+                      {link.label}
+                    </ButtonLink>
+                  ))}
+                </div>
+              </div>
             </div>
           </MotionReveal>
 
           <MotionReveal className="hero-copy__ledger" delay={0.18}>
-            <p className="hero-copy__ledger-label">Practice</p>
+            <p className="hero-copy__ledger-label">Engineering through-lines</p>
             <div className="hero-copy__ledger-items">
               <span>APIs</span>
               <span>Orchestration</span>

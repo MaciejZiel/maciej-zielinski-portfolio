@@ -1,4 +1,4 @@
-export type ButtonVariant = 'primary' | 'secondary'
+export type ButtonVariant = 'primary' | 'secondary' | 'text'
 
 export type IconName = 'arrow-up-right' | 'github' | 'linkedin' | 'mail'
 
