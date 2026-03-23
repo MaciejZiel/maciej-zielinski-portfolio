@@ -24,6 +24,11 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
     offset: ['start end', 'end start'],
   })
   const stageY = useTransform(scrollYProgress, [0, 1], [20, -20])
+  const railScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.88, 1, 1.12, 1, 0.88])
+  const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.36, 0.72, 1, 0.72, 0.36])
+  const contentScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.985, 1, 1.012, 1, 0.985])
+  const artifactScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.97, 1, 1.016, 1, 0.97])
+  const artifactOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.74, 0.92, 1, 0.92, 0.74])
 
   return (
     <article
@@ -43,16 +48,31 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               }
             />
           </div>
-          <p className="project-showcase__rail-index">0{index + 1}</p>
-          <div className="project-showcase__rail-copy">
+          <motion.p
+            className="project-showcase__rail-index"
+            style={
+              reduceMotion
+                ? undefined
+                : { scale: railScale, opacity: railOpacity }
+            }
+          >
+            0{index + 1}
+          </motion.p>
+          <motion.div
+            className="project-showcase__rail-copy"
+            style={reduceMotion ? undefined : { opacity: railOpacity }}
+          >
             <span>{project.category}</span>
             <span>{project.year}</span>
-          </div>
+          </motion.div>
         </MotionReveal>
       </div>
 
       <div className="project-showcase__body">
-        <MotionReveal className="project-showcase__content">
+        <MotionReveal
+          className="project-showcase__content"
+          style={reduceMotion ? undefined : { scale: contentScale }}
+        >
           <div className="project-showcase__meta">
             <p className="project-showcase__category">{project.category}</p>
             <p className="project-showcase__status">{project.status}</p>
@@ -118,7 +138,11 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
         <motion.div
           className="project-showcase__artifact"
-          style={reduceMotion ? undefined : { y: stageY }}
+          style={
+            reduceMotion
+              ? undefined
+              : { y: stageY, scale: artifactScale, opacity: artifactOpacity }
+          }
         >
           <div className="project-showcase__artifact-frame">
             <div className="project-showcase__stage-topline">
