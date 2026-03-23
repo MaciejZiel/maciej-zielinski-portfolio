@@ -833,6 +833,30 @@
   gap: 12px;
   align-content: start;
   padding-top: 8px;
+  justify-items: start;
+}
+
+.project-showcase__rail-meter {
+  position: relative;
+  width: 2px;
+  height: 96px;
+  margin-left: 6px;
+}
+
+.project-showcase__rail-meter-track,
+.project-showcase__rail-meter-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  transform-origin: top;
+}
+
+.project-showcase__rail-meter-track {
+  background: rgba(20, 61, 53, 0.12);
+}
+
+.project-showcase__rail-meter-fill {
+  background: linear-gradient(180deg, var(--project-accent), rgba(255, 255, 255, 0.15));
 }
 
 .project-showcase__rail-copy {
@@ -1269,6 +1293,10 @@
     gap: 16px;
     margin-bottom: 6px;
     padding-top: 0;
+  }
+
+  .project-showcase__rail-meter {
+    display: none;
   }
 
   .project-showcase__rail-copy {

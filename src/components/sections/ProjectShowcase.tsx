@@ -32,6 +32,17 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
     >
       <div className="project-showcase__rail-wrap">
         <MotionReveal className="project-showcase__rail" delay={0.04}>
+          <div className="project-showcase__rail-meter" aria-hidden="true">
+            <span className="project-showcase__rail-meter-track" />
+            <motion.span
+              className="project-showcase__rail-meter-fill"
+              style={
+                reduceMotion
+                  ? undefined
+                  : { scaleY: scrollYProgress }
+              }
+            />
+          </div>
           <p className="project-showcase__rail-index">0{index + 1}</p>
           <div className="project-showcase__rail-copy">
             <span>{project.category}</span>
