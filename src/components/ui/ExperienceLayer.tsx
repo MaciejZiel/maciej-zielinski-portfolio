@@ -30,15 +30,14 @@ const chapterAccents: Record<string, string> = {
   contact: '#c8f958',
 }
 
-type CursorMode = 'default' | 'project' | 'link' | 'explore' | 'architecture' | 'contact' | 'signature'
+type CursorMode = 'default' | 'project' | 'link' | 'explore' | 'architecture' | 'contact'
 const probePaths: Record<CursorMode, string> = {
-  default: 'M3 18V5H16 M3 11H10',
-  project: 'M3 9V3H9 M19 3H25V9 M25 19V25H19 M9 25H3V19 M10 14H18M15 11L18 14L15 17',
+  default: 'M3 3L23 23M3 3V11M3 3H11',
+  project: 'M3 9V3H9 M18 3H24V9 M24 18V24H18 M9 24H3V18 M11 14H23M19 10L23 14L19 18',
   link: 'M5 23L23 5M12 5H23V16',
-  explore: 'M5 3V16Q5 23 12 23H24M18 17L24 23L18 29',
-  architecture: 'M3 14H12M12 14V5H25M12 14V23H25M22 2L25 5L22 8M22 20L25 23L22 26',
-  contact: 'M3 6H25V23H3ZM3 6L14 16L25 6M19 23H29M25 19L29 23L25 27',
-  signature: 'M3 23V5L10 15L17 5V23M21 5H29L21 23H29',
+  explore: 'M4 3V18M4 18H22M16 12L22 18L16 24',
+  architecture: 'M3 14H11M11 14V5H24M11 14V23H24M20 2L24 5L20 8M20 20L24 23L20 26',
+  contact: 'M3 5H24V20H3ZM3 5L13.5 13L24 5M18 24H29M25 20L29 24L25 28',
 }
 
 export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
@@ -125,7 +124,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       const target = event.target instanceof Element ? event.target : null
       const context = target?.closest<HTMLElement>('[data-cursor], a, button, summary') ?? null
       const mode = (context?.dataset.cursor ?? (context?.matches('a') ? 'link' : context?.matches('button') ? 'architecture' : context?.matches('summary') ? 'explore' : 'default')) as CursorMode
-      const label = context?.dataset.cursorLabel ?? (context?.matches('summary') ? 'OPEN NOTES' : '')
+      const candidateLabel = context?.dataset.cursorLabel ?? (context?.matches('summary') ? 'OPEN NOTES' : '')
+      const label = mode === 'contact' || mode === 'project' || context?.matches('summary') ? candidateLabel : ''
       const edge = event.clientX > window.innerWidth - 250
       const identity = `${mode}:${label}:${edge}`
       if (identity !== previousLabel.current) {

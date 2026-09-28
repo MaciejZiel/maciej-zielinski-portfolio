@@ -47,7 +47,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
       </div>
 
       <motion.div className="hero-masthead" style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate }}>
-        <h1 id="hero-name" className="hero-name" aria-label={profile.name} data-cursor="signature" data-cursor-label="MZ / 01">
+        <h1 id="hero-name" className="hero-name" aria-label={profile.name}>
           {[firstName, lastName.join(' ')].map((word, index) => (
             <motion.span
               className="hero-name__mask"
