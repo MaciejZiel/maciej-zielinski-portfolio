@@ -152,11 +152,10 @@ export function SpatialField({
     }
 
     handleResize()
-    if (reduceMotion || !pageVisible) draw(0)
-    else {
+    if (!reduceMotion && pageVisible) {
       const animate = (timestamp: number) => {
         frame = requestAnimationFrame(animate)
-        if (timestamp - previousFrame < 1000 / (window.innerWidth <= 760 ? 20 : 30)) return
+        if (timestamp - previousFrame < 1000 / 30) return
         draw(timestamp)
       }
       frame = requestAnimationFrame(animate)

@@ -17,6 +17,8 @@ interface ProximityTarget {
   height: number
   radius: number
   strength: number
+  x: number
+  y: number
 }
 
 const chapterAccents: Record<string, string> = {
@@ -64,7 +66,12 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     let proximityTargets: ProximityTarget[] = []
     let proximityBoundsInvalid = true
     const clearProximity = () => {
-      proximityTargets.forEach(({ element }) => { element.style.translate = '0px 0px' })
+      proximityTargets.forEach((target) => {
+        if (target.x === 0 && target.y === 0) return
+        target.x = 0
+        target.y = 0
+        target.element.style.translate = '0px 0px'
+      })
     }
     const refreshProximityBounds = () => {
       const targets: ProximityTarget[] = []
@@ -80,6 +87,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
             height: bounds.height,
             radius,
             strength,
+            x: Number.parseFloat(translateX) || 0,
+            y: Number.parseFloat(translateY) || 0,
           })
         })
       }
@@ -99,8 +108,11 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         const distance = Math.hypot(offsetX, offsetY)
         const falloff = Math.pow(Math.max(0, 1 - distance / target.radius), 2)
         const inverseDistance = 1 / Math.max(distance, 1)
-        const shiftX = offsetX * inverseDistance * target.strength * falloff
-        const shiftY = offsetY * inverseDistance * target.strength * falloff
+        const shiftX = falloff < 0.008 ? 0 : offsetX * inverseDistance * target.strength * falloff
+        const shiftY = falloff < 0.008 ? 0 : offsetY * inverseDistance * target.strength * falloff
+        if (Math.abs(shiftX - target.x) < 0.12 && Math.abs(shiftY - target.y) < 0.12) return
+        target.x = shiftX
+        target.y = shiftY
         target.element.style.translate = `${shiftX.toFixed(2)}px ${shiftY.toFixed(2)}px`
       })
     }
