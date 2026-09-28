@@ -115,19 +115,6 @@ svg {
   overflow-x: clip;
 }
 
-#root,
-#root * {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-#root :is(input, textarea, select, code, pre, kbd, samp, [contenteditable]:not([contenteditable='false']), [data-selectable]),
-#root :is(code, pre, kbd, samp, [contenteditable]:not([contenteditable='false']), [data-selectable]) *,
-#root .contact-section__link-value {
-  -webkit-user-select: text;
-  user-select: text;
-}
-
 section[id] { scroll-margin-top: 100px; }
 
 p,
