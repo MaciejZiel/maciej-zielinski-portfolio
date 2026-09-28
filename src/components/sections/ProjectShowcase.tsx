@@ -2,6 +2,7 @@ import {
   motion,
   useReducedMotion,
   useScroll,
+  useMotionValueEvent,
   useTransform,
   AnimatePresence,
 } from 'framer-motion'
@@ -10,6 +11,7 @@ import { useRef, useState } from 'react'
 import type { FeaturedProject } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
+import { ProjectDiagram } from './ProjectDiagram'
 import { TagList } from '../ui/TagList'
 
 interface ProjectShowcaseProps {
@@ -34,6 +36,14 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
 
+  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
+    if (project.theme !== 'steel' || reduceMotion) return
+    const stage = Math.min(
+      project.artifactLanes.length - 1,
+      Math.floor(progress * project.artifactLanes.length),
+    )
+    setActiveLaneIndex((current) => current === stage ? current : stage)
+  })
 
   return (
     <article
@@ -106,11 +116,35 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <p className="project-showcase__headline">{project.headline}</p>
             </div>
 
+            {project.theme === 'steel' ? (
+              <div className="caseflow-story" role="group" aria-label="CaseFlow request journey">
+                <p className="caseflow-story__prompt">A request has to pass three deliberate gates.</p>
+                {project.artifactLanes.map((lane, laneIndex) => (
+                  <button
+                    className="caseflow-story__step"
+                    data-active={activeLaneIndex === laneIndex}
+                    key={lane.label}
+                    type="button"
+                    aria-pressed={activeLaneIndex === laneIndex}
+                    data-magnetic
+                    data-cursor-label={`STEP 0${laneIndex + 1}`}
+                    onClick={() => setActiveLaneIndex(laneIndex)}
+                  >
+                    <span className="caseflow-story__step-index">0{laneIndex + 1}</span>
+                    <span className="caseflow-story__step-copy">
+                      <span className="caseflow-story__step-title">{lane.label}</span>
+                      <span className="caseflow-story__step-summary">{lane.summary}</span>
+                      <span className="caseflow-story__step-details">{lane.items.join(' / ')}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ) : (
               <div className="project-showcase__spotlight">
                 <span className="project-showcase__spotlight-label">The through-line</span>
                 <p className="project-showcase__spotlight-copy">{project.outcome}</p>
               </div>
-
+            )}
 
             <details className="project-showcase__deep-dive">
               <summary><span>Open the engineering notes</span><span aria-hidden="true">+</span></summary>
@@ -165,7 +199,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
           {/* The diagram remains alongside the narrative; CaseFlow pins it through its request journey. */}
           <motion.div
-            className="project-showcase__artifact"
+            className={`project-showcase__artifact${project.theme === 'steel' ? ' project-showcase__artifact--pinned' : ''}`}
             style={reduceMotion || project.theme === 'steel' ? undefined : { y: stageY}}
           >
             <div className="project-showcase__artifact-frame">
@@ -182,6 +216,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </div>
               </div>
 
+              <ProjectDiagram project={project} activeLane={activeLaneIndex} />
 
               <div className="project-showcase__artifact-header">
                 <span className="project-showcase__artifact-label">Explore the build</span>

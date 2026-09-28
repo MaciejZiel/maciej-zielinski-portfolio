@@ -162,7 +162,7 @@ export const featuredProjects: FeaturedProject[] = [
       'The system is organized around clear policy boundaries, explicit workflow state, and delivery infrastructure that can be observed and retried.',
     artifactLanes: [
       {
-        label: 'Policy boundary',
+        label: 'Policy gate',
         summary: 'The request layer enforces who can act and in which tenant context.',
         items: ['Session auth', 'RBAC rules', 'Tenant isolation'],
       },
