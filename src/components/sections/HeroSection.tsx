@@ -71,7 +71,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
       </div>
 
       <motion.div className="hero-masthead" style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate, rotateX: nameRotateX, rotateY: nameRotateY }}>
-        <h1 id="hero-name" className="hero-name" aria-label={profile.name}>
+        <h1 id="hero-name" className="hero-name" aria-label={profile.name} data-cursor="signature" data-cursor-label="MZ / 01">
           {[firstName, lastName.join(' ')].map((word, index) => (
             <motion.span
               className="hero-name__mask"
@@ -134,6 +134,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noreferrer' : undefined}
                 data-magnetic
+                data-cursor={link.variant === 'primary' ? 'explore' : 'link'}
                 data-cursor-label={link.label.toUpperCase()}
               >
                 {link.label}<Icon name={link.icon ?? 'arrow-up-right'} />
@@ -224,7 +225,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
         </div>
       </details>
 
-      <a className="hero-next" href="#about">
+      <a className="hero-next" href="#about" data-cursor="explore" data-cursor-label="FOLLOW THE ROUTE">
         <span>Keep exploring</span><span>Approach, selected work & more</span><span aria-hidden="true">↓</span>
       </a>
     </section>

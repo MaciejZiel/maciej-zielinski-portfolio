@@ -50,6 +50,8 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       ref={sectionRef}
       className={`project-showcase project-showcase--${project.theme}`}
       data-chapter={project.theme}
+      data-cursor="project"
+      data-cursor-label={`CHAPTER 0${index + 1}`}
     >
       <motion.div
         className="project-showcase__atmosphere"
@@ -127,6 +129,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                     type="button"
                     aria-pressed={activeLaneIndex === laneIndex}
                     data-magnetic
+                    data-cursor="architecture"
                     data-cursor-label={`STEP 0${laneIndex + 1}`}
                     onClick={() => setActiveLaneIndex(laneIndex)}
                   >
@@ -237,6 +240,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                     aria-pressed={activeLaneIndex === laneIdx}
                     className={`project-showcase__lane-tab${activeLaneIndex === laneIdx ? ' project-showcase__lane-tab--active' : ''}`}
                     data-magnetic
+                    data-cursor="architecture"
                     data-cursor-label={lane.label.toUpperCase()}
                     onClick={() => setActiveLaneIndex(laneIdx)}
                   >
