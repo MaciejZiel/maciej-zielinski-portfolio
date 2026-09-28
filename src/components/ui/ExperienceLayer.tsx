@@ -80,7 +80,10 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
           })
         })
       }
-      addTargets('.hero-name__glyph', 255, 13)
+      addTargets('.hero-masthead', 460, 10)
+      addTargets('.hero-name__glyph', 360, 21)
+      addTargets('.hero-position', 440, 7)
+      addTargets('.hero-introduction', 520, 5)
       addTargets('.project-diagram__visual', 330, 7)
       addTargets('.contact-heading', 390, 9)
       proximityTargets = targets

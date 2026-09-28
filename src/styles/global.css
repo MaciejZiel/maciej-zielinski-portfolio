@@ -194,6 +194,9 @@ html[data-pointer-input='mouse'] .site-shell * { cursor: none !important; }
 
 [data-pointer-proximity] { transition: translate 160ms cubic-bezier(.2,.8,.2,1); }
 .hero-name__glyph,
+.hero-masthead,
+.hero-position,
+.hero-introduction,
 .project-diagram__visual,
 .contact-heading { transition: translate 160ms cubic-bezier(.2,.8,.2,1); }
 
