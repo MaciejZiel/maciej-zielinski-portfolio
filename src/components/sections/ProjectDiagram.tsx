@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, type MotionStyle } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
@@ -19,7 +19,6 @@ interface ProjectDiagramProps {
   activeLane: number
   isVisible?: boolean
   onSelectLane?: (lane: number) => void
-  visualFocusStyle?: MotionStyle
 }
 
 function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
@@ -226,19 +225,19 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
   )
 }
 
-export function ProjectDiagram({ project, activeLane, onSelectLane, visualFocusStyle }: ProjectDiagramProps) {
+export function ProjectDiagram({ project, activeLane, onSelectLane }: ProjectDiagramProps) {
   const reduceMotion = useReducedMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
   const isVisible = useAmbientActivity(diagramRef)
 
   return (
     <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} data-reduced={reduceMotion}>
-      <motion.div className="project-diagram__visual" style={visualFocusStyle} aria-hidden="true">
+      <div className="project-diagram__visual" aria-hidden="true">
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
-      </motion.div>
+      </div>
       {project.theme === 'signal' && onSelectLane ? (
         <label className="audio-journey">
           <span className="audio-journey__caption">Trace audio → text <span aria-hidden="true">↔</span></span>
