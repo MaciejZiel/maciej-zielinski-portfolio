@@ -93,8 +93,8 @@ export function SpatialField({
       const centerX = width * 0.5
       const centerY = height * 0.5
       const scale = 1 + (progress - 0.35) * 0.036
-      const stepX = 94
-      const stepY = 88
+      const stepX = width <= 760 ? 128 : 94
+      const stepY = width <= 760 ? 116 : 88
       const columns = Math.ceil(width / stepX) + 3
       const rows = Math.ceil(height / stepY) + 3
       const originX = (width - (columns - 1) * stepX) / 2 - stepX
