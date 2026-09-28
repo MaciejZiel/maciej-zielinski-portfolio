@@ -71,7 +71,7 @@ export const profile: Profile = {
     { label: 'Role target', value: 'Internship / junior backend roles' },
   ],
   heroRibbon: [
-    'CaseFlow / private multi-tenant backend',
+    'CaseFlow / public multi-tenant backend',
     'clip_to_text / FastAPI + Faster-Whisper',
     'camera_object_recognition / YOLOv8 + OpenCV',
     'live_flights_map / real-time map + replay',
@@ -79,7 +79,7 @@ export const profile: Profile = {
   ],
   heroArtifactTitle: 'CaseFlow system snapshot',
   heroArtifactSummary:
-    'The flagship project is a private multi-tenant backend built around the things that usually separate a demo from a product: access boundaries, workflow state, auditable events, and reliable delivery paths.',
+    'The flagship project is a public multi-tenant backend built around access boundaries, workflow state, auditable events, and reliable delivery paths.',
   heroArtifactLanes: [
     {
       label: 'Entry',
@@ -111,7 +111,7 @@ export const aboutPoints: string[] = [
 ]
 
 export const projectSignals: string[] = [
-  'Private B2B backend architecture with auth, auditability, and workflow logic.',
+  'Public B2B backend architecture with auth, auditability, and workflow logic.',
   'Public AI and CV projects that expose orchestration, runtime state, and real-time behavior.',
   'Recent GitHub work that covers transcription pipelines, computer vision, APIs, and live data products.',
 ]
@@ -119,10 +119,10 @@ export const projectSignals: string[] = [
 export const featuredProjects: FeaturedProject[] = [
   {
     name: 'CaseFlow',
-    category: 'Private backend case study',
+    category: 'Multi-tenant backend platform',
     headline: 'A multi-tenant FastAPI backend designed like a production B2B system.',
     context:
-      'A backend-first internal product focused on document workflows, tenant separation, and operational reliability.',
+      'A backend-first B2B platform focused on case and document workflows, tenant separation, and operational reliability.',
     summary:
       'CaseFlow is the strongest example of how I approach backend engineering: tenant-aware architecture, RBAC, session-backed authentication, document workflow state, audit logs, webhook delivery, retry logic, background processing, Dockerized services, and integration testing around operational paths.',
     challenge:
@@ -144,12 +144,12 @@ export const featuredProjects: FeaturedProject[] = [
       'Docker',
       'Integration Tests',
     ],
-    repositoryUrl: githubProfileUrl,
-    repositoryLabel: 'GitHub profile',
+    repositoryUrl: 'https://github.com/MaciejZiel/caseflow',
+    repositoryLabel: 'View repository',
     repositoryNote:
-      'Primary implementation is private. The public profile is linked for portfolio context.',
+      'Public source, setup instructions, and verification details are available in the repository.',
     stageLabel: 'Workflow engine',
-    status: 'Private project / ongoing backend case study',
+    status: 'Public repository / multi-tenant backend',
     year: '2026',
     theme: 'steel',
     metrics: [
