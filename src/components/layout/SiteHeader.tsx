@@ -1,4 +1,5 @@
 import type { ActionLink, NavigationItem } from '../../types/portfolio'
+import { motion } from 'framer-motion'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { Icon } from '../ui/Icon'
 
@@ -20,8 +21,8 @@ export function SiteHeader({
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <a className="brand" href="#top" aria-label="Go to homepage top">
-          <span className="brand__mark">MZ</span>
+        <a className="brand" href="#top" aria-label={`${name} — back to top`} data-magnetic data-cursor-label="TOP">
+          <span className="brand__mark" aria-hidden="true">MZ</span>
           <span className="brand__text">
             <span className="brand__name">{name}</span>
             <span className="brand__headline">{headline}</span>
@@ -36,9 +37,12 @@ export function SiteHeader({
                 className={`site-nav__link${item.href === activeHref ? ' site-nav__link--active' : ''}`}
                 href={item.href}
                 aria-current={item.href === activeHref ? 'location' : undefined}
+                data-magnetic
+                data-cursor-label={item.label.toUpperCase()}
               >
-                <span className="site-nav__number" aria-hidden="true">0{index + 1}</span>
+                <span className="site-nav__number" aria-hidden="true">0{index + 2}</span>
                 {item.label}
+                {item.href === activeHref ? <motion.span className="site-nav__indicator" layoutId="active-nav-indicator" /> : null}
               </a>
             ))}
           </nav>
@@ -52,6 +56,8 @@ export function SiteHeader({
                 href={link.href}
                 rel={link.external ? 'noreferrer' : undefined}
                 target={link.external ? '_blank' : undefined}
+                data-magnetic
+                data-cursor-label={link.label.toUpperCase()}
               >
                 <span className="site-socials__label">{link.label}</span>
                 <Icon
