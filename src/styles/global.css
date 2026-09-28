@@ -128,6 +128,104 @@ span {
   top: 1rem;
 }
 
+.experience-atmosphere {
+  --experience-accent: var(--color-accent);
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--experience-accent);
+  transition: color 900ms ease;
+}
+
+.experience-atmosphere__haze {
+  position: absolute;
+  inset: 0;
+  opacity: .45;
+  background:
+    radial-gradient(ellipse at 8% 18%, color-mix(in srgb, var(--experience-accent) 4%, transparent), transparent 30%),
+    radial-gradient(ellipse at 88% 76%, rgba(124, 155, 139, .035), transparent 34%);
+  transition: background 900ms ease;
+}
+
+.experience-atmosphere__orbit {
+  position: absolute;
+  width: min(36vw, 480px);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--experience-accent) 8%, transparent);
+  border-radius: 50%;
+  opacity: .42;
+  animation: atmosphere-drift 32s ease-in-out infinite alternate;
+  transition: border-color 900ms ease;
+}
+
+.experience-atmosphere__orbit::before,
+.experience-atmosphere__orbit::after {
+  position: absolute;
+  inset: 12%;
+  border: 1px solid color-mix(in srgb, var(--experience-accent) 5%, transparent);
+  border-radius: 50%;
+  content: '';
+}
+
+.experience-atmosphere__orbit::before { transform: scaleX(.46) rotate(33deg); }
+.experience-atmosphere__orbit::after { inset: 24%; transform: scaleY(.42) rotate(-28deg); }
+.experience-atmosphere__orbit--one { top: 12vh; left: -18vw; }
+.experience-atmosphere__orbit--two { right: -19vw; bottom: -22vh; animation-delay: -16s; animation-duration: 39s; }
+.experience-atmosphere[data-reduced='true'] .experience-atmosphere__orbit { animation: none; }
+
+.experience-route {
+  position: absolute;
+  top: 0;
+  right: max(0px, calc((100vw - 1680px) / 2));
+  width: clamp(28px, 5vw, 72px);
+  height: 100%;
+  overflow: visible;
+  opacity: .3;
+}
+
+.experience-route__track,
+.experience-route__signal,
+.experience-route__runner { fill: none; vector-effect: non-scaling-stroke; }
+.experience-route__track { stroke: rgba(255,255,255,.1); stroke-width: 1; }
+.experience-route__signal { stroke: var(--experience-accent); stroke-width: 1.2; transition: stroke 900ms ease; }
+.experience-route__runner { stroke: var(--experience-accent); stroke-width: 3; stroke-linecap: round; opacity: .65; transition: stroke 900ms ease; }
+
+.site-cursor {
+  position: fixed;
+  z-index: 80;
+  top: 0;
+  left: 0;
+  display: grid;
+  min-width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 0 10px;
+  border: 1px solid rgba(243,245,241,.58);
+  border-radius: 999px;
+  color: var(--color-bg);
+  background: var(--color-accent);
+  font: 600 .55rem var(--mono-font);
+  letter-spacing: .08em;
+  pointer-events: none;
+  opacity: 0;
+  translate: 14px 14px;
+  white-space: nowrap;
+  transition: opacity 160ms ease, min-width 220ms ease, color 220ms ease, background 220ms ease, border-color 220ms ease;
+}
+
+.site-cursor[data-visible='true'] { opacity: .95; }
+.site-cursor[data-active='true'] { min-width: 88px; border-color: var(--color-accent); color: var(--color-accent); background: var(--color-bg); }
+
+@keyframes atmosphere-drift {
+  from { transform: translate3d(-1.5vw, -1vh, 0) rotate(-9deg) scale(.96); }
+  to { transform: translate3d(2vw, 2.5vh, 0) rotate(8deg) scale(1.04); }
+}
+
+.main-content,
+.site-footer { position: relative; z-index: 1; }
+
 .motion-reveal { position: relative; isolation: isolate; }
 .motion-reveal::after {
   position: absolute;
@@ -143,6 +241,14 @@ span {
 .motion-reveal[data-revealed='true']::after { transform: scaleY(0); transition: transform 920ms cubic-bezier(.2,.82,.2,1); }
 .motion-reveal:focus-within::after { transform: scaleY(0); transition: none; }
 
+[data-magnetic] { translate: var(--magnetic-x, 0px) var(--magnetic-y, 0px); transition: translate 220ms cubic-bezier(.2,.8,.2,1); }
+
+@media (max-width: 760px), (pointer: coarse) {
+  .experience-route { right: -16px; width: 34px; opacity: .18; }
+  .experience-atmosphere__orbit { width: min(74vw, 330px); opacity: .24; }
+  .site-cursor { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -155,6 +261,8 @@ span {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
 
-@media (prefers-reduced-motion: reduce) { .motion-reveal::after { display: none; } }
+  .experience-atmosphere__orbit { animation: none; }
+  .site-cursor { transition: none; }
+  .motion-reveal::after { display: none; transition: none; }
+}

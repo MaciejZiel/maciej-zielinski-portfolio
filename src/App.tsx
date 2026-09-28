@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { motion, MotionConfig, useScroll, useSpring } from 'framer-motion'
 
 import { SiteHeader } from './components/layout/SiteHeader'
 import { AboutSection } from './components/sections/AboutSection'
@@ -6,6 +6,7 @@ import { ContactSection } from './components/sections/ContactSection'
 import { HeroSection } from './components/sections/HeroSection'
 import { ProjectsSection } from './components/sections/ProjectsSection'
 import { SkillsSection } from './components/sections/SkillsSection'
+import { ExperienceLayer } from './components/ui/ExperienceLayer'
 import {
   aboutPoints,
   contactMethods,
@@ -27,45 +28,47 @@ function App() {
   })
 
   return (
-    <>
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
+    <MotionConfig reducedMotion="user">
+      <>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
 
-      <div className="site-shell">
-        <motion.div
-          aria-hidden="true"
-          className="scroll-progress"
-          style={{ scaleX: progressScaleX }}
-        />
-
-        <SiteHeader
-          name={profile.name}
-          headline={profile.headline}
-          navigationItems={navigationItems}
-          socialLinks={profile.socialLinks}
-        />
-
-        <main id="main-content" className="main-content">
-          <HeroSection profile={profile} />
-          <AboutSection
-            aboutPoints={aboutPoints}
-            projectSignals={projectSignals}
+        <div className="site-shell">
+          <ExperienceLayer />
+          <motion.div
+            aria-hidden="true"
+            className="scroll-progress"
+            style={{ scaleX: progressScaleX }}
           />
-          <ProjectsSection
-            featuredProjects={featuredProjects}
-            projectRail={projectRail}
-          />
-          <SkillsSection skillLanes={skillLanes} />
-          <ContactSection contactMethods={contactMethods} />
-        </main>
 
-        <footer className="site-footer">
-          <p>{profile.name}</p>
-          <p>Portfolio focused on backend systems, Python, and applied AI.</p>
-        </footer>
-      </div>
-    </>
+          <SiteHeader
+            name={profile.name}
+            headline={profile.headline}
+            navigationItems={navigationItems}
+            socialLinks={profile.socialLinks}
+          />
+          <main id="main-content" className="main-content">
+            <HeroSection profile={profile} />
+            <AboutSection
+              aboutPoints={aboutPoints}
+              projectSignals={projectSignals}
+            />
+            <ProjectsSection
+              featuredProjects={featuredProjects}
+              projectRail={projectRail}
+            />
+            <SkillsSection skillLanes={skillLanes} />
+            <ContactSection contactMethods={contactMethods} />
+          </main>
+
+          <footer className="site-footer">
+            <p>{profile.name}</p>
+            <p>Portfolio focused on backend systems, Python, and applied AI.</p>
+          </footer>
+        </div>
+      </>
+    </MotionConfig>
   )
 }
 
