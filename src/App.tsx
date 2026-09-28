@@ -35,7 +35,7 @@ function App() {
         </a>
 
         <div className="site-shell">
-          <ExperienceLayer />
+          <ExperienceLayer scrollYProgress={scrollYProgress} />
           <motion.div
             aria-hidden="true"
             className="scroll-progress"

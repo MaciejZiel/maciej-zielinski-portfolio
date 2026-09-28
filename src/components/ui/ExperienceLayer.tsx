@@ -2,8 +2,8 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
-  useScroll,
   useSpring,
+  type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 
@@ -18,8 +18,7 @@ const chapterAccents: Record<string, string> = {
   contact: '#c8f958',
 }
 
-export function ExperienceLayer() {
-  const { scrollYProgress } = useScroll()
+export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const reduceMotion = useReducedMotion()
   const pointerX = useMotionValue(-100)
   const pointerY = useMotionValue(-100)
@@ -33,16 +32,23 @@ export function ExperienceLayer() {
   const chapterAccent = chapterAccents[chapter] ?? chapterAccents.top
 
   useEffect(() => {
+    const coarsePointer = window.matchMedia('(pointer: coarse)')
+    let frame = 0
+    let pending: PointerEvent | null = null
+    let cursorVisible = false
+    let magnetBounds: DOMRect | null = null
     const setMagnet = (element: HTMLElement | null, x = 0, y = 0) => {
       element?.style.setProperty('--magnetic-x', `${x}px`)
       element?.style.setProperty('--magnetic-y', `${y}px`)
     }
 
-    const handleMove = (event: PointerEvent) => {
-      if (event.pointerType !== 'mouse') return
+    const flushMove = () => {
+      frame = 0
+      const event = pending
+      if (!event) return
       pointerX.set(event.clientX)
       pointerY.set(event.clientY)
-      setVisible(true)
+      if (!cursorVisible) { cursorVisible = true; setVisible(true) }
 
       const target = event.target instanceof Element ? event.target : null
       const labeled = target?.closest<HTMLElement>('[data-cursor-label]') ?? null
@@ -54,7 +60,9 @@ export function ExperienceLayer() {
 
       const magnet = reduceMotion ? null : target?.closest<HTMLElement>('[data-magnetic]') ?? null
       if (magnet) {
-        const bounds = magnet.getBoundingClientRect()
+        // Read once per target/layout change, before any style writes.
+        if (previousMagnet.current !== magnet || !magnetBounds) magnetBounds = magnet.getBoundingClientRect()
+        const bounds = magnetBounds
         const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12
         const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12
         if (previousMagnet.current !== magnet) setMagnet(previousMagnet.current)
@@ -63,14 +71,31 @@ export function ExperienceLayer() {
       } else if (previousMagnet.current) {
         setMagnet(previousMagnet.current)
         previousMagnet.current = null
+        magnetBounds = null
       }
+    }
+
+    const handleMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse' || coarsePointer.matches || window.innerWidth <= 760) return
+      pending = event
+      if (!frame) frame = requestAnimationFrame(flushMove)
+    }
+
+    const invalidateBounds = () => { magnetBounds = null }
+    const hideCursor = () => {
+      cancelAnimationFrame(frame)
+      frame = 0
+      pending = null
+      cursorVisible = false
+      setVisible(false)
+      setMagnet(previousMagnet.current)
+      previousMagnet.current = null
+      magnetBounds = null
     }
 
     const handlePointerOut = (event: PointerEvent) => {
       if (event.relatedTarget) return
-      setVisible(false)
-      setMagnet(previousMagnet.current)
-      previousMagnet.current = null
+      hideCursor()
       if (previousLabel.current) {
         previousLabel.current = ''
         setCursorLabel('')
@@ -79,9 +104,16 @@ export function ExperienceLayer() {
 
     document.addEventListener('pointermove', handleMove, { passive: true })
     document.addEventListener('pointerout', handlePointerOut)
+    window.addEventListener('scroll', invalidateBounds, { passive: true })
+    window.addEventListener('resize', invalidateBounds)
+    window.addEventListener('blur', hideCursor)
     return () => {
+      cancelAnimationFrame(frame)
       document.removeEventListener('pointermove', handleMove)
       document.removeEventListener('pointerout', handlePointerOut)
+      window.removeEventListener('scroll', invalidateBounds)
+      window.removeEventListener('resize', invalidateBounds)
+      window.removeEventListener('blur', hideCursor)
       setMagnet(previousMagnet.current)
     }
   }, [pointerX, pointerY, reduceMotion])

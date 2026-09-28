@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import type { Profile } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
@@ -15,6 +15,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ profile }: HeroSectionProps) {
   const heroRef = useRef<HTMLElement | null>(null)
+  const pointerBounds = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
   const [activeStage, setActiveStage] = useState(0)
   const reduceMotion = useReducedMotion()
   const pointerX = useMotionValue(0)
@@ -29,11 +30,20 @@ export function HeroSection({ profile }: HeroSectionProps) {
   const nameRotate = useTransform(scrollYProgress, [0, 0.45, 1], [0, -0.5, -2.1])
   const nameRotateY = useTransform(flowX, [-9, 9], [1.6, -1.6])
   const nameRotateX = useTransform(flowY, [-5, 5], [-0.8, 0.8])
+  useEffect(() => {
+    const invalidate = () => { pointerBounds.current = null }
+    window.addEventListener('resize', invalidate)
+    return () => window.removeEventListener('resize', invalidate)
+  }, [])
   const followPointer = (event: React.PointerEvent<HTMLElement>) => {
     if (reduceMotion || event.pointerType !== 'mouse') return
-    const bounds = event.currentTarget.getBoundingClientRect()
+    if (!pointerBounds.current) {
+      const rect = event.currentTarget.getBoundingClientRect()
+      pointerBounds.current = { left: rect.left, top: rect.top + window.scrollY, width: rect.width, height: rect.height }
+    }
+    const bounds = pointerBounds.current
     pointerX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 18)
-    pointerY.set(((event.clientY - bounds.top) / bounds.height - 0.5) * 10)
+    pointerY.set(((event.clientY + window.scrollY - bounds.top) / bounds.height - 0.5) * 10)
   }
 
   return (
