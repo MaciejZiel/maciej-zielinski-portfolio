@@ -139,60 +139,6 @@ span {
   transition: color 900ms ease;
 }
 
-.experience-atmosphere__haze {
-  position: absolute;
-  inset: 0;
-  opacity: .45;
-  background:
-    radial-gradient(ellipse at 8% 18%, color-mix(in srgb, var(--experience-accent) 4%, transparent), transparent 30%),
-    radial-gradient(ellipse at 88% 76%, rgba(124, 155, 139, .035), transparent 34%);
-  transition: background 900ms ease;
-}
-
-.experience-atmosphere__orbit {
-  position: absolute;
-  width: min(36vw, 480px);
-  aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, var(--experience-accent) 8%, transparent);
-  border-radius: 50%;
-  opacity: .42;
-  animation: atmosphere-drift 32s ease-in-out infinite alternate;
-  transition: border-color 900ms ease;
-}
-
-.experience-atmosphere__orbit::before,
-.experience-atmosphere__orbit::after {
-  position: absolute;
-  inset: 12%;
-  border: 1px solid color-mix(in srgb, var(--experience-accent) 5%, transparent);
-  border-radius: 50%;
-  content: '';
-}
-
-.experience-atmosphere__orbit::before { transform: scaleX(.46) rotate(33deg); }
-.experience-atmosphere__orbit::after { inset: 24%; transform: scaleY(.42) rotate(-28deg); }
-.experience-atmosphere__orbit--one { top: 12vh; left: -18vw; }
-.experience-atmosphere__orbit--two { right: -19vw; bottom: -22vh; animation-delay: -16s; animation-duration: 39s; }
-.experience-atmosphere[data-reduced='true'] .experience-atmosphere__orbit { animation: none; }
-.experience-atmosphere[data-page-visible='false'] .experience-atmosphere__orbit { animation-play-state: paused; }
-
-.experience-route {
-  position: absolute;
-  top: 0;
-  right: max(0px, calc((100vw - 1680px) / 2));
-  width: clamp(28px, 5vw, 72px);
-  height: 100%;
-  overflow: visible;
-  opacity: .3;
-}
-
-.experience-route__track,
-.experience-route__signal,
-.experience-route__runner { fill: none; vector-effect: non-scaling-stroke; }
-.experience-route__track { stroke: rgba(255,255,255,.1); stroke-width: 1; }
-.experience-route__signal { stroke: var(--experience-accent); stroke-width: 1.2; transition: stroke 900ms ease; }
-.experience-route__runner { stroke: var(--experience-accent); stroke-width: 3; stroke-linecap: round; opacity: .65; transition: stroke 900ms ease; }
-
 .site-cursor {
   position: fixed;
   z-index: 80;
@@ -250,8 +196,6 @@ span {
 [data-magnetic] { translate: var(--magnetic-x, 0px) var(--magnetic-y, 0px); transition: translate 220ms cubic-bezier(.2,.8,.2,1); }
 
 @media (max-width: 760px), (pointer: coarse) {
-  .experience-route { right: -16px; width: 34px; opacity: .18; }
-  .experience-atmosphere__orbit { width: min(74vw, 330px); opacity: .24; }
   .site-cursor { display: none; }
 }
 
@@ -268,7 +212,6 @@ span {
     transition-duration: 0.01ms !important;
   }
 
-  .experience-atmosphere__orbit { animation: none; }
   .site-cursor { transition: none; }
   .motion-reveal::after { display: none; transition: none; }
 }

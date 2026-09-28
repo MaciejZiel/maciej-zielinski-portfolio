@@ -32,8 +32,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const stageY = useTransform(scrollYProgress, [0, 1], [16, -16])
   const railScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.88, 1, 1.1, 1, 0.88])
   const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.4, 0.75, 1, 0.75, 0.4])
-  const atmosphereScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.72, 1.08, 0.82])
-  const atmosphereOpacity = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.04, 0.2, 0.28, 0.2, 0.04])
 
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
 
@@ -57,11 +55,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       data-cursor="project"
       data-cursor-label={`CHAPTER 0${index + 1}`}
     >
-      <motion.div
-        className="project-showcase__atmosphere"
-        style={reduceMotion ? { scale: 1, opacity: 0.14 } : { scale: atmosphereScale, opacity: atmosphereOpacity }}
-        aria-hidden="true"
-      />
       <div className="project-showcase__rail-wrap">
         <MotionReveal className="project-showcase__rail" delay={0.04}>
           <div className="project-showcase__rail-meter" aria-hidden="true">
@@ -212,11 +205,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
           >
             <div className="project-showcase__artifact-frame">
               <div className="project-showcase__artifact-topline">
-                <div className="project-showcase__artifact-window" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </div>
                 <div className="project-showcase__stage-topline">
                   <span>{project.stageLabel}</span>
                   <span className="project-showcase__stage-sep">/</span>

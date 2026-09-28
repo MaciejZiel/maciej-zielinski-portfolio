@@ -1,4 +1,4 @@
-import { motion, MotionConfig, useScroll, useSpring } from 'framer-motion'
+import { MotionConfig } from 'framer-motion'
 
 import { SiteHeader } from './components/layout/SiteHeader'
 import { AboutSection } from './components/sections/AboutSection'
@@ -20,13 +20,6 @@ import {
 import './styles/app.css'
 
 function App() {
-  const { scrollYProgress } = useScroll()
-  const progressScaleX = useSpring(scrollYProgress, {
-    stiffness: 160,
-    damping: 28,
-    mass: 0.22,
-  })
-
   return (
     <MotionConfig reducedMotion="user">
       <>
@@ -35,13 +28,7 @@ function App() {
         </a>
 
         <div className="site-shell">
-          <ExperienceLayer scrollYProgress={scrollYProgress} />
-          <motion.div
-            aria-hidden="true"
-            className="scroll-progress"
-            style={{ scaleX: progressScaleX }}
-          />
-
+          <ExperienceLayer />
           <SiteHeader
             name={profile.name}
             headline={profile.headline}

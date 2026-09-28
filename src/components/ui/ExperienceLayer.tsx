@@ -3,7 +3,6 @@ import {
   useMotionValue,
   useReducedMotion,
   useSpring,
-  type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { usePageVisible } from '../../hooks/usePageVisible'
@@ -30,7 +29,7 @@ const probePaths: Record<CursorMode, string> = {
   signature: 'M3 23V5L10 15L17 5V23M21 5H29L21 23H29',
 }
 
-export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
+export function ExperienceLayer() {
   const reduceMotion = useReducedMotion()
   const pageVisible = usePageVisible()
   const pointerX = useMotionValue(-100)
@@ -168,25 +167,6 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         style={{ '--experience-accent': chapterAccent } as CSSProperties}
         aria-hidden="true"
       >
-        <div className="experience-atmosphere__haze" />
-        <div className="experience-atmosphere__orbit experience-atmosphere__orbit--one" />
-        <div className="experience-atmosphere__orbit experience-atmosphere__orbit--two" />
-        <svg className="experience-route" viewBox="0 0 88 1000" preserveAspectRatio="none">
-          <path className="experience-route__track" d="M46 -20 C4 94 80 154 39 270 S75 450 36 570 S74 730 38 838 S20 946 46 1020" />
-          <motion.path
-            className="experience-route__signal"
-            d="M46 -20 C4 94 80 154 39 270 S75 450 36 570 S74 730 38 838 S20 946 46 1020"
-            style={{ pathLength: reduceMotion ? 1 : scrollYProgress }}
-          />
-          <motion.path
-            className="experience-route__runner"
-            d="M46 -20 C4 94 80 154 39 270 S75 450 36 570 S74 730 38 838 S20 946 46 1020"
-            pathLength="1"
-            strokeDasharray="0.008 0.992"
-            animate={reduceMotion || !pageVisible ? { strokeDashoffset: 0 } : { strokeDashoffset: [0, -1] }}
-            transition={reduceMotion || !pageVisible ? { duration: 0 } : { duration: 14, ease: 'linear', repeat: Infinity }}
-          />
-        </svg>
       </div>
 
       <motion.div

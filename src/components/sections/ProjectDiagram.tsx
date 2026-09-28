@@ -28,7 +28,6 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
 
   return (
     <svg viewBox="0 0 640 280" role="img" aria-label={`${project.name} system flow diagram`}>
-      <path className="diagram-grid" d="M0 40H640M0 240H640M40 0V280M120 0V280M200 0V280M280 0V280M360 0V280M440 0V280M520 0V280M600 0V280" />
       <path className="caseflow-route-track" d="M48 140H592" />
       <motion.path
         className="caseflow-route-signal"
@@ -71,7 +70,6 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
 function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
   return (
     <svg viewBox="0 0 720 220" role="img" aria-label={`${project.name} audio processing visualization`}>
-      <path className="diagram-grid" d="M0 45H720M0 110H720M0 175H720M36 0V220M108 0V220M180 0V220M252 0V220M324 0V220M396 0V220M468 0V220M540 0V220M612 0V220M684 0V220" />
       <path className="diagram-wave-mid" d="M0 110H720" />
       <motion.g
         className="diagram-waveform"
@@ -129,7 +127,6 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
 
   return (
     <svg viewBox="0 0 720 270" role="img" aria-label={`${project.name} live frame and detection bounds`}>
-      <path className="diagram-grid" d="M0 45H720M0 90H720M0 135H720M0 180H720M0 225H720M45 0V270M90 0V270M135 0V270M180 0V270M225 0V270M270 0V270M315 0V270M360 0V270M405 0V270M450 0V270M495 0V270M540 0V270M585 0V270M630 0V270M675 0V270" />
       <motion.path className="vision-scan" d="M0 0H720" animate={reduceMotion || !isVisible ? { y: 18 } : { y: [18, 250, 18] }} transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 5, repeat: Infinity, ease: 'linear' }} />
       {targets.map((box, index) => (
         <g key={box.x} className={index === activeLane ? 'vision-target vision-target--active' : 'vision-target'}>
@@ -182,7 +179,6 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
 
   return (
     <svg viewBox="0 0 640 270" role="img" aria-label={`${project.name} motorsport domain map`}>
-      <path className="diagram-grid" d="M0 35H640M0 105H640M0 175H640M0 245H640M35 0V270M105 0V270M175 0V270M245 0V270M315 0V270M385 0V270M455 0V270M525 0V270M595 0V270" />
       {paths.map((path, index) => (
         <motion.path
           key={path}
@@ -241,7 +237,6 @@ export function ProjectDiagram({ project, activeLane, onSelectLane }: ProjectDia
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
-      <span className="project-diagram__index">FIG. 0{activeLane + 1}</span>
       </div>
       {project.theme === 'signal' && onSelectLane ? (
         <label className="audio-journey" data-cursor="explore" data-cursor-label="TRACE AUDIO → TEXT">
