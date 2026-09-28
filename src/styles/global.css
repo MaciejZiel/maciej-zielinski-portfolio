@@ -29,6 +29,7 @@
   --color-accent: #c8f958;
   --color-accent-strong: #d8ff6b;
   --color-accent-soft: rgba(200, 249, 88, 0.12);
+  --scrollbar-accent: var(--color-accent);
   --color-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
 
   --display-font: 'Syne', sans-serif;
@@ -48,6 +49,30 @@ html {
   scroll-behavior: smooth;
   overflow-x: clip;
   text-wrap: pretty;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-accent) rgba(255, 255, 255, 0.025);
+}
+
+html::-webkit-scrollbar {
+  width: 6px;
+  height: 0;
+}
+
+html::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-accent, var(--color-accent));
+  border-radius: 1px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--scrollbar-accent, var(--color-accent)) 82%, white);
+}
+
+html::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 body {
