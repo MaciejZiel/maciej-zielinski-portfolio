@@ -117,6 +117,56 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
   )
 }
 
+function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
+  const targets = [
+    { x: 132, y: 72, width: 110, height: 102 },
+    { x: 340, y: 54, width: 126, height: 142 },
+    { x: 495, y: 108, width: 94, height: 92 },
+  ]
+  const target = targets[activeLane] ?? targets[0]
+
+  return (
+    <svg viewBox="0 0 720 270" role="img" aria-label={`${project.name} live frame and detection bounds`}>
+      <path className="diagram-grid" d="M0 45H720M0 90H720M0 135H720M0 180H720M0 225H720M45 0V270M90 0V270M135 0V270M180 0V270M225 0V270M270 0V270M315 0V270M360 0V270M405 0V270M450 0V270M495 0V270M540 0V270M585 0V270M630 0V270M675 0V270" />
+      <motion.path className="vision-scan" d="M0 0H720" animate={reduceMotion || !isVisible ? undefined : { y: [18, 250, 18] }} transition={reduceMotion || !isVisible ? undefined : { duration: 5, repeat: Infinity, ease: 'linear' }} />
+      {targets.map((box, index) => (
+        <g key={box.x} className={index === activeLane ? 'vision-target vision-target--active' : 'vision-target'}>
+          <path d={`M${box.x} ${box.y + 16}V${box.y}H${box.x + 16}M${box.x + box.width - 16} ${box.y}H${box.x + box.width}V${box.y + 16}M${box.x} ${box.y + box.height - 16}V${box.y + box.height}H${box.x + 16}M${box.x + box.width - 16} ${box.y + box.height}H${box.x + box.width}V${box.y + box.height - 16}`} />
+          {index === activeLane ? <motion.rect x={box.x} y={box.y} width={box.width} height={box.height} initial={false} animate={{ x: box.x, y: box.y }} /> : null}
+          <text x={box.x} y={box.y - 8}>{index === activeLane ? `TRACK 0${index + 1} / LOCKED` : `FRAME 0${index + 1}`}</text>
+        </g>
+      ))}
+      <path className="vision-loop-track" d="M70 230H650" />
+      <motion.path
+        className="vision-loop-signal"
+        d="M70 230H650"
+        initial={false}
+        animate={{ pathLength: [0.33, 0.66, 1][activeLane] ?? 0.33 }}
+        transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+      />
+      {[['CAPTURE', 110], ['INFERENCE', 360], ['CONTROL', 610]].map(([label, x], index) => (
+        <g className={index === activeLane ? 'vision-loop-node vision-loop-node--active' : 'vision-loop-node'} key={label}>
+          <circle cx={x} cy="230" r="4" />
+          <text x={x} y="218" textAnchor="middle">{label}</text>
+        </g>
+      ))}
+      <text x="20" y="265">FRAME BUFFER / CLOSED CONTROL LOOP</text>
+      <motion.circle
+        className="vision-reticle"
+        cx={target.x + target.width / 2}
+        cy={target.y + target.height / 2}
+        r="3"
+        initial={false}
+        animate={reduceMotion || !isVisible ? { cx: target.x + target.width / 2, cy: target.y + target.height / 2 } : {
+          cx: [187, 403, 542, 187],
+          cy: [123, 125, 154, 123],
+        }}
+        transition={reduceMotion || !isVisible ? { duration: 0.2 } : { duration: 5.4, repeat: Infinity, ease: 'linear' }}
+      />
+    </svg>
+  )
+}
+
 export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
   const reduceMotion = useReducedMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
@@ -135,6 +185,7 @@ export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
     <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} aria-hidden="true">
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
+      {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       <span className="project-diagram__index">FIG. 0{activeLane + 1}</span>
     </div>
   )

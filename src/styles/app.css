@@ -1094,6 +1094,18 @@
 
 .project-showcase__lane-tabs--signal .project-showcase__lane-tab-index { color: var(--color-text-muted); }
 
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab { position: relative; padding-left: 12px; }
+
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab::before,
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab::after { position: absolute; top: 10px; bottom: 8px; width: 5px; border-block: 1px solid transparent; content: ''; }
+
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab::before { left: 0; border-left: 1px solid transparent; }
+
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab::after { right: 4px; border-right: 1px solid transparent; }
+
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab--active::before,
+.project-showcase__lane-tabs--vision .project-showcase__lane-tab--active::after { border-color: var(--project-accent); }
+
 .project-showcase__link:hover {
   background: #e2ff85;
   transform: translateY(-2px);
@@ -1416,6 +1428,30 @@
 .diagram-transcript text { fill: var(--color-accent); }
 
 .project-diagram--vision svg { max-height: 205px; }
+
+.vision-scan { fill: none; stroke: var(--color-accent); stroke-width: 1; opacity: .58; vector-effect: non-scaling-stroke; }
+
+.vision-loop-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+.vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; vector-effect: non-scaling-stroke; }
+
+.vision-loop-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.45); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+.vision-loop-node--active circle { fill: var(--color-accent); stroke: var(--color-accent); }
+
+.vision-loop-node--active text { fill: var(--color-accent); }
+
+.vision-target path { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+.vision-target--active path { stroke: var(--project-accent); stroke-width: 1.6; }
+
+.vision-target rect { fill: none; stroke: var(--project-accent); stroke-width: .6; opacity: .25; vector-effect: non-scaling-stroke; }
+
+.vision-target--active text { fill: var(--project-accent); }
+
+.vision-reticle { fill: var(--color-text); opacity: .7; }
+
+.vision-reticle { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--project-accent) 65%, transparent)); }
 
 .project-diagram__index { position: absolute; right: 0; bottom: 4px; color: var(--color-text-muted); font: .56rem var(--mono-font); letter-spacing: .1em; }
 
