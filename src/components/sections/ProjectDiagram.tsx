@@ -18,6 +18,7 @@ interface ProjectDiagramProps {
   project: FeaturedProject
   activeLane: number
   isVisible?: boolean
+  onSelectLane?: (lane: number) => void
 }
 
 function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
@@ -228,18 +229,31 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
   )
 }
 
-export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
+export function ProjectDiagram({ project, activeLane, onSelectLane }: ProjectDiagramProps) {
   const reduceMotion = useReducedMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
   const isVisible = useAmbientActivity(diagramRef)
 
   return (
-    <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} data-reduced={reduceMotion} aria-hidden="true">
+    <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} data-reduced={reduceMotion}>
+      <div className="project-diagram__visual" aria-hidden="true">
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       <span className="project-diagram__index">FIG. 0{activeLane + 1}</span>
+      </div>
+      {project.theme === 'signal' && onSelectLane ? (
+        <label className="audio-journey" data-cursor="explore" data-cursor-label="TRACE AUDIO → TEXT">
+          <span className="audio-journey__caption">Trace audio → text <span aria-hidden="true">↔</span></span>
+          <input className="audio-journey__scrubber" type="range" min="0" max={project.artifactLanes.length - 1} step="1"
+            value={activeLane} aria-label="Audio processing stage" aria-valuetext={project.artifactLanes[activeLane]?.label}
+            onChange={event => onSelectLane(Number(event.currentTarget.value))} />
+          <span className="audio-journey__stops" aria-hidden="true">
+            {project.artifactLanes.map((lane, index) => <span key={lane.label} data-active={index === activeLane}>{lane.label}</span>)}
+          </span>
+        </label>
+      ) : null}
     </div>
   )
 }

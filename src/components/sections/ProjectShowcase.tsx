@@ -224,7 +224,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </div>
               </div>
 
-              <ProjectDiagram project={project} activeLane={activeLaneIndex} />
+              <ProjectDiagram project={project} activeLane={activeLaneIndex} onSelectLane={setActiveLaneIndex} />
 
               <div className="project-showcase__artifact-header">
                 <span className="project-showcase__artifact-label">Explore the build</span>

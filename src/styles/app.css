@@ -1103,6 +1103,18 @@
   color: var(--project-accent);
 }
 .project-diagram svg { width: 100%; height: auto; max-height: 210px; overflow: visible; }
+.project-diagram__visual { position: relative; }
+.audio-journey { display: grid; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--color-border); }
+.audio-journey__caption { display: flex; justify-content: space-between; color: var(--project-accent); font: .65rem var(--mono-font); text-transform: uppercase; letter-spacing: .07em; }
+.audio-journey__caption > span { font-size: 1rem; line-height: 1; }
+.audio-journey__scrubber { appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; cursor: ew-resize; accent-color: var(--project-accent); }
+.audio-journey__scrubber::-webkit-slider-runnable-track { height: 1px; background: var(--project-accent); }
+.audio-journey__scrubber::-moz-range-track { height: 1px; background: var(--project-accent); }
+.audio-journey__scrubber::-webkit-slider-thumb { appearance: none; width: 8px; height: 24px; margin-top: -11px; border: 2px solid var(--color-bg); border-radius: 0; background: var(--color-text); box-shadow: 0 0 0 1px var(--project-accent); }
+.audio-journey__scrubber::-moz-range-thumb { width: 4px; height: 20px; border: 2px solid var(--color-bg); border-radius: 0; background: var(--color-text); box-shadow: 0 0 0 1px var(--project-accent); }
+.audio-journey__stops { display: flex; justify-content: space-between; color: var(--color-text-muted); font: .58rem var(--mono-font); text-transform: uppercase; }
+.audio-journey__stops [data-active='true'] { color: var(--project-accent); }
+.audio-journey:focus-within .audio-journey__caption { color: var(--color-text); }
 .project-diagram text { fill: var(--color-text-muted); font: 8px var(--mono-font); letter-spacing: .12em; }
 .diagram-grid { fill: none; stroke: rgba(255,255,255,.045); stroke-width: .7; vector-effect: non-scaling-stroke; }
 .diagram-route path { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
