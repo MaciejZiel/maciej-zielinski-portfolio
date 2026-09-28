@@ -51,6 +51,7 @@
 
 .brand {
   display: flex;
+  min-height: 44px;
   align-items: center;
   gap: 12px;
   text-decoration: none;
@@ -106,6 +107,7 @@
 
 .site-nav__link {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   gap: 6px;
   font-family: var(--mono-font);
@@ -141,6 +143,7 @@
 
 .site-socials__link {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   gap: 6px;
   font-family: var(--mono-font);
