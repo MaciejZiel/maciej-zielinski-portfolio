@@ -42,24 +42,8 @@
   display: flex;
   min-height: 44px;
   align-items: center;
-  gap: 12px;
+  gap: 0;
   text-decoration: none;
-}
-
-.brand__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 2px;
-  color: var(--color-accent);
-  font-family: var(--mono-font);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  background: rgba(200, 249, 88, 0.04);
 }
 
 .brand__text {
@@ -986,10 +970,9 @@
 @media (max-width: 680px) {
   .section-heading { font-size: clamp(2rem, 8vw, 3rem); max-width: 18ch; }
   .site-header__inner { gap: 12px; }
-  .brand { gap: 8px; min-width: 0; }
+  .brand { min-width: 0; }
   .brand__name { white-space: nowrap; font-size: 0.82rem; }
   .brand__headline { display: none; }
-  .brand__mark { width: 32px; height: 32px; }
   .site-socials {
     display: none;
   }
@@ -1004,7 +987,7 @@
 }
 
 @media (max-width: 380px) {
-  .brand__text { display: none; }
+  .brand__name { font-size: 0.76rem; }
   .site-nav { gap: 8px; }
   .site-nav__link { font-size: 0.57rem; letter-spacing: 0.02em; }
 }

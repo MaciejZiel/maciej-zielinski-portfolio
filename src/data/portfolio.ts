@@ -20,12 +20,12 @@ export const navigationItems: NavigationItem[] = [
 
 export const profile: Profile = {
   name: 'Maciej Zieliński',
-  headline: 'Backend Developer (Python) | AI Systems',
+  headline: 'Software Engineer | Python / Applied AI',
   intro:
     'I build backend systems and AI-powered products with a backend-first mindset: clear boundaries, reliable workflows, practical AI integration, and software that behaves predictably under real constraints.',
   summary:
     'Computer Science student focused on Python backend development, applied AI systems, and projects that are structured closer to products than coursework.',
-  availability: 'Open to backend, Python, and AI internship or junior roles.',
+  availability: 'Open to software engineering internships and junior roles focused on Python, backend, and applied AI.',
   location: 'Warsaw, Poland',
   education: 'PJATK, 3rd year Computer Science',
   focusAreas: [
@@ -68,7 +68,7 @@ export const profile: Profile = {
     { label: 'Primary stack', value: 'Python / FastAPI / Django / SQL' },
     { label: 'AI layer', value: 'RAG / LLM integrations / CV pipelines' },
     { label: 'Build style', value: 'Backend-first, system-oriented builds' },
-    { label: 'Role target', value: 'Internship / junior backend roles' },
+    { label: 'Role target', value: 'Software engineering internships / junior roles' },
   ],
   heroRibbon: [
     'CaseFlow / public multi-tenant backend',

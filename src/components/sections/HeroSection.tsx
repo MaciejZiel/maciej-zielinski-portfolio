@@ -166,7 +166,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           </button>
         </h1>
         <div className="hero-position">
-          <p><span>Backend developer.</span><em>Systems thinker.</em></p>
+          <p><span>Software engineer.</span></p>
           <span className="hero-position__stack">Python / Applied AI</span>
         </div>
       </motion.div>

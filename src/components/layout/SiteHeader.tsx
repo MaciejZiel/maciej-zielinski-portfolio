@@ -24,7 +24,6 @@ export function SiteHeader({
     <header className="site-header">
       <div className="site-header__inner">
         <a className="brand" href="#top" aria-label={`${name} — back to top`} data-magnetic>
-          <span className="brand__mark" aria-hidden="true">MZ</span>
           <span className="brand__text">
             <span className="brand__name">{name}</span>
             <span className="brand__headline">{headline}</span>
