@@ -31,16 +31,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
       className="engineering-hero"
       aria-labelledby="hero-name"
     >
-      <svg className="hero-flow" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-        <motion.g data-pointer-proximity="route">
-          <path className="hero-flow__track" d="M16 380 C210 380 88 70 342 128 C560 178 472 420 720 354 C856 318 830 620 982 702 C1004 802 884 874 914 1030" />
-          <motion.path
-            className="hero-flow__signal"
-            d="M16 380 C210 380 88 70 342 128 C560 178 472 420 720 354 C856 318 830 620 982 702 C1004 802 884 874 914 1030"
-            style={reduceMotion ? { pathLength: 1 } : { pathLength: scrollYProgress }}
-          />
-        </motion.g>
-      </svg>
       <div className="hero-edition">
         <span>Backend systems / applied AI</span>
         <span>{profile.location}</span>

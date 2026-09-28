@@ -5,20 +5,7 @@
   border-top: 0;
 }
 
-.hero-flow {
-  position: absolute;
-  z-index: 0;
-  inset: 0 0 auto;
-  width: 100%;
-  height: calc(100% + clamp(96px, 12vw, 176px));
-  overflow: visible;
-  pointer-events: none;
-}
-.hero-flow__track,
-.hero-flow__signal { fill: none; vector-effect: non-scaling-stroke; }
-.hero-flow__track { stroke: rgba(200, 249, 88, .11); stroke-width: 1; }
-.hero-flow__signal { stroke: var(--color-accent); stroke-width: 1.5; opacity: .64; }
-.engineering-hero > :not(.hero-flow) { position: relative; z-index: 1; }
+.engineering-hero > * { position: relative; z-index: 1; }
 
 .hero-edition,
 .hero-position__index,
@@ -236,7 +223,6 @@
 }
 
 @media (max-width: 760px) {
-  .hero-flow { height: calc(100% + 104px); opacity: 0.48; }
   .hero-edition { font-size: 0.58rem; }
   .hero-masthead { padding-block: 52px 32px; }
   .hero-name { font-size: clamp(4.5rem, 25vw, 11rem); }

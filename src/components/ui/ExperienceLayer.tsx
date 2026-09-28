@@ -93,7 +93,6 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         })
       }
       addTargets('.hero-name__glyph', 255, 13)
-      addTargets('[data-pointer-proximity="route"]', 420, 10)
       addTargets('.project-diagram__visual', 330, 7)
       addTargets('.contact-heading', 390, 9)
       proximityTargets = targets
