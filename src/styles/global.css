@@ -152,32 +152,22 @@ span {
   z-index: 80;
   top: 0;
   left: 0;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--cursor-accent, var(--color-accent));
-  font: 500 .6rem var(--mono-font);
-  letter-spacing: .08em;
+  display: grid;
+  place-items: start;
+  color: var(--color-accent);
   pointer-events: none;
   opacity: 0;
-  translate: 10px 10px;
-  white-space: nowrap;
-  transition: opacity 160ms ease, color 320ms ease;
+  translate: 2px 2px;
+  transition: opacity 100ms ease;
 }
 
 .site-cursor[data-visible='true'] { opacity: 1; }
-.site-cursor__probe { flex: 0 0 22px; width: 22px; height: 22px; overflow: visible; transition: transform 260ms cubic-bezier(.2,.8,.2,1); }
-.site-cursor__probe path { fill: none; stroke: currentColor; stroke-width: 1.25; stroke-linecap: square; stroke-linejoin: miter; }
-.site-cursor[data-mode='project'] .site-cursor__probe { transform: rotate(-5deg); }
-.site-cursor[data-mode='contact'] .site-cursor__probe { transform: translateY(-2px); }
-.site-cursor[data-mode='default'] .site-cursor__probe { opacity: .72; }
-.site-cursor__label { position: relative; padding: 0; color: var(--color-text); font-size: .54rem; line-height: 1; max-width: 24ch; overflow: hidden; text-overflow: ellipsis; animation: probe-label-enter 220ms cubic-bezier(.2,.8,.2,1) both; }
-.site-cursor__label::before { content: '/'; margin-right: 5px; color: var(--cursor-accent); }
-.site-cursor__label:empty { display: none; }
-.site-cursor[data-edge='true'] .site-cursor__label { position: absolute; right: 28px; }
-.site-cursor[data-reduced='true'] .site-cursor__label { animation: none; }
-.site-cursor[data-reduced='true'] .site-cursor__probe { transition: none; }
-@keyframes probe-label-enter { from { transform: translateX(-8px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.site-cursor__probe { width: 17px; height: 17px; overflow: visible; }
+.site-cursor__probe path { fill: var(--color-bg); stroke: currentColor; stroke-width: 1.35; stroke-linecap: square; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
+.site-cursor[data-reduced='true'] { transition: none; }
+
+html[data-pointer-input='mouse'] .site-shell,
+html[data-pointer-input='mouse'] .site-shell * { cursor: none !important; }
 
 @keyframes atmosphere-drift {
   from { transform: translate3d(-1.5vw, -1vh, 0) rotate(-9deg) scale(.96); }

@@ -32,28 +32,16 @@ const chapterAccents: Record<string, string> = {
   contact: '#c8f958',
 }
 
-type CursorMode = 'default' | 'project' | 'link' | 'explore' | 'architecture' | 'contact'
-const probePaths: Record<CursorMode, string> = {
-  default: 'M3 3L23 23M3 3V11M3 3H11',
-  project: 'M3 9V3H9 M18 3H24V9 M24 18V24H18 M9 24H3V18 M11 14H23M19 10L23 14L19 18',
-  link: 'M5 23L23 5M12 5H23V16',
-  explore: 'M4 3V18M4 18H22M16 12L22 18L16 24',
-  architecture: 'M3 14H11M11 14V5H24M11 14V23H24M20 2L24 5L20 8M20 20L24 23L20 26',
-  contact: 'M3 5H24V20H3ZM3 5L13.5 13L24 5M18 24H29M25 20L29 24L25 28',
-}
-
 export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const reduceMotion = useReducedMotion()
   const pageVisible = usePageVisible()
   const pointerX = useMotionValue(-100)
   const pointerY = useMotionValue(-100)
-  const springX = useSpring(pointerX, { stiffness: 420, damping: 34, mass: 0.35 })
-  const springY = useSpring(pointerY, { stiffness: 420, damping: 34, mass: 0.35 })
+  const springX = useSpring(pointerX, { stiffness: 820, damping: 48, mass: 0.2 })
+  const springY = useSpring(pointerY, { stiffness: 820, damping: 48, mass: 0.2 })
   const [visible, setVisible] = useState(false)
-  const [cursor, setCursor] = useState<{ mode: CursorMode; label: string; edge: boolean }>({ mode: 'default', label: '', edge: false })
   const [chapter, setChapter] = useState('top')
   const pointerTarget = useRef({ x: -1000, y: -1000, active: false })
-  const previousLabel = useRef('')
   const previousMagnet = useRef<HTMLElement | null>(null)
   const chapterAccent = chapterAccents[chapter] ?? chapterAccents.top
 
@@ -130,20 +118,10 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       pointerTarget.current.y = event.clientY
       pointerTarget.current.active = true
       applyProximity(event.clientX, event.clientY)
+      document.documentElement.dataset.pointerInput = 'mouse'
       if (!cursorVisible) { cursorVisible = true; setVisible(true) }
 
       const target = event.target instanceof Element ? event.target : null
-      const context = target?.closest<HTMLElement>('[data-cursor], a, button, summary') ?? null
-      const mode = (context?.dataset.cursor ?? (context?.matches('a') ? 'link' : context?.matches('button') ? 'architecture' : context?.matches('summary') ? 'explore' : 'default')) as CursorMode
-      const candidateLabel = context?.dataset.cursorLabel ?? (context?.matches('summary') ? 'OPEN NOTES' : '')
-      const label = mode === 'contact' || mode === 'project' || context?.matches('summary') ? candidateLabel : ''
-      const edge = event.clientX > window.innerWidth - 250
-      const identity = `${mode}:${label}:${edge}`
-      if (identity !== previousLabel.current) {
-        previousLabel.current = identity
-        setCursor({ mode, label, edge })
-      }
-
       const magnet = reduceMotion ? null : target?.closest<HTMLElement>('[data-magnetic]') ?? null
       if (magnet) {
         // Read once per target/layout change, before any style writes.
@@ -178,6 +156,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       cursorVisible = false
       pointerTarget.current.active = false
       setVisible(false)
+      delete document.documentElement.dataset.pointerInput
       clearProximity()
       setMagnet(previousMagnet.current)
       previousMagnet.current = null
@@ -188,10 +167,6 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     const handlePointerOut = (event: PointerEvent) => {
       if (event.relatedTarget) return
       hideCursor()
-      if (previousLabel.current) {
-        previousLabel.current = ''
-        setCursor({ mode: 'default', label: '', edge: false })
-      }
     }
 
     document.addEventListener('pointermove', handleMove, { passive: true })
@@ -208,6 +183,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       window.removeEventListener('scroll', invalidateBounds)
       window.removeEventListener('resize', invalidateBounds)
       window.removeEventListener('blur', hideCursor)
+      delete document.documentElement.dataset.pointerInput
       setMagnet(previousMagnet.current)
       clearProximity()
     }
@@ -256,19 +232,13 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       <motion.div
         className="site-cursor"
         data-visible={visible}
-        data-mode={cursor.mode}
-        data-edge={cursor.edge}
-        data-active={Boolean(cursor.label)}
         data-reduced={reduceMotion}
-        style={{ ...cursorPosition, ...({ '--cursor-accent': chapterAccent } as CSSProperties) }}
+        style={cursorPosition}
         aria-hidden="true"
       >
-        <svg className="site-cursor__probe" viewBox="0 0 32 32">
-          <motion.path d={probePaths[cursor.mode] ?? probePaths.default}
-            initial={reduceMotion ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} key={cursor.mode}
-            transition={{ duration: reduceMotion ? 0 : 0.26 }} />
+        <svg className="site-cursor__probe" viewBox="0 0 24 24">
+          <path d="M2 2L21 12L13 14L10 22L2 2Z" />
         </svg>
-        <span className="site-cursor__label" key={cursor.label}>{cursor.label}</span>
       </motion.div>
     </>
   )
