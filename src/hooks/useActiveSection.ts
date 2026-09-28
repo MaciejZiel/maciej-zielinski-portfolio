@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import type { NavigationItem } from '../types/portfolio'
 
 export function useActiveSection(items: NavigationItem[]) {
-  const [activeHref, setActiveHref] = useState(items[0]?.href ?? '')
+  const [activeHref, setActiveHref] = useState('')
 
   useEffect(() => {
     const sections = items
@@ -15,7 +15,7 @@ export function useActiveSection(items: NavigationItem[]) {
 
     const syncActiveSection = () => {
       const threshold = window.innerHeight * 0.35
-      let currentHref = sections[0]?.href ?? ''
+      let currentHref = ''
 
       for (const section of sections) {
         if (!section.element) {

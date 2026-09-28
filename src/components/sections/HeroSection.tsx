@@ -1,165 +1,232 @@
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { useState } from 'react'
 
 import type { Profile } from '../../types/portfolio'
-import { ButtonLink } from '../ui/ButtonLink'
-import { MotionReveal } from '../ui/MotionReveal'
+import { Icon } from '../ui/Icon'
+import '../../styles/hero.css'
 
 interface HeroSectionProps {
   profile: Profile
 }
 
 export function HeroSection({ profile }: HeroSectionProps) {
-  const sectionRef = useRef<HTMLElement | null>(null)
+  const [activeStage, setActiveStage] = useState(0)
   const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  })
-  const stageY = useTransform(scrollYProgress, [0, 1], [0, 28])
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, 16])
-
-  const [firstName, ...lastNameParts] = profile.name.split(' ')
-  const lastName = lastNameParts.join(' ')
+  const lane = profile.heroArtifactLanes[activeStage]
+  const [firstName, ...lastName] = profile.name.split(' ')
 
   return (
-    <section ref={sectionRef} id="top" className="hero-section">
-      <div className="hero-section__grid">
-        <motion.div
-          className="hero-copy"
-          style={reduceMotion ? undefined : { y: copyY }}
+    <section id="top" className="engineering-hero" aria-labelledby="hero-name">
+      <div className="hero-edition">
+        <span>Independent thinking. Connected systems.</span>
+        <span>
+          {profile.location} <span aria-hidden="true">↗</span>
+        </span>
+      </div>
+
+      <div className="hero-masthead">
+        <h1 id="hero-name" className="hero-name" aria-label={profile.name}>
+          {[firstName, lastName.join(' ')].map((word, index) => (
+            <span className="hero-name__mask" key={word} aria-hidden="true">
+              <motion.span
+                initial={reduceMotion ? false : { y: '105%', rotate: 3 }}
+                animate={{ y: 0, rotate: 0 }}
+                transition={{
+                  duration: 0.85,
+                  delay: index * 0.12,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                {word}
+                <span className="hero-name__period">.</span>
+              </motion.span>
+            </span>
+          ))}
+        </h1>
+        <div className="hero-position">
+          <span className="hero-position__index" aria-hidden="true">
+            [ MZ / 01 ]
+          </span>
+          <p>
+            <span>Backend developer.</span>
+            <em>Systems thinker.</em>
+          </p>
+          <span className="hero-position__stack">Python / Applied AI</span>
+          <a className="hero-position__work" href="#projects">
+            Explore selected work <span aria-hidden="true">↘</span>
+          </a>
+        </div>
+      </div>
+
+      <div className="hero-workbench">
+        <div className="hero-introduction">
+          <p className="hero-introduction__label">
+            The work behind the interface
+          </p>
+          <p className="hero-introduction__statement">
+            I build the systems
+            <br />
+            that <em>hold it together.</em>
+          </p>
+          <p className="hero-introduction__copy">{profile.summary}</p>
+          <div className="hero-links">
+            {profile.heroLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className={
+                  link.variant === 'primary'
+                    ? 'hero-link hero-link--primary'
+                    : 'hero-link'
+                }
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noreferrer' : undefined}
+              >
+                {link.label}
+                <Icon name={link.icon ?? 'arrow-up-right'} />
+              </a>
+            ))}
+          </div>
+          <p className="hero-availability">
+            <span aria-hidden="true" />
+            {profile.availability}
+          </p>
+        </div>
+
+        <div
+          className="system-trace"
+          aria-label="Explore the CaseFlow architecture"
         >
-          <MotionReveal className="hero-copy__body" distance={28}>
-            <div className="hero-copy__eyebrow-row">
-              <p className="hero-copy__eyebrow">
-                Backend developer / AI systems / {profile.location}
-              </p>
-              <span className="hero-copy__availability">
-                Open to internship / junior roles
+          <div className="system-trace__heading">
+            <div>
+              <span className="system-trace__eyebrow">
+                Case study / 01
               </span>
+              <h2>CaseFlow</h2>
             </div>
-
-            <div className="hero-copy__masthead">
-              <h1 className="hero-copy__title">
-                <span>{firstName}</span>
-                <span>{lastName}</span>
-              </h1>
-              <p className="hero-copy__headline">{profile.headline}</p>
-            </div>
-
-            <div className="hero-copy__body-grid">
-              <div className="hero-copy__narrative">
-                <div className="hero-copy__lead">
-                  <p className="hero-copy__summary">{profile.intro}</p>
-                  <p className="hero-copy__support">{profile.summary}</p>
-                </div>
-
-                <ul className="hero-copy__focus-listing">
-                  {profile.focusAreas.map((item) => (
+            <span className="system-trace__status">
+              Private backend
+              <br />
+              Architecture study
+            </span>
+          </div>
+          <div className="system-trace__guide">
+            <span>Explore the system</span>
+            <span>Select a layer ↓</span>
+          </div>
+          <div
+            className="system-trace__stages"
+            role="group"
+            aria-label="System layers"
+          >
+            <motion.span
+              className="system-trace__connection"
+              aria-hidden="true"
+              initial={false}
+              animate={{
+                scaleX: activeStage / (profile.heroArtifactLanes.length - 1),
+              }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            />
+            {profile.heroArtifactLanes.map((stage, index) => (
+              <button
+                key={stage.label}
+                type="button"
+                aria-pressed={activeStage === index}
+                aria-controls="system-layer-detail"
+                onClick={() => setActiveStage(index)}
+              >
+                <span className="system-trace__node" aria-hidden="true">
+                  0{index + 1}
+                </span>
+                <span>{stage.label}</span>
+              </button>
+            ))}
+          </div>
+          <div
+            id="system-layer-detail"
+            className="system-trace__detail"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <motion.div
+              key={lane.label}
+              initial={reduceMotion ? false : { opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.28 }}
+            >
+              <span className="system-trace__detail-number" aria-hidden="true">
+                0{activeStage + 1}
+              </span>
+              <div className="system-trace__detail-copy">
+                <h3>{lane.label}</h3>
+                <p>{lane.summary}</p>
+                <ul>
+                  {lane.items.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-
-                <div className="hero-copy__actions">
-                  {profile.heroLinks.map((link) => (
-                    <ButtonLink
-                      key={link.label}
-                      href={link.href}
-                      variant={link.variant}
-                      icon={link.icon}
-                      external={link.external}
-                    >
-                      {link.label}
-                    </ButtonLink>
-                  ))}
-                </div>
               </div>
-            </div>
-          </MotionReveal>
-
-          <MotionReveal className="hero-copy__ledger" delay={0.12}>
-            <p className="hero-copy__ledger-label">Core strengths</p>
-            <div className="hero-copy__ledger-items">
-              {profile.details.map((detail) => (
-                <div key={detail.label} className="hero-copy__fact">
-                  <span>{detail.label}</span>
-                  <strong>{detail.value}</strong>
-                </div>
-              ))}
-            </div>
-          </MotionReveal>
-        </motion.div>
-
-        <motion.aside
-          className="hero-artifact"
-          style={reduceMotion ? undefined : { y: stageY }}
-        >
-          <MotionReveal className="hero-artifact__frame" delay={0.1}>
-            <div className="hero-artifact__topline">
-              <span>Flagship project</span>
-              <span>System view</span>
-            </div>
-
-            <div className="hero-artifact__header">
-              <p className="hero-artifact__label">CaseFlow / private backend</p>
-              <h2 className="hero-artifact__title">{profile.heroArtifactTitle}</h2>
-              <p className="hero-artifact__summary">{profile.heroArtifactSummary}</p>
-            </div>
-
-            <div className="hero-artifact__lanes">
-              {profile.heroArtifactLanes.map((lane, index) => (
-                <section key={lane.label} className="hero-artifact__lane">
-                  <div className="hero-artifact__lane-top">
-                    <span className="hero-artifact__lane-index">0{index + 1}</span>
-                    <div>
-                      <p className="hero-artifact__lane-label">{lane.label}</p>
-                      <p className="hero-artifact__lane-summary">{lane.summary}</p>
-                    </div>
-                  </div>
-
-                  <ul className="hero-artifact__lane-list">
-                    {lane.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-              ))}
-            </div>
-
-            <div className="hero-artifact__foot">
-              <span>{profile.location}</span>
-              <span>{profile.education}</span>
-            </div>
-          </MotionReveal>
-        </motion.aside>
-      </div>
-
-      <MotionReveal className="hero-ribbon" delay={0.18}>
-        <div className="hero-ribbon__label">Selected work signals</div>
-        <div className="hero-ribbon__viewport">
-          <div className="hero-ribbon__marquee">
-            <div className="hero-ribbon__track">
-              {profile.heroRibbon.map((item) => (
-                <span key={item} className="hero-ribbon__item">
-                  {item}
-                </span>
-              ))}
-            </div>
-            <div className="hero-ribbon__track hero-ribbon__track--duplicate" aria-hidden="true">
-              {profile.heroRibbon.map((item) => (
-                <span key={`${item}-duplicate`} className="hero-ribbon__item">
-                  {item}
-                </span>
-              ))}
-            </div>
+            </motion.div>
+          </div>
+          <div className="system-trace__foot">
+            <span>Illustrative system map</span>
+            <a href="#projects">
+              Read the case study <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
-      </MotionReveal>
+      </div>
+
+      <details className="hero-notes">
+        <summary>
+          <span>
+            Build notes{' '}
+            <span className="hero-notes__caption">/ Background & approach</span>
+          </span>
+          <span className="hero-notes__toggle" aria-hidden="true">
+            +
+          </span>
+        </summary>
+        <div className="hero-notes__body">
+          <div>
+            <p>{profile.intro}</p>
+            <p>
+              {profile.education} · {profile.location}
+            </p>
+            <ul>
+              {profile.focusAreas.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <dl>
+            {profile.details.map((detail) => (
+              <div key={detail.label}>
+                <dt>{detail.label}</dt>
+                <dd>{detail.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div>
+            <h3>{profile.heroArtifactTitle}</h3>
+            <p>{profile.heroArtifactSummary}</p>
+            <ul>
+              {profile.heroRibbon.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </details>
+      <a className="hero-next" href="#about">
+        <span>Keep exploring</span>
+        <span>Approach, selected work & more</span>
+        <span aria-hidden="true">↓</span>
+      </a>
     </section>
   )
 }

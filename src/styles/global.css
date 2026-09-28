@@ -10,17 +10,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-bg: #f4efe8;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --page-gutter: clamp(20px, 4vw, 64px);
+  --color-bg: #eeede5;
   --color-bg-soft: #fbf7f1;
   --color-surface: rgba(255, 252, 247, 0.88);
   --color-surface-strong: #fffdf9;
   --color-tint: #ece2d5;
   --color-border: rgba(78, 59, 40, 0.14);
   --color-border-strong: rgba(38, 83, 74, 0.28);
-  --color-text: #1d1916;
-  --color-text-muted: #655e58;
-  --color-accent: #215f53;
-  --color-accent-strong: #143d35;
+  --color-text: #20271f;
+  --color-text-muted: #5f655c;
+  --color-accent: #345a35;
+  --color-accent-strong: #193b2d;
   --color-accent-soft: #dcebe6;
   --color-shadow: 0 18px 50px rgba(76, 58, 41, 0.08);
   --heading-font: 'Fraunces', Georgia, serif;
@@ -34,6 +41,7 @@
 }
 
 html {
+  position: relative;
   scroll-behavior: smooth;
   overflow-x: clip;
   text-wrap: pretty;
@@ -45,10 +53,7 @@ body {
   min-height: 100vh;
   overflow-x: clip;
   color: var(--color-text);
-  background:
-    radial-gradient(circle at top left, rgba(244, 218, 183, 0.32), transparent 28%),
-    radial-gradient(circle at 88% 14%, rgba(183, 220, 210, 0.24), transparent 24%),
-    linear-gradient(180deg, #f8f3ec 0%, #f4efe8 36%, #efe7dc 100%);
+  background: var(--color-bg);
 }
 
 a {
@@ -81,6 +86,8 @@ svg {
   width: 100%;
   overflow-x: clip;
 }
+
+section[id] { scroll-margin-top: 100px; }
 
 p,
 h1,
