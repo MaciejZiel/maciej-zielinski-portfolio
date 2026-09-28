@@ -99,7 +99,7 @@ export function SpatialField({
       const rows = Math.ceil(height / stepY) + 3
       const originX = (width - (columns - 1) * stepX) / 2 - stepX
       const originY = (height - (rows - 1) * stepY) / 2 - stepY
-      const radius = Math.min(360, width * 0.3)
+      const radius = Math.min(520, width * 0.42)
       const time = elapsedRef.current
       const phase = time * 0.00022
       const color = scene.rgb.map((channel) => Math.round(channel)).join(',')
@@ -113,12 +113,12 @@ export function SpatialField({
         const pointerDX = baseX - pointerX
         const pointerDY = baseY - pointerY
         const distance = Math.hypot(pointerDX, pointerDY)
-        const falloff = pointerWeight * Math.pow(Math.max(0, 1 - distance / radius), 2)
+        const falloff = pointerWeight * Math.pow(Math.max(0, 1 - distance / radius), 1.8)
         const inverseDistance = 1 / Math.max(distance, 1)
 
         return {
-          x: centerX + (baseX - centerX) * scale + centeredY * (progress * 0.012 + scene.skew * 0.075) + wave - pointerDX * inverseDistance * falloff * 48 * scene.bend,
-          y: centerY + centeredY * (scale + (centeredY / centerY) * scene.perspective * 0.09) + Math.cos(baseX * 0.004 - phase) * ambient * 0.65 + audioBend - pointerDY * inverseDistance * falloff * 48 * scene.bend,
+          x: centerX + (baseX - centerX) * scale + centeredY * (progress * 0.012 + scene.skew * 0.075) + wave - pointerDX * inverseDistance * falloff * 68 * scene.bend,
+          y: centerY + centeredY * (scale + (centeredY / centerY) * scene.perspective * 0.09) + Math.cos(baseX * 0.004 - phase) * ambient * 0.65 + audioBend - pointerDY * inverseDistance * falloff * 68 * scene.bend,
         }
       }
 
