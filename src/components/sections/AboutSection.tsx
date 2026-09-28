@@ -9,60 +9,57 @@ export function AboutSection({
   aboutPoints,
   projectSignals,
 }: AboutSectionProps) {
+  const pillarTitles = [
+    'System Seams & Boundaries',
+    'AI as a Controlled Runtime',
+    'Practical Backend-First Tooling',
+  ]
+
   return (
-    <section id="about" className="about-section" data-section-word="About">
-      <MotionReveal className="about-section__intro">
-        <div className="section-intro__eyebrow">
-          <span className="section-index">01</span>
-          <p className="section-kicker">About</p>
-        </div>
-        <div className="about-section__intro-grid">
-          <h2 className="section-heading">
-            I build backend-first systems that still make product sense under
-            real constraints.
-          </h2>
-          <p className="about-section__intro-note">
-            Computer Science student in Warsaw, focused on backend, Python, and
-            applied AI roles where engineering quality matters.
-          </p>
-        </div>
+    <section id="about" className="manifesto-section">
+      <MotionReveal className="manifesto-eyebrow">
+        <span className="manifesto-index">02 // PHILOSOPHY & METHODOLOGY</span>
+        <span className="manifesto-bracket">[ SYSTEMS ORIENTATION ]</span>
       </MotionReveal>
 
-      <div className="about-section__layout">
-        <MotionReveal className="about-section__statement" delay={0.08}>
-          <p>
+      <MotionReveal className="manifesto-lead">
+        <h2 className="manifesto-heading">
+          I build <span className="manifesto-heading__highlight">backend-first</span> systems that still make product sense under real-world constraints.
+        </h2>
+      </MotionReveal>
+
+      <div className="manifesto-grid">
+        <MotionReveal className="manifesto-aside" delay={0.08}>
+          <p className="manifesto-aside__statement">
             The work I enjoy most lives where APIs, AI capabilities, runtime
             constraints, and maintainable engineering all have to cooperate.
           </p>
-          <div className="about-section__signals">
-            <p className="about-section__signals-label">
-              What shows up across the projects
-            </p>
-            <ul className="about-section__signals-list">
-              {projectSignals.map((signal) => (
-                <li key={signal}>{signal}</li>
+
+          <div className="manifesto-signals">
+            <span className="manifesto-signals__label">RECURRING ENGINEERING SIGNALS</span>
+            <ul className="manifesto-signals__list">
+              {projectSignals.map((signal, idx) => (
+                <li key={signal}>
+                  <span className="signal-marker" aria-hidden="true">0{idx + 1}</span>
+                  <span>{signal}</span>
+                </li>
               ))}
             </ul>
           </div>
         </MotionReveal>
 
-        <div className="about-section__body">
+        <div className="manifesto-pillars">
           {aboutPoints.map((point, index) => (
             <MotionReveal
               key={point}
-              className="about-section__paragraph"
+              className="manifesto-pillar"
               delay={0.12 + index * 0.08}
             >
-              <div className="about-section__paragraph-head">
-                <span className="about-section__paragraph-index">
-                  0{index + 1}
-                </span>
-                <span
-                  className="about-section__paragraph-rule"
-                  aria-hidden="true"
-                />
+              <div className="manifesto-pillar__head">
+                <span className="manifesto-pillar__num">0{index + 1}</span>
+                <span className="manifesto-pillar__title">{pillarTitles[index] ?? `Principle 0${index + 1}`}</span>
               </div>
-              <p>{point}</p>
+              <p className="manifesto-pillar__text">{point}</p>
             </MotionReveal>
           ))}
         </div>
