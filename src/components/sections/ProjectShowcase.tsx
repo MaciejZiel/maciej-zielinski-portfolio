@@ -14,6 +14,8 @@ import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
 import { TagList } from '../ui/TagList'
 
+const breathingRange = [0, 0.24, 0.4, 0.62, 0.8, 1]
+
 interface ProjectShowcaseProps {
   index: number
   project: FeaturedProject
@@ -32,6 +34,16 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const stageY = useTransform(scrollYProgress, [0, 1], [16, -16])
   const railScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.88, 1, 1.1, 1, 0.88])
   const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.4, 0.75, 1, 0.75, 0.4])
+  const audioChapter = project.theme === 'signal'
+  const hasVisualBreathingBeat = project.theme !== 'steel'
+  const diagramShift = project.theme === 'vision' ? -300 : index % 2 === 0 ? -110 : 110
+  const narrativeShift = index % 2 === 0 ? -420 : 420
+  const focusScaleX = useTransform(scrollYProgress, breathingRange, [1, 1, audioChapter ? 1.6 : project.theme === 'vision' ? 1.8 : 1.48, audioChapter ? 1.6 : project.theme === 'vision' ? 1.8 : 1.48, 1, 1])
+  const focusScaleY = useTransform(scrollYProgress, breathingRange, [1, 1, audioChapter ? 1 : 1.14, audioChapter ? 1 : 1.14, 1, 1])
+  const focusX = useTransform(scrollYProgress, breathingRange, [0, 0, diagramShift, diagramShift, 0, 0])
+  const narrativeX = useTransform(scrollYProgress, breathingRange, [0, 0, narrativeShift, narrativeShift, 0, 0])
+  const narrativeOpacity = useTransform(scrollYProgress, breathingRange, [1, 1, 0, 0, 1, 1])
+  const focusRailOpacity = useTransform(scrollYProgress, breathingRange, [0.4, 0.75, 0.75, 0.16, 0.16, 0.4])
 
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
 
@@ -69,16 +81,16 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
           <motion.p
             className="project-showcase__rail-index"
             style={
-              reduceMotion
-                ? undefined
-                : { scale: railScale, opacity: railOpacity }
+                reduceMotion
+                  ? undefined
+                  : { scale: railScale, opacity: hasVisualBreathingBeat ? focusRailOpacity : railOpacity }
             }
           >
             0{index + 1}
           </motion.p>
           <motion.div
             className="project-showcase__rail-copy"
-            style={reduceMotion ? undefined : { opacity: railOpacity }}
+            style={reduceMotion ? undefined : { opacity: hasVisualBreathingBeat ? focusRailOpacity : railOpacity }}
           >
             <span>{project.category}</span>
             <span>{project.year}</span>
@@ -88,12 +100,12 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
       <div className="project-showcase__main-wrap">
         <div className="project-showcase__body">
-          {/* Column 1: Case Study Narrative */}
-          <MotionReveal
-            className="project-showcase__content"
+          <motion.div
+            className="project-showcase__content-focus"
+            style={reduceMotion || !hasVisualBreathingBeat ? undefined : { x: narrativeX, opacity: narrativeOpacity }}
           >
+            <MotionReveal className="project-showcase__content">
             <div className="project-showcase__meta">
-              <span className="project-showcase__category">{project.category}</span>
               <span className="project-showcase__status">{project.status}</span>
             </div>
 
@@ -191,9 +203,9 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 ) : null}
               </div>
             </div>
-          </MotionReveal>
+            </MotionReveal>
+          </motion.div>
 
-          {/* The diagram remains alongside the narrative; CaseFlow pins it through its request journey. */}
           <motion.div
             className={`project-showcase__artifact${project.theme === 'steel' ? ' project-showcase__artifact--pinned' : ''}`}
             style={reduceMotion || project.theme === 'steel' ? undefined : { y: stageY}}
@@ -207,7 +219,16 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </div>
               </div>
 
-              <ProjectDiagram project={project} activeLane={activeLaneIndex} onSelectLane={setActiveLaneIndex} />
+              <ProjectDiagram
+                project={project}
+                activeLane={activeLaneIndex}
+                onSelectLane={setActiveLaneIndex}
+                visualFocusStyle={reduceMotion || !hasVisualBreathingBeat ? undefined : {
+                  x: focusX,
+                  scaleX: focusScaleX,
+                  scaleY: focusScaleY,
+                }}
+              />
 
               <div className="project-showcase__artifact-header">
                 <span className="project-showcase__artifact-label">Explore the build</span>
