@@ -27,6 +27,9 @@
   perspective: 1100px;
 }
 
+.hero-masthead[data-name-bursting='true'] { z-index: 3; }
+.hero-masthead[data-name-bursting='true'] .hero-name__mask { overflow: visible; }
+
 .hero-name {
   margin: 0;
   font-family: var(--display-font);
@@ -35,6 +38,24 @@
   line-height: 0.79;
   letter-spacing: -0.095em;
 }
+
+.hero-name__button {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: left;
+  touch-action: manipulation;
+}
+
+.hero-name__button:focus-visible { outline-offset: 8px; }
 
 .hero-name__mask {
   display: block;
