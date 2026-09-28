@@ -125,36 +125,6 @@
   height: 16px;
 }
 
-.skill-lane {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.52fr) minmax(0, 1.48fr);
-  gap: 20px;
-  padding: 22px 24px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 252, 247, 0.82)),
-    rgba(255, 252, 247, 0.72);
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-}
-
-.skill-lane__header {
-  display: grid;
-  gap: 10px;
-}
-
-.skill-lane__items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-content: start;
-}
-
-.skill-lane__item {
-  background: rgba(255, 253, 249, 0.94);
-}
-
 .contact-section {
   padding-bottom: clamp(4rem, 8vw, 6rem);
 }
@@ -1207,6 +1177,53 @@
   margin-top: 36px;
 }
 
+.skill-lane {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 22px 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1.5fr);
+  gap: 24px;
+  align-items: center;
+  transition: all 180ms ease;
+}
+
+.skill-lane:hover {
+  border-color: var(--color-accent);
+}
+
+.skill-lane__label {
+  margin: 0 0 4px;
+  font-family: var(--heading-font);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.skill-lane__summary {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.skill-lane__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.skill-lane__item {
+  color: var(--color-text);
+  font-family: var(--mono-font);
+  font-size: .7rem;
+  line-height: 1.6;
+}
+
+.skill-lane__item + .skill-lane__item::before { content: '/'; margin-right: 16px; color: var(--color-accent); }
+
 .tag-list { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; }
 
 .tag-list__item { color: var(--color-text-muted); font: .67rem var(--mono-font); }
@@ -1484,6 +1501,10 @@
 .hero-link:not(.hero-link--primary):hover::after,
 .system-trace__foot a:hover::after,
 .site-socials__link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.skill-lane__item { position: relative; transition: color 220ms ease, translate 220ms cubic-bezier(.2,.8,.2,1); }
+
+.skill-lane__item:hover { color: var(--color-text); translate: 0 -3px; }
 
 @media (max-width: 1080px) {
 .project-showcase__body { grid-template-columns: minmax(0,1fr) minmax(0,.95fr); gap: 28px; }
