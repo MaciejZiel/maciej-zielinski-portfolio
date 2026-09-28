@@ -128,6 +128,21 @@ span {
   top: 1rem;
 }
 
+.motion-reveal { position: relative; isolation: isolate; }
+.motion-reveal::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--experience-accent, var(--color-accent)) 40%, transparent);
+  background: var(--color-bg);
+  content: '';
+  pointer-events: none;
+  transform: scaleY(1);
+  transform-origin: bottom;
+}
+.motion-reveal[data-revealed='true']::after { transform: scaleY(0); transition: transform 920ms cubic-bezier(.2,.82,.2,1); }
+.motion-reveal:focus-within::after { transform: scaleY(0); transition: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -141,3 +156,5 @@ span {
     transition-duration: 0.01ms !important;
   }
 }
+
+@media (prefers-reduced-motion: reduce) { .motion-reveal::after { display: none; } }

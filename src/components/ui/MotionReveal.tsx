@@ -1,4 +1,5 @@
 import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion'
+import { useState } from 'react'
 
 interface MotionRevealProps extends HTMLMotionProps<'div'> {
   delay?: number
@@ -10,18 +11,23 @@ export function MotionReveal({
   delay = 0,
   distance = 34,
   transition,
+  className,
   ...props
 }: MotionRevealProps) {
   const reduceMotion = useReducedMotion()
+  const [revealed, setRevealed] = useState(Boolean(reduceMotion))
 
   return (
     <motion.div
       {...props}
-      initial={reduceMotion ? false : { opacity: 0, y: distance }}
+      className={`motion-reveal${className ? ` ${className}` : ''}`}
+      data-revealed={revealed}
+      initial={reduceMotion ? false : { opacity: 1, y: distance }}
       whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={reduceMotion ? undefined : { once: true, amount: 0.24 }}
+      viewport={reduceMotion ? undefined : { once: true, amount: 0.1 }}
+      onViewportEnter={() => setRevealed(true)}
       transition={{
-        duration: 0.82,
+        duration: 0.94,
         ease: [0.22, 1, 0.36, 1],
         delay,
         ...transition,
