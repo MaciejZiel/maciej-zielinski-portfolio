@@ -139,6 +139,14 @@ span {
   transition: color 900ms ease;
 }
 
+.spatial-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .56;
+}
+
 .site-cursor {
   position: fixed;
   z-index: 80;

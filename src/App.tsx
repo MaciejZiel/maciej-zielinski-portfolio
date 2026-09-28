@@ -1,4 +1,4 @@
-import { MotionConfig } from 'framer-motion'
+import { MotionConfig, useScroll } from 'framer-motion'
 
 import { SiteHeader } from './components/layout/SiteHeader'
 import { AboutSection } from './components/sections/AboutSection'
@@ -20,6 +20,8 @@ import {
 import './styles/app.css'
 
 function App() {
+  const { scrollYProgress } = useScroll()
+
   return (
     <MotionConfig reducedMotion="user">
       <>
@@ -28,7 +30,7 @@ function App() {
         </a>
 
         <div className="site-shell">
-          <ExperienceLayer />
+          <ExperienceLayer scrollYProgress={scrollYProgress} />
           <SiteHeader
             name={profile.name}
             headline={profile.headline}

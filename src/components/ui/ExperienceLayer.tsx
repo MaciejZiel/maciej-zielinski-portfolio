@@ -3,9 +3,11 @@ import {
   useMotionValue,
   useReducedMotion,
   useSpring,
+  type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { usePageVisible } from '../../hooks/usePageVisible'
+import { SpatialField } from './SpatialField'
 
 const chapterAccents: Record<string, string> = {
   top: '#c8f958',
@@ -29,7 +31,7 @@ const probePaths: Record<CursorMode, string> = {
   signature: 'M3 23V5L10 15L17 5V23M21 5H29L21 23H29',
 }
 
-export function ExperienceLayer() {
+export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const reduceMotion = useReducedMotion()
   const pageVisible = usePageVisible()
   const pointerX = useMotionValue(-100)
@@ -167,6 +169,11 @@ export function ExperienceLayer() {
         style={{ '--experience-accent': chapterAccent } as CSSProperties}
         aria-hidden="true"
       >
+        <SpatialField
+          reduceMotion={Boolean(reduceMotion)}
+          pageVisible={pageVisible}
+          scrollYProgress={scrollYProgress}
+        />
       </div>
 
       <motion.div
