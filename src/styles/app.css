@@ -1220,6 +1220,13 @@
 @media (max-width: 1080px) {
   .project-showcase__body { grid-template-columns: minmax(0,1fr) minmax(0,.95fr); gap: 28px; }
 }
+@media (min-width: 761px) and (max-width: 900px) {
+  .contact-section .contact-section__intro-grid { grid-template-columns: 1fr; align-items: start; gap: 32px; }
+  .contact-heading { max-width: 12ch; }
+  .contact-section__intro-grid > div { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .contact-section__links { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px 32px; }
+  .contact-section__link-wrap:first-child { grid-column: 1 / -1; }
+}
 @media (max-width: 760px) {
   .manifesto-heading { font-family: var(--heading-font); font-size: clamp(1.875rem, 8vw, 3.6rem); letter-spacing: -.045em; }
   .section-intro__eyebrow, .manifesto-eyebrow { gap: 16px; align-items: start; font-size: .62rem; letter-spacing: .08em; }
