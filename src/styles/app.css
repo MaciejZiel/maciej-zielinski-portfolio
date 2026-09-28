@@ -1049,7 +1049,7 @@
   position: relative;
   margin: 4px 0 8px;
   padding: 10px 0 20px;
-  overflow: hidden;
+  overflow: visible;
   border-block: 1px solid var(--color-border);
   color: var(--project-accent);
 }
@@ -1120,7 +1120,7 @@
 .domain-packet { fill: var(--color-text); }
 
 /* A closing scene with one clear invitation and the existing real contact routes. */
-.contact-section { isolation: isolate; overflow: hidden; }
+.contact-section { isolation: isolate; }
 .contact-section .contact-section__intro-grid { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(220px,.55fr); gap: clamp(24px,6vw,100px); align-items: end; }
 .contact-heading { max-width: 11ch; font-size: clamp(3.5rem, 8.3vw, 8.5rem); line-height: .85; letter-spacing: -.085em; }
 .contact-heading em { color: var(--color-accent); font-style: normal; }

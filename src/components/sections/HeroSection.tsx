@@ -48,6 +48,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
   const burstActive = useRef(false)
   const [activeStage, setActiveStage] = useState(0)
   const [nameBurst, setNameBurst] = useState<NameBurst | null>(null)
+  const [nameRevealComplete, setNameRevealComplete] = useState(false)
   const reduceMotion = useReducedMotion()
   const [firstName, ...lastName] = profile.name.split(' ')
   const lane = profile.heroArtifactLanes[activeStage] ?? profile.heroArtifactLanes[0]
@@ -55,6 +56,10 @@ export function HeroSection({ profile }: HeroSectionProps) {
   const nameScrollY = useTransform(scrollYProgress, [0, 0.2, 0.72, 1], [0, -8, -92, -128])
   const nameScale = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [1, 0.99, 0.88, 0.82])
   const nameRotate = useTransform(scrollYProgress, [0, 0.45, 1], [0, -0.5, -2.1])
+
+  useEffect(() => {
+    if (reduceMotion) setNameRevealComplete(true)
+  }, [reduceMotion])
 
   useEffect(() => () => {
     if (burstTimer.current !== null) window.clearTimeout(burstTimer.current)
@@ -109,7 +114,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
       className="engineering-hero"
       aria-labelledby="hero-name"
     >
-      <motion.div className="hero-masthead" data-name-bursting={nameBurst ? 'true' : undefined} style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate }}>
+      <motion.div className="hero-masthead" data-name-bursting={nameBurst ? 'true' : undefined} data-name-revealed={nameRevealComplete ? 'true' : undefined} style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate }}>
         <h1 ref={nameRef} id="hero-name" className="hero-name" aria-label={profile.name}>
           <button className="hero-name__button" type="button" aria-label={`Burst the lettering of ${profile.name}`} onClick={handleNameClick}>
           {[firstName, lastName.join(' ')].map((word, index) => (
@@ -127,6 +132,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
                         className="hero-name__glyph"
                         initial={reduceMotion ? false : { ...glyphStart, x: characterIndex % 2 ? 18 : -18 }}
                         animate={burstAnimation(impulse)}
+                        onAnimationComplete={index === 1 && characterIndex === word.length - 1 ? () => setNameRevealComplete(true) : undefined}
                         transition={impulse ? { ...burstTransition, duration: nameBurst?.duration ?? burstTransition.duration } : {
                           duration: reduceMotion ? 0 : 0.86,
                           delay: reduceMotion ? 0 : 0.1 + index * 0.18 + characterIndex * 0.062,

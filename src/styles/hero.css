@@ -29,6 +29,7 @@
 
 .hero-masthead[data-name-bursting='true'] { z-index: 3; }
 .hero-masthead[data-name-bursting='true'] .hero-name__mask { overflow: visible; }
+.hero-masthead[data-name-revealed='true'] .hero-name__mask { overflow: visible; }
 
 .hero-name {
   margin: 0;
