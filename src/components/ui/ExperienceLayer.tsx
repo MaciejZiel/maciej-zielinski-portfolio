@@ -32,6 +32,33 @@ const chapterAccents: Record<string, string> = {
   contact: '#c8f958',
 }
 
+const projectChapters = new Set(['steel', 'signal', 'vision', 'track'])
+const chapterTransitionPaths: Record<string, string[]> = {
+  steel: [
+    'M-40 350H175C250 350 252 210 326 210H610C685 210 682 490 758 490H1040',
+    'M-40 380H160C232 380 236 240 310 240H594C668 240 666 520 742 520H1040',
+  ],
+  signal: [
+    'M-20 350H48C102 350 100 174 164 174S226 526 292 526 360 174 426 174 494 526 560 526 628 174 694 174 760 526 826 526 892 350 952 350H1020',
+  ],
+  vision: [
+    'M-20 165L1020 70M-20 350H1020M-20 535L1020 630',
+    'M120 -20L286 720M320 -20L414 720M520 -20V720M720 -20L626 720M920 -20L754 720',
+    'M175 250H825V450H175Z',
+  ],
+  track: [
+    'M110 220L330 350L550 220L770 350L940 220',
+    'M110 480L330 350L550 480L770 350L940 480',
+    'M330 350H550',
+  ],
+}
+
+const chapterTransitionNodes = [
+  { x: 110, y: 220 }, { x: 330, y: 350 }, { x: 550, y: 220 },
+  { x: 770, y: 350 }, { x: 940, y: 220 }, { x: 110, y: 480 },
+  { x: 550, y: 480 }, { x: 940, y: 480 },
+]
+
 export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const reduceMotion = useReducedMotion()
   const pageVisible = usePageVisible()
@@ -41,8 +68,11 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
   const springY = useSpring(pointerY, { stiffness: 820, damping: 48, mass: 0.2 })
   const [visible, setVisible] = useState(false)
   const [chapter, setChapter] = useState('top')
+  const [projectTransition, setProjectTransition] = useState<{ chapter: string; id: number } | null>(null)
   const pointerTarget = useRef({ x: -1000, y: -1000, active: false })
   const previousMagnet = useRef<HTMLElement | null>(null)
+  const activeChapter = useRef('top')
+  const transitionSequence = useRef(0)
   const chapterAccent = chapterAccents[chapter] ?? chapterAccents.top
 
   useEffect(() => {
@@ -204,12 +234,18 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       const target = current.target as HTMLElement
       const project = target.className.match(/project-showcase--(steel|signal|vision|track)/)
       const nextChapter = project?.[1] ?? target.id ?? 'top'
-      setChapter((currentChapter) => currentChapter === nextChapter ? currentChapter : nextChapter)
+      if (activeChapter.current === nextChapter) return
+      const touchSizedViewport = window.innerWidth <= 760 || window.matchMedia('(pointer: coarse)').matches
+      if (projectChapters.has(activeChapter.current) && projectChapters.has(nextChapter) && !reduceMotion && !touchSizedViewport) {
+        setProjectTransition({ chapter: nextChapter, id: ++transitionSequence.current })
+      }
+      activeChapter.current = nextChapter
+      setChapter(nextChapter)
     }, { rootMargin: '-42% 0px -42% 0px', threshold: [0, 0.1, 0.35, 0.65] })
 
     chapters.forEach((chapterElement) => observer.observe(chapterElement))
     return () => observer.disconnect()
-  }, [])
+  }, [reduceMotion])
 
   const cursorPosition = reduceMotion ? { x: pointerX, y: pointerY } : { x: springX, y: springY }
 
@@ -231,6 +267,45 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
           scrollYProgress={scrollYProgress}
         />
       </div>
+
+      {projectTransition ? (
+        <motion.div
+          key={projectTransition.id}
+          className="chapter-transition"
+          data-chapter={projectTransition.chapter}
+          style={{ '--transition-accent': chapterAccents[projectTransition.chapter] } as CSSProperties}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0.96, 0.84, 0] }}
+          transition={{ duration: 0.72, times: [0, 0.16, 0.62, 1], ease: [0.22, 1, 0.36, 1] }}
+          onAnimationComplete={() => setProjectTransition((current) => current?.id === projectTransition.id ? null : current)}
+          aria-hidden="true"
+        >
+          <svg className="chapter-transition__drawing" viewBox="0 0 1000 700" preserveAspectRatio="none">
+            {(chapterTransitionPaths[projectTransition.chapter] ?? []).map((path, index) => (
+              <motion.path
+                key={`${projectTransition.chapter}-${index}`}
+                d={path}
+                className={index === 0 ? 'chapter-transition__path chapter-transition__path--lead' : 'chapter-transition__path'}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: index === 0 ? 0.92 : 0.42 }}
+                transition={{ duration: 0.56, delay: index * 0.035, ease: [0.22, 1, 0.36, 1] }}
+              />
+            ))}
+            {projectTransition.chapter === 'track' ? chapterTransitionNodes.map((node, index) => (
+              <motion.circle
+                key={`track-${index}`}
+                className="chapter-transition__node"
+                cx={node.x}
+                cy={node.y}
+                r={index === 1 || index === 3 ? 6 : 4}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.7 }}
+                transition={{ duration: 0.24, delay: 0.18 + index * 0.018 }}
+              />
+            )) : null}
+          </svg>
+        </motion.div>
+      ) : null}
 
       <motion.div
         className="site-cursor"
