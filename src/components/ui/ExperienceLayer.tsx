@@ -40,6 +40,7 @@ const chapterAccents: Record<string, string> = {
 }
 
 const projectChapters = new Set(['steel', 'signal', 'vision', 'track'])
+const CUSTOM_CURSOR_ENABLED = false
 const chapterTransitionPaths: Record<string, string[]> = {
   steel: [
     'M-40 350H175C250 350 252 210 326 210H610C685 210 682 490 758 490H1040',
@@ -93,6 +94,12 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
 
   useEffect(() => {
     const coarsePointer = window.matchMedia('(pointer: coarse)')
+    if (CUSTOM_CURSOR_ENABLED) {
+      document.documentElement.dataset.customCursor = 'enabled'
+    } else {
+      delete document.documentElement.dataset.customCursor
+      delete document.documentElement.dataset.pointerInput
+    }
     let frame = 0
     let pending: PointerEvent | null = null
     let cursorVisible = false
@@ -212,8 +219,10 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       pointerTarget.current.y = event.clientY
       pointerTarget.current.active = true
       applyProximity(event.clientX, event.clientY)
-      document.documentElement.dataset.pointerInput = 'mouse'
-      if (!cursorVisible) { cursorVisible = true; setVisible(true) }
+      if (CUSTOM_CURSOR_ENABLED) {
+        document.documentElement.dataset.pointerInput = 'mouse'
+        if (!cursorVisible) { cursorVisible = true; setVisible(true) }
+      }
 
       const target = event.target instanceof Element ? event.target : null
       const magnet = reduceMotion ? null : target?.closest<HTMLElement>('[data-magnetic]') ?? null
@@ -297,6 +306,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       window.removeEventListener('resize', invalidateBounds)
       window.removeEventListener('blur', hideCursor)
       delete document.documentElement.dataset.pointerInput
+      delete document.documentElement.dataset.customCursor
       setMagnet(previousMagnet.current)
       clearProximity()
     }
@@ -387,17 +397,19 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         </motion.div>
       ) : null}
 
-      <motion.div
-        className="site-cursor"
-        data-visible={visible}
-        data-reduced={reduceMotion}
-        style={cursorPosition}
-        aria-hidden="true"
-      >
-        <svg className="site-cursor__probe" viewBox="0 0 24 24">
-          <path d="M2 2L21 12L13 14L10 22L2 2Z" />
-        </svg>
-      </motion.div>
+      {CUSTOM_CURSOR_ENABLED ? (
+        <motion.div
+          className="site-cursor"
+          data-visible={visible}
+          data-reduced={reduceMotion}
+          style={cursorPosition}
+          aria-hidden="true"
+        >
+          <svg className="site-cursor__probe" viewBox="0 0 24 24">
+            <path d="M2 2L21 12L13 14L10 22L2 2Z" />
+          </svg>
+        </motion.div>
+      ) : null}
     </>
   )
 }

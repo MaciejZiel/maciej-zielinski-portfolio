@@ -219,8 +219,8 @@ span {
 .site-cursor__probe path { fill: var(--color-bg); stroke: currentColor; stroke-width: 1.35; stroke-linecap: square; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
 .site-cursor[data-reduced='true'] { transition: none; }
 
-html[data-pointer-input='mouse'] .site-shell,
-html[data-pointer-input='mouse'] .site-shell * { cursor: none !important; }
+html[data-custom-cursor='enabled'][data-pointer-input='mouse'] .site-shell,
+html[data-custom-cursor='enabled'][data-pointer-input='mouse'] .site-shell * { cursor: none !important; }
 
 @keyframes atmosphere-drift {
   from { transform: translate3d(-1.5vw, -1vh, 0) rotate(-9deg) scale(.96); }
