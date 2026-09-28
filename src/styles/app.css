@@ -1091,7 +1091,8 @@
 .project-showcase__footer { gap: 16px; }
 .project-showcase__link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 0 5px; border-bottom: 1px solid var(--project-accent); background: transparent; color: var(--color-text); }
 .project-showcase__link:hover { transform: none; background: transparent; color: var(--project-accent); }
-.project-showcase__link-icon { transition: transform 180ms ease; }
+.project-showcase__link-icon { flex: 0 0 18px; width: 18px; height: 18px; transition: transform 180ms ease; }
+.project-showcase__link > span { white-space: nowrap; }
 .project-showcase__link:hover .project-showcase__link-icon { transform: translate(3px, -3px); }
 
 .project-diagram {
@@ -1220,6 +1221,9 @@
   .project-showcase__body { grid-template-columns: minmax(0,1fr) minmax(0,.95fr); gap: 28px; }
 }
 @media (max-width: 760px) {
+  .manifesto-heading { font-family: var(--heading-font); font-size: clamp(1.875rem, 8vw, 3.6rem); letter-spacing: -.045em; }
+  .section-intro__eyebrow, .manifesto-eyebrow { gap: 16px; align-items: start; font-size: .62rem; letter-spacing: .08em; }
+  .section-bracket, .manifesto-bracket { max-width: 18ch; text-align: right; }
   .project-showcase__artifact--pinned { position: static; }
   .caseflow-story__step { min-height: 210px; }
   .project-showcase--steel .caseflow-story { display: none; }
