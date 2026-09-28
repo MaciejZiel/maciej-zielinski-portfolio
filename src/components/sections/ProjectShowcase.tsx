@@ -22,6 +22,7 @@ interface ProjectShowcaseProps {
 export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
+  const scrollLaneIndex = useRef(-1)
   const hasCompactName = project.name.includes('_') || project.name.length > 16
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
@@ -37,12 +38,15 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
 
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    if (project.theme !== 'steel' || reduceMotion) return
+    // Touch exploration is manual; desktop only advances when a narrative gate changes.
+    if (project.theme !== 'steel' || reduceMotion || window.innerWidth <= 760) return
     const stage = Math.min(
       project.artifactLanes.length - 1,
       Math.floor(progress * project.artifactLanes.length),
     )
-    setActiveLaneIndex((current) => current === stage ? current : stage)
+    if (scrollLaneIndex.current === stage) return
+    scrollLaneIndex.current = stage
+    setActiveLaneIndex(stage)
   })
 
   return (
@@ -152,6 +156,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             <details className="project-showcase__deep-dive">
               <summary><span>Open the engineering notes</span><span aria-hidden="true">+</span></summary>
               <div className="project-showcase__deep-dive-body">
+                {project.theme === 'steel' ? <p>{project.outcome}</p> : null}
                 <p>{project.context}</p>
                 <div className="project-showcase__narrative">
                   <div className="project-showcase__narrative-block">
