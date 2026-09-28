@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import type { ContactMethod } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
+import { useAmbientActivity } from '../../hooks/useAmbientActivity'
 
 interface ContactSectionProps {
   contactMethods: ContactMethod[]
@@ -12,13 +13,14 @@ interface ContactSectionProps {
 export function ContactSection({ contactMethods }: ContactSectionProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const reduceMotion = useReducedMotion()
+  const ambientActive = useAmbientActivity(sectionRef)
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
   const routeProgress = useTransform(scrollYProgress, [0.05, 0.78], [0, 1])
   const finaleScale = useTransform(scrollYProgress, [0, 0.24, 0.68, 1], [0.88, 1, 1.04, 0.96])
   const finaleY = useTransform(scrollYProgress, [0, 0.35, 1], [36, 0, -48])
 
   return (
-    <section ref={sectionRef} id="contact" className="contact-section" data-reduced={reduceMotion}>
+    <section ref={sectionRef} id="contact" className="contact-section" data-reduced={reduceMotion} data-ambient-active={ambientActive}>
       <svg className="contact-route" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
         <path className="contact-route__track" d="M1000 0 C1000 180 995 500 1000 620 C970 660 520 680 12 680" />
         <motion.path

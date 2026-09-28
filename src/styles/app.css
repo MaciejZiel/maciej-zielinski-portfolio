@@ -35,9 +35,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: rgba(9, 12, 11, 0.85);
+  background: rgba(9, 12, 11, 0.97);
   margin-inline: calc(-1 * var(--page-gutter));
   padding-inline: var(--page-gutter);
   border-bottom: 1px solid var(--color-border);
@@ -684,7 +682,7 @@
   text-transform: uppercase;
   text-decoration: none;
   width: fit-content;
-  transition: all 180ms ease;
+  transition: color 180ms ease, border-color 180ms ease;
 }
 
 /* Architecture trace: an open technical drawing, not a nested dashboard card. */
@@ -835,7 +833,7 @@
   border-top: 1px solid var(--color-border);
   border-radius: 0;
   text-decoration: none;
-  transition: all 180ms ease;
+  transition: border-color 180ms ease;
 }
 
 .projects-rail__item:hover {
@@ -880,7 +878,7 @@
   grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1.5fr);
   gap: 24px;
   align-items: center;
-  transition: all 180ms ease;
+  transition: border-color 180ms ease;
 }
 
 .skill-lane:hover {
@@ -941,7 +939,7 @@
   flex-direction: column;
   gap: 16px;
   text-decoration: none;
-  transition: all 200ms ease;
+  transition: border-color 200ms ease;
 }
 
 .contact-section__link:hover {
@@ -1116,12 +1114,21 @@
 .caseflow-route-node--active circle { fill: var(--color-accent); stroke: var(--color-accent); }
 .caseflow-route-node--active text { fill: var(--color-text); }
 .caseflow-route-token { fill: var(--color-accent); }
-.caseflow-route-packet { fill: var(--color-text); filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-accent) 75%, transparent)); }
+.caseflow-route-packet { fill: var(--color-text); }
 .project-diagram--signal svg { max-height: 176px; }
 .diagram-wave-mid { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 1; }
 .diagram-waveform { transform-box: view-box; transform-origin: 0 50% !important; }
 .diagram-wave-bar { fill: var(--project-accent); opacity: .32; }
 .diagram-wave-bar--active { opacity: .95; }
+.diagram-wave-cluster { transform-box: view-box; transform-origin: 0 50%; animation: waveform-breathe 2.1s ease-in-out infinite alternate; animation-play-state: paused; }
+.diagram-waveform[data-running='true'] .diagram-wave-cluster { animation-play-state: running; }
+.project-diagram[data-reduced='true'] .diagram-wave-cluster { animation: none; }
+.diagram-wave-cluster--1 { animation-delay: -.35s; animation-duration: 1.8s; }
+.diagram-wave-cluster--2 { animation-delay: -.7s; animation-duration: 2.4s; }
+.diagram-wave-cluster--3 { animation-delay: -1.05s; animation-duration: 1.95s; }
+.diagram-wave-cluster--4 { animation-delay: -1.4s; animation-duration: 2.25s; }
+.diagram-wave-cluster--5 { animation-delay: -1.75s; animation-duration: 2.55s; }
+@keyframes waveform-breathe { 0% { transform: scaleY(.68); } 55% { transform: scaleY(1.16); } 100% { transform: scaleY(.84); } }
 .diagram-playhead { fill: none; stroke: var(--color-text); stroke-width: 1; opacity: .72; vector-effect: non-scaling-stroke; }
 .diagram-conversion-route { fill: none; stroke: var(--color-accent); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
 .diagram-transcript { color: var(--color-text); }
@@ -1139,14 +1146,13 @@
 .vision-target rect { fill: none; stroke: var(--project-accent); stroke-width: .6; opacity: .25; vector-effect: non-scaling-stroke; }
 .vision-target--active text { fill: var(--project-accent); }
 .vision-reticle { fill: var(--color-text); opacity: .7; }
-.vision-reticle { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--project-accent) 65%, transparent)); }
 .domain-link { fill: none; stroke: var(--project-accent); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .domain-link--active { stroke-width: 2.2; }
 .domain-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .domain-node--active circle { fill: var(--project-accent); }
 .domain-node--active text { fill: var(--color-text); }
 .domain-pulse { fill: none; stroke: var(--color-accent); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.domain-packet { fill: var(--color-text); filter: drop-shadow(0 0 4px color-mix(in srgb, var(--project-accent) 80%, transparent)); }
+.domain-packet { fill: var(--color-text); }
 .project-diagram__index { position: absolute; right: 0; bottom: 4px; color: var(--color-text-muted); font: .56rem var(--mono-font); letter-spacing: .1em; }
 
 /* A closing scene with one clear invitation and the existing real contact routes. */
@@ -1179,6 +1185,7 @@
   50% { box-shadow: 0 0 0 7px rgba(200,249,88,0); }
 }
 .contact-section[data-reduced='true'] .contact-section__status-beacon { animation: none; }
+.contact-section[data-ambient-active='false'] .contact-section__status-beacon { animation-play-state: paused; }
 
 .hero-link,
 .system-trace__foot a,

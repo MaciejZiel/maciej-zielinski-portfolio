@@ -6,6 +6,7 @@ import {
   type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { usePageVisible } from '../../hooks/usePageVisible'
 
 const chapterAccents: Record<string, string> = {
   top: '#c8f958',
@@ -20,6 +21,7 @@ const chapterAccents: Record<string, string> = {
 
 export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const reduceMotion = useReducedMotion()
+  const pageVisible = usePageVisible()
   const pointerX = useMotionValue(-100)
   const pointerY = useMotionValue(-100)
   const springX = useSpring(pointerX, { stiffness: 420, damping: 34, mass: 0.35 })
@@ -145,6 +147,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         className="experience-atmosphere"
         data-chapter={chapter}
         data-reduced={reduceMotion}
+        data-page-visible={pageVisible}
         style={{ '--experience-accent': chapterAccent } as CSSProperties}
         aria-hidden="true"
       >
@@ -163,8 +166,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
             d="M46 -20 C4 94 80 154 39 270 S75 450 36 570 S74 730 38 838 S20 946 46 1020"
             pathLength="1"
             strokeDasharray="0.008 0.992"
-            animate={reduceMotion ? undefined : { strokeDashoffset: [0, -1] }}
-            transition={reduceMotion ? undefined : { duration: 14, ease: 'linear', repeat: Infinity }}
+            animate={reduceMotion || !pageVisible ? { strokeDashoffset: 0 } : { strokeDashoffset: [0, -1] }}
+            transition={reduceMotion || !pageVisible ? { duration: 0 } : { duration: 14, ease: 'linear', repeat: Infinity }}
           />
         </svg>
       </div>

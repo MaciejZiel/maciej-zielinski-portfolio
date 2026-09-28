@@ -1,7 +1,18 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
+import { useAmbientActivity } from '../../hooks/useAmbientActivity'
+
+// Static geometry is computed once. Six phased groups retain the full 72-bar waveform.
+const waveformGroups = Array.from({ length: 6 }, (_, group) =>
+  Array.from({ length: 12 }, (_, offset) => {
+    const index = offset * 6 + group
+    const envelope = 0.2 + 0.8 * Math.sin((index / 71) * Math.PI) ** 0.7
+    const wave = 0.28 + Math.abs(Math.sin(index * 1.93) * Math.cos(index * 0.37))
+    return { index, height: 18 + envelope * wave * 108 }
+  }),
+)
 
 interface ProjectDiagramProps {
   project: FeaturedProject
@@ -23,7 +34,7 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
         d="M48 140H592"
         initial={false}
         animate={{ pathLength: progress }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
       />
       {nodeX.map((x, index) => (
         <g key={x} className={index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
@@ -37,16 +48,17 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
         cy="140"
         r="4"
         initial={false}
-        animate={{ cx: nodeX[activeLane] ?? nodeX[0] }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ x: (nodeX[activeLane] ?? nodeX[0]) - nodeX[0] }}
+        transition={{ duration: reduceMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
       />
       {!reduceMotion && isVisible ? (
         <motion.circle
           className="caseflow-route-packet"
           cy="140"
           r="3"
-          initial={{ cx: 48 }}
-          animate={{ cx: [48, 592] }}
+          cx="48"
+          initial={{ x: 0 }}
+          animate={{ x: [0, 544] }}
           transition={{ duration: 3.4, ease: 'linear', repeat: Infinity, repeatDelay: 0.65 }}
         />
       ) : null}
@@ -56,12 +68,6 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
 }
 
 function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
-  const bars = Array.from({ length: 72 }, (_, index) => {
-    const envelope = 0.2 + 0.8 * Math.sin((index / 71) * Math.PI) ** 0.7
-    const wave = 0.28 + Math.abs(Math.sin(index * 1.93) * Math.cos(index * 0.37))
-    return 18 + envelope * wave * 108
-  })
-
   return (
     <svg viewBox="0 0 720 220" role="img" aria-label={`${project.name} audio processing visualization`}>
       <path className="diagram-grid" d="M0 45H720M0 110H720M0 175H720M36 0V220M108 0V220M180 0V220M252 0V220M324 0V220M396 0V220M468 0V220M540 0V220M612 0V220M684 0V220" />
@@ -70,22 +76,17 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         className="diagram-waveform"
         initial={false}
         animate={{ scaleX: activeLane === 2 ? 0.58 : 1 }}
-        transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
         style={{ transformOrigin: '0px 110px' }}
+        data-running={!reduceMotion && isVisible}
       >
-        {bars.map((height, index) => (
-          <motion.rect
-            key={index}
-            x={index * 10 + 1}
-            y={110 - height / 2}
-            width="4"
-            height={height}
-            rx="2"
-            className={Math.floor(index / 24) === activeLane ? 'diagram-wave-bar diagram-wave-bar--active' : 'diagram-wave-bar'}
-            animate={reduceMotion || !isVisible ? undefined : { scaleY: [0.84, 1, 0.9] }}
-            transition={reduceMotion || !isVisible ? undefined : { duration: 1.8 + (index % 5) * 0.15, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut', delay: (index % 12) * 0.04 }}
-            style={{ transformOrigin: '50% 50%' }}
-          />
+        {waveformGroups.map((bars, group) => (
+          <g className={`diagram-wave-cluster diagram-wave-cluster--${group}`} key={group}>
+            {bars.map(({ height, index }) => (
+              <rect key={index} x={index * 10 + 1} y={110 - height / 2} width="4" height={height} rx="2"
+                className={Math.floor(index / 24) === activeLane ? 'diagram-wave-bar diagram-wave-bar--active' : 'diagram-wave-bar'} />
+            ))}
+          </g>
         ))}
       </motion.g>
       <motion.path
@@ -93,13 +94,13 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         d="M412 110 C440 110 430 74 466 74"
         initial={false}
         animate={{ pathLength: activeLane === 2 ? 1 : activeLane === 1 ? 0.38 : 0 }}
-        transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: reduceMotion ? 0 : 0.62, ease: [0.22, 1, 0.36, 1] }}
       />
       <motion.g
         className="diagram-transcript"
         initial={false}
         animate={{ opacity: activeLane === 2 ? 1 : 0, x: activeLane === 2 ? 0 : 14 }}
-        transition={{ duration: 0.42, delay: activeLane === 2 ? 0.2 : 0 }}
+        transition={{ duration: reduceMotion ? 0 : 0.42, delay: !reduceMotion && activeLane === 2 ? 0.2 : 0 }}
       >
         <text x="475" y="68">TRANSCRIPT / READY</text>
         <path d="M475 90H674M475 108H638M475 126H665M475 144H617M475 162H650" />
@@ -110,7 +111,7 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         d="M0 18V202"
         initial={false}
         animate={reduceMotion || !isVisible ? { x: [0, 480, 700][activeLane] } : { x: [0, 700] }}
-        transition={reduceMotion || !isVisible ? { duration: 0.25 } : { duration: 6, repeat: Infinity, ease: 'linear' }}
+        transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 6, repeat: Infinity, ease: 'linear' }}
       />
       <text x="0" y="216">INGEST</text><text x="332" y="216">RUNTIME</text><text x="652" y="216">EXPORT</text>
     </svg>
@@ -128,7 +129,7 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
   return (
     <svg viewBox="0 0 720 270" role="img" aria-label={`${project.name} live frame and detection bounds`}>
       <path className="diagram-grid" d="M0 45H720M0 90H720M0 135H720M0 180H720M0 225H720M45 0V270M90 0V270M135 0V270M180 0V270M225 0V270M270 0V270M315 0V270M360 0V270M405 0V270M450 0V270M495 0V270M540 0V270M585 0V270M630 0V270M675 0V270" />
-      <motion.path className="vision-scan" d="M0 0H720" animate={reduceMotion || !isVisible ? undefined : { y: [18, 250, 18] }} transition={reduceMotion || !isVisible ? undefined : { duration: 5, repeat: Infinity, ease: 'linear' }} />
+      <motion.path className="vision-scan" d="M0 0H720" animate={reduceMotion || !isVisible ? { y: 18 } : { y: [18, 250, 18] }} transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 5, repeat: Infinity, ease: 'linear' }} />
       {targets.map((box, index) => (
         <g key={box.x} className={index === activeLane ? 'vision-target vision-target--active' : 'vision-target'}>
           <path d={`M${box.x} ${box.y + 16}V${box.y}H${box.x + 16}M${box.x + box.width - 16} ${box.y}H${box.x + box.width}V${box.y + 16}M${box.x} ${box.y + box.height - 16}V${box.y + box.height}H${box.x + 16}M${box.x + box.width - 16} ${box.y + box.height}H${box.x + box.width}V${box.y + box.height - 16}`} />
@@ -142,7 +143,7 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
         d="M70 230H650"
         initial={false}
         animate={{ pathLength: [0.33, 0.66, 1][activeLane] ?? 0.33 }}
-        transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: reduceMotion ? 0 : 0.62, ease: [0.22, 1, 0.36, 1] }}
       />
       {[['CAPTURE', 110], ['INFERENCE', 360], ['CONTROL', 610]].map(([label, x], index) => (
         <g className={index === activeLane ? 'vision-loop-node vision-loop-node--active' : 'vision-loop-node'} key={label}>
@@ -153,15 +154,15 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
       <text x="20" y="265">FRAME BUFFER / CLOSED CONTROL LOOP</text>
       <motion.circle
         className="vision-reticle"
-        cx={target.x + target.width / 2}
-        cy={target.y + target.height / 2}
+        cx="0"
+        cy="0"
         r="3"
         initial={false}
-        animate={reduceMotion || !isVisible ? { cx: target.x + target.width / 2, cy: target.y + target.height / 2 } : {
-          cx: [187, 403, 542, 187],
-          cy: [123, 125, 154, 123],
+        animate={reduceMotion || !isVisible ? { x: target.x + target.width / 2, y: target.y + target.height / 2 } : {
+          x: [187, 403, 542, 187],
+          y: [123, 125, 154, 123],
         }}
-        transition={reduceMotion || !isVisible ? { duration: 0.2 } : { duration: 5.4, repeat: Infinity, ease: 'linear' }}
+        transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 5.4, repeat: Infinity, ease: 'linear' }}
       />
     </svg>
   )
@@ -203,7 +204,7 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
         d="M28 70H612"
         initial={false}
         animate={{ pathLength: activeLane === 1 ? 1 : activeLane === 2 ? 0.4 : 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
       />
       {nodes.map((node, index) => (
         <g key={node.label} className={activeLane === 0 || (activeLane === 1 && index < 3) || (activeLane === 2 && index >= 3) ? 'domain-node domain-node--active' : 'domain-node'}>
@@ -216,11 +217,11 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
         className="domain-packet"
         r="4"
         initial={false}
-        animate={reduceMotion || !isVisible ? { cx: nodes[0].x, cy: nodes[0].y } : {
-          cx: [100, 320, 540, 430, 320, 210, 100],
-          cy: [70, 70, 70, 200, 70, 200, 70],
+        animate={reduceMotion || !isVisible ? { x: nodes[0].x, y: nodes[0].y } : {
+          x: [100, 320, 540, 430, 320, 210, 100],
+          y: [70, 70, 70, 200, 70, 200, 70],
         }}
-        transition={reduceMotion || !isVisible ? { duration: 0.2 } : { duration: 7.2, repeat: Infinity, ease: 'linear' }}
+        transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 7.2, repeat: Infinity, ease: 'linear' }}
       />
       <text x="24" y="258">{laneLabel.toUpperCase()} / RELATED RESOURCES</text>
     </svg>
@@ -230,19 +231,10 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
 export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
   const reduceMotion = useReducedMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(() => typeof IntersectionObserver === 'undefined')
-
-  useEffect(() => {
-    const element = diagramRef.current
-    if (!element || typeof IntersectionObserver === 'undefined') return
-
-    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { rootMargin: '120px' })
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [])
+  const isVisible = useAmbientActivity(diagramRef)
 
   return (
-    <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} aria-hidden="true">
+    <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} data-reduced={reduceMotion} aria-hidden="true">
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
