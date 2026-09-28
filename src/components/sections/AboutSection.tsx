@@ -18,8 +18,7 @@ export function AboutSection({
   return (
     <section id="about" className="manifesto-section">
       <MotionReveal className="manifesto-eyebrow">
-        <span className="manifesto-index">02 // PHILOSOPHY & METHODOLOGY</span>
-        <span className="manifesto-bracket">[ SYSTEMS ORIENTATION ]</span>
+        <span>Philosophy &amp; methodology</span>
       </MotionReveal>
 
       <MotionReveal className="manifesto-lead">

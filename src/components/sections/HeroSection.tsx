@@ -31,11 +31,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
       className="engineering-hero"
       aria-labelledby="hero-name"
     >
-      <div className="hero-edition">
-        <span>Backend systems / applied AI</span>
-        <span>{profile.location}</span>
-      </div>
-
       <motion.div className="hero-masthead" style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate }}>
         <h1 id="hero-name" className="hero-name" aria-label={profile.name}>
           {[firstName, lastName.join(' ')].map((word, index) => (
@@ -80,7 +75,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
           ))}
         </h1>
         <div className="hero-position">
-          <span className="hero-position__index">[ MZ / 01 ]</span>
           <p><span>Backend developer.</span><em>Systems thinker.</em></p>
           <span className="hero-position__stack">Python / Applied AI</span>
         </div>
@@ -88,7 +82,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
 
       <div className="hero-workbench">
         <div className="hero-introduction">
-          <p className="hero-introduction__label">The work behind the interface</p>
           <p className="hero-introduction__statement">I build the systems<br />that <em>hold it together.</em></p>
           <p className="hero-introduction__copy">{profile.summary}</p>
           <div className="hero-links">
@@ -100,8 +93,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noreferrer' : undefined}
                 data-magnetic
-                data-cursor={link.variant === 'primary' ? 'explore' : 'link'}
-                data-cursor-label={link.label.toUpperCase()}
               >
                 {link.label}<Icon name={link.icon ?? 'arrow-up-right'} />
               </a>
@@ -113,10 +104,8 @@ export function HeroSection({ profile }: HeroSectionProps) {
         <div className="system-trace" aria-label="Explore the CaseFlow architecture">
           <div className="system-trace__heading">
             <div>
-              <span className="system-trace__eyebrow">Case study / 01</span>
               <h2>CaseFlow</h2>
             </div>
-            <span className="system-trace__status">Private backend<br />Architecture study</span>
           </div>
           <div className="system-trace__guide"><span>Follow a request</span><span>Select a layer ↓</span></div>
           <div className="system-trace__stages" role="group" aria-label="CaseFlow system layers">
@@ -134,7 +123,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
                 aria-pressed={activeStage === index}
                 aria-controls="system-layer-detail"
                 data-magnetic
-                data-cursor-label={stage.label.toUpperCase()}
                 onClick={() => setActiveStage(index)}
               >
                 <span className="system-trace__node" aria-hidden="true">0{index + 1}</span>
@@ -151,7 +139,6 @@ export function HeroSection({ profile }: HeroSectionProps) {
                 exit={reduceMotion ? undefined : { opacity: 0, x: -8 }}
                 transition={{ duration: reduceMotion ? 0 : 0.24 }}
               >
-                <span className="system-trace__detail-number" aria-hidden="true">0{activeStage + 1}</span>
                 <div className="system-trace__detail-copy">
                   <h3>{lane.label}</h3>
                   <p>{lane.summary}</p>
@@ -191,8 +178,8 @@ export function HeroSection({ profile }: HeroSectionProps) {
         </div>
       </details>
 
-      <a className="hero-next" href="#about" data-cursor="explore" data-cursor-label="FOLLOW THE ROUTE">
-        <span>Keep exploring</span><span>Approach, selected work & more</span><span aria-hidden="true">↓</span>
+      <a className="hero-next" href="#about">
+        <span>Keep exploring</span><span aria-hidden="true">↓</span>
       </a>
     </section>
   )

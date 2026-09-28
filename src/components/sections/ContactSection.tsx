@@ -22,7 +22,6 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
     <section ref={sectionRef} id="contact" className="contact-section" data-reduced={reduceMotion} data-ambient-active={ambientActive}>
       <MotionReveal className="contact-section__intro">
         <div className="section-intro__eyebrow">
-          <span className="section-index">05</span>
           <p className="section-kicker">Contact</p>
         </div>
         <div className="contact-section__intro-grid">
@@ -56,8 +55,6 @@ export function ContactSection({ contactMethods }: ContactSectionProps) {
                   rel={method.href.startsWith('http') ? 'noreferrer' : undefined}
                   target={method.href.startsWith('http') ? '_blank' : undefined}
                   data-magnetic
-                  data-cursor="contact"
-                  data-cursor-label={index === 0 ? 'WRITE' : 'CONNECT'}
                 >
                   <span className="contact-section__link-index">0{index + 1}</span>
                   <span className="contact-section__link-meta">

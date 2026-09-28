@@ -10,7 +10,6 @@ export function SkillsSection({ skillLanes }: SkillsSectionProps) {
     <section id="skills" className="skills-section">
       <MotionReveal className="skills-section__intro">
         <div className="section-intro__eyebrow">
-          <span className="section-index">04</span>
           <p className="section-kicker">Toolbox</p>
         </div>
         <div className="skills-section__intro-grid">

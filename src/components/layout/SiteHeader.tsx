@@ -23,7 +23,7 @@ export function SiteHeader({
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <a className="brand" href="#top" aria-label={`${name} — back to top`} data-magnetic data-cursor-label="TOP">
+        <a className="brand" href="#top" aria-label={`${name} — back to top`} data-magnetic>
           <span className="brand__mark" aria-hidden="true">MZ</span>
           <span className="brand__text">
             <span className="brand__name">{name}</span>
@@ -33,16 +33,14 @@ export function SiteHeader({
 
         <div className="site-header__right">
           <nav className="site-nav" aria-label="Section navigation">
-            {navigationItems.map((item, index) => (
+            {navigationItems.map((item) => (
               <a
                 key={item.label}
                 className={`site-nav__link${item.href === activeHref ? ' site-nav__link--active' : ''}`}
                 href={item.href}
                 aria-current={item.href === activeHref ? 'location' : undefined}
                 data-magnetic
-                data-cursor-label={item.label.toUpperCase()}
               >
-                <span className="site-nav__number" aria-hidden="true">0{index + 2}</span>
                 {item.label}
                 {item.href === activeHref ? <motion.span className="site-nav__indicator" layoutId="active-nav-indicator" /> : null}
               </a>
@@ -59,7 +57,6 @@ export function SiteHeader({
                 rel={link.external ? 'noreferrer' : undefined}
                 target={link.external ? '_blank' : undefined}
                 data-magnetic
-                data-cursor-label={link.label.toUpperCase()}
               >
                 <span className="site-socials__label">{link.label}</span>
                 <Icon

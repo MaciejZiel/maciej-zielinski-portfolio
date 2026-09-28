@@ -239,7 +239,7 @@ export function ProjectDiagram({ project, activeLane, onSelectLane }: ProjectDia
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       </div>
       {project.theme === 'signal' && onSelectLane ? (
-        <label className="audio-journey" data-cursor="explore" data-cursor-label="TRACE AUDIO → TEXT">
+        <label className="audio-journey">
           <span className="audio-journey__caption">Trace audio → text <span aria-hidden="true">↔</span></span>
           <input className="audio-journey__scrubber" type="range" min="0" max={project.artifactLanes.length - 1} step="1"
             value={activeLane} aria-label="Audio processing stage" aria-valuetext={project.artifactLanes[activeLane]?.label}

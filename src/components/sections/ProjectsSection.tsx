@@ -18,8 +18,7 @@ export function ProjectsSection({
     >
       <MotionReveal className="projects-section__intro">
         <div className="section-intro__eyebrow">
-          <span className="section-index">03 // SELECTED CASE STUDIES</span>
-          <span className="section-bracket">[ PRODUCTION ARCHITECTURES ]</span>
+          <span>Selected work</span>
         </div>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
@@ -61,7 +60,6 @@ export function ProjectsSection({
               rel="noreferrer"
               target="_blank"
               data-magnetic
-              data-cursor-label="OPEN PROJECT"
             >
               <span className="projects-rail__item-index">0{index + 1}</span>
               <span className="projects-rail__item-body">
