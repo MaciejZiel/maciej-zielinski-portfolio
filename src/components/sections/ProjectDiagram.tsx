@@ -167,6 +167,66 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
   )
 }
 
+function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
+  const nodes = [
+    { x: 100, y: 70, label: 'SEASON' },
+    { x: 320, y: 70, label: 'RACE' },
+    { x: 540, y: 70, label: 'RESULT' },
+    { x: 210, y: 200, label: 'TEAM' },
+    { x: 430, y: 200, label: 'DRIVER' },
+  ]
+  const paths = ['M100 70H320', 'M320 70H540', 'M100 70L210 200', 'M320 70L210 200', 'M320 70L430 200', 'M540 70L430 200']
+  const laneLabel = project.artifactLanes[activeLane]?.label ?? 'Domain'
+
+  return (
+    <svg viewBox="0 0 640 270" role="img" aria-label={`${project.name} motorsport domain map`}>
+      <path className="diagram-grid" d="M0 35H640M0 105H640M0 175H640M0 245H640M35 0V270M105 0V270M175 0V270M245 0V270M315 0V270M385 0V270M455 0V270M525 0V270M595 0V270" />
+      {paths.map((path, index) => (
+        <motion.path
+          key={path}
+          className={
+            activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1)
+              ? 'domain-link domain-link--active'
+              : 'domain-link'
+          }
+          d={path}
+          initial={false}
+          animate={{
+            pathLength: activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1) ? 1 : 0.16,
+            opacity: activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1) ? 1 : 0.35,
+          }}
+          transition={{ duration: reduceMotion ? 0 : 0.45 }}
+        />
+      ))}
+      <motion.path
+        className="domain-api-flow"
+        d="M28 70H612"
+        initial={false}
+        animate={{ pathLength: activeLane === 1 ? 1 : activeLane === 2 ? 0.4 : 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      />
+      {nodes.map((node, index) => (
+        <g key={node.label} className={activeLane === 0 || (activeLane === 1 && index < 3) || (activeLane === 2 && index >= 3) ? 'domain-node domain-node--active' : 'domain-node'}>
+          <circle cx={node.x} cy={node.y} r="6" />
+          <text x={node.x} y={node.y + 24} textAnchor="middle">{node.label}</text>
+        </g>
+      ))}
+      <motion.circle className="domain-pulse" cx={nodes[activeLane === 2 ? 2 : activeLane === 1 ? 4 : 0].x} cy={nodes[activeLane === 2 ? 2 : activeLane === 1 ? 4 : 0].y} r="15" animate={reduceMotion || !isVisible ? { opacity: 0.28, scale: 1 } : { opacity: [0.15, 0.45, 0.15], scale: [0.9, 1.1, 0.9] }} transition={reduceMotion || !isVisible ? undefined : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }} />
+      <motion.circle
+        className="domain-packet"
+        r="4"
+        initial={false}
+        animate={reduceMotion || !isVisible ? { cx: nodes[0].x, cy: nodes[0].y } : {
+          cx: [100, 320, 540, 430, 320, 210, 100],
+          cy: [70, 70, 70, 200, 70, 200, 70],
+        }}
+        transition={reduceMotion || !isVisible ? { duration: 0.2 } : { duration: 7.2, repeat: Infinity, ease: 'linear' }}
+      />
+      <text x="24" y="258">{laneLabel.toUpperCase()} / RELATED RESOURCES</text>
+    </svg>
+  )
+}
+
 export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
   const reduceMotion = useReducedMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
@@ -186,6 +246,7 @@ export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
+      {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       <span className="project-diagram__index">FIG. 0{activeLane + 1}</span>
     </div>
   )
