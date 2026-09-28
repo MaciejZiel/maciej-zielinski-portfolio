@@ -21,6 +21,13 @@ interface ProximityTarget {
   y: number
 }
 
+interface GlyphTarget {
+  element: HTMLElement
+  glyph: HTMLElement
+  x: number
+  y: number
+}
+
 const chapterAccents: Record<string, string> = {
   top: '#c8f958',
   about: '#c8f958',
@@ -82,10 +89,17 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     let cursorVisible = false
     let magnetBounds: DOMRect | null = null
     let proximityTargets: ProximityTarget[] = []
+    let glyphTargets: GlyphTarget[] = []
+    let glyphBursting = false
     let proximityBoundsInvalid = true
     const clearProximity = () => {
       proximityTargets.forEach((target) => {
         if (target.x === 0 && target.y === 0) return
+        target.x = 0
+        target.y = 0
+        target.element.style.translate = '0px 0px'
+      })
+      glyphTargets.forEach((target) => {
         target.x = 0
         target.y = 0
         target.element.style.translate = '0px 0px'
@@ -111,7 +125,17 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         })
       }
       addTargets('.hero-masthead', 460, 10)
-      addTargets('.hero-name__glyph', 360, 21)
+      glyphTargets = [...document.querySelectorAll<HTMLElement>('.hero-name__proximity')]
+        .flatMap((element) => {
+          const glyph = element.querySelector<HTMLElement>('.hero-name__glyph')
+          const [translateX = '0', translateY = '0'] = getComputedStyle(element).translate.split(/\s+/)
+          return glyph ? [{
+            element,
+            glyph,
+            x: Number.parseFloat(translateX) || 0,
+            y: Number.parseFloat(translateY) || 0,
+          }] : []
+        })
       addTargets('.hero-position', 440, 7)
       addTargets('.hero-introduction', 520, 5)
       addTargets('.project-diagram__visual', 330, 7)
@@ -122,6 +146,28 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     const applyProximity = (x: number, y: number) => {
       if (reduceMotion) return
       if (proximityBoundsInvalid) refreshProximityBounds()
+
+      // Read each animated glyph's current visual box before writing transforms.
+      // This follows parent parallax, reveal motion, and the independent burst.
+      const glyphShifts = glyphBursting ? [] : glyphTargets.map((target, index) => {
+        const bounds = target.glyph.getBoundingClientRect()
+        const [translateX = '0', translateY = '0'] = getComputedStyle(target.element).translate.split(/\s+/)
+        const centerX = bounds.left + bounds.width / 2 - (Number.parseFloat(translateX) || 0)
+        const centerY = bounds.top + bounds.height / 2 - (Number.parseFloat(translateY) || 0)
+        const dx = centerX - x
+        const dy = centerY - y
+        const distance = Math.hypot(dx, dy)
+        const radius = 238
+        const falloff = Math.pow(Math.max(0, 1 - distance / radius), 2)
+        const angle = distance < 0.5 ? index * 2.399 : Math.atan2(dy, dx)
+        const amount = falloff * 19
+        return {
+          target,
+          x: Math.cos(angle) * amount,
+          y: Math.sin(angle) * amount,
+        }
+      })
+
       proximityTargets.forEach((target) => {
         const offsetX = target.left + target.width / 2 - x
         const offsetY = target.top + target.height / 2 - y
@@ -130,6 +176,12 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         const inverseDistance = 1 / Math.max(distance, 1)
         const shiftX = falloff < 0.008 ? 0 : offsetX * inverseDistance * target.strength * falloff
         const shiftY = falloff < 0.008 ? 0 : offsetY * inverseDistance * target.strength * falloff
+        if (Math.abs(shiftX - target.x) < 0.12 && Math.abs(shiftY - target.y) < 0.12) return
+        target.x = shiftX
+        target.y = shiftY
+        target.element.style.translate = `${shiftX.toFixed(2)}px ${shiftY.toFixed(2)}px`
+      })
+      glyphShifts.forEach(({ target, x: shiftX, y: shiftY }) => {
         if (Math.abs(shiftX - target.x) < 0.12 && Math.abs(shiftY - target.y) < 0.12) return
         target.x = shiftX
         target.y = shiftY
@@ -178,6 +230,23 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       if (!frame) frame = requestAnimationFrame(flushMove)
     }
 
+    const handleNameBurst = (event: Event) => {
+      glyphBursting = (event as CustomEvent<{ active: boolean }>).detail.active
+      if (glyphBursting) {
+        glyphTargets.forEach((target) => {
+          target.x = 0
+          target.y = 0
+          target.element.style.translate = '0px 0px'
+        })
+      } else if (pointerTarget.current.active) {
+        const { x, y } = pointerTarget.current
+        frame = requestAnimationFrame(() => {
+          frame = 0
+          applyProximity(x, y)
+        })
+      }
+    }
+
     const invalidateBounds = () => {
       magnetBounds = null
       proximityBoundsInvalid = true
@@ -203,6 +272,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     }
 
     document.addEventListener('pointermove', handleMove, { passive: true })
+    window.addEventListener('hero-name-burst', handleNameBurst)
     document.addEventListener('pointerout', handlePointerOut)
     document.addEventListener('keydown', handleKey)
     window.addEventListener('scroll', invalidateBounds, { passive: true })
@@ -211,6 +281,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     return () => {
       cancelAnimationFrame(frame)
       document.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('hero-name-burst', handleNameBurst)
       document.removeEventListener('pointerout', handlePointerOut)
       document.removeEventListener('keydown', handleKey)
       window.removeEventListener('scroll', invalidateBounds)

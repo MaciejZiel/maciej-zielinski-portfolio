@@ -70,6 +70,8 @@
 .hero-name__mask:last-child { margin-left: clamp(0px, 16vw, 250px); }
 .hero-name__line { display: block; white-space: nowrap; transform-origin: left bottom; }
 .hero-name__glyph { display: inline-block; transform-origin: 50% 100%; backface-visibility: hidden; }
+.hero-name__proximity { display: inline-block; vertical-align: baseline; transition: translate 150ms cubic-bezier(.2,.72,.2,1); }
+.hero-masthead[data-name-bursting='true'] .hero-name__proximity { transition: none; }
 .hero-name__period { color: var(--color-accent); }
 
 .hero-position {

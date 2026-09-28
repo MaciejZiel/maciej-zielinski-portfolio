@@ -90,11 +90,13 @@ export function HeroSection({ profile }: HeroSectionProps) {
     const duration = reduced ? 0.22 : 0.94
 
     burstActive.current = true
+    window.dispatchEvent(new CustomEvent('hero-name-burst', { detail: { active: true } }))
     setNameBurst({ impulses, duration })
     burstTimer.current = window.setTimeout(() => {
       burstActive.current = false
       burstTimer.current = null
       setNameBurst(null)
+      window.dispatchEvent(new CustomEvent('hero-name-burst', { detail: { active: false } }))
     }, duration * 1000 + 80)
   }
 
@@ -120,34 +122,37 @@ export function HeroSection({ profile }: HeroSectionProps) {
                 {[...word].map((character, characterIndex) => {
                   const impulse = nameBurst?.impulses[nextGlyphIndex++]
                   return (
-                    <motion.span
-                      className="hero-name__glyph"
-                      key={`${character}-${characterIndex}`}
-                      initial={reduceMotion ? false : { ...glyphStart, x: characterIndex % 2 ? 18 : -18 }}
-                      animate={burstAnimation(impulse)}
-                      transition={impulse ? { ...burstTransition, duration: nameBurst?.duration ?? burstTransition.duration } : {
-                        duration: reduceMotion ? 0 : 0.86,
-                        delay: reduceMotion ? 0 : 0.1 + index * 0.18 + characterIndex * 0.062,
-                        ease: glyphEase,
-                      }}
-                    >
-                      {character}
-                    </motion.span>
+                    <span className="hero-name__proximity" key={`${character}-${characterIndex}`}>
+                      <motion.span
+                        className="hero-name__glyph"
+                        initial={reduceMotion ? false : { ...glyphStart, x: characterIndex % 2 ? 18 : -18 }}
+                        animate={burstAnimation(impulse)}
+                        transition={impulse ? { ...burstTransition, duration: nameBurst?.duration ?? burstTransition.duration } : {
+                          duration: reduceMotion ? 0 : 0.86,
+                          delay: reduceMotion ? 0 : 0.1 + index * 0.18 + characterIndex * 0.062,
+                          ease: glyphEase,
+                        }}
+                      >
+                        {character}
+                      </motion.span>
+                    </span>
                   )
                 })}
                 {index === 1 ? (
-                  <motion.span
-                    className="hero-name__glyph hero-name__period"
-                    initial={reduceMotion ? false : glyphStart}
-                    animate={burstAnimation(nameBurst?.impulses[nextGlyphIndex++])}
-                    transition={nameBurst ? { ...burstTransition, duration: nameBurst.duration } : {
-                      duration: reduceMotion ? 0 : 0.86,
-                      delay: reduceMotion ? 0 : 0.1 + index * 0.18 + word.length * 0.055,
-                      ease: glyphEase,
-                    }}
-                  >
-                    .
-                  </motion.span>
+                  <span className="hero-name__proximity" key="period">
+                    <motion.span
+                      className="hero-name__glyph hero-name__period"
+                      initial={reduceMotion ? false : glyphStart}
+                      animate={burstAnimation(nameBurst?.impulses[nextGlyphIndex++])}
+                      transition={nameBurst ? { ...burstTransition, duration: nameBurst.duration } : {
+                        duration: reduceMotion ? 0 : 0.86,
+                        delay: reduceMotion ? 0 : 0.1 + index * 0.18 + word.length * 0.055,
+                        ease: glyphEase,
+                      }}
+                    >
+                      .
+                    </motion.span>
+                  </span>
                 ) : null}
               </span>
             </motion.span>
