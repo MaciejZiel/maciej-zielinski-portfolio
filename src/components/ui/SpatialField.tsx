@@ -13,17 +13,18 @@ interface FieldScene {
   flow: number
   perspective: number
   skew: number
+  converge: number
 }
 
 const scenes: Record<string, FieldScene> = {
-  top: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06 },
-  about: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06 },
-  steel: { rgb: [123, 228, 184], bend: 0.36, flow: 0.22, perspective: 0.18, skew: 0.1 },
-  signal: { rgb: [255, 184, 108], bend: 0.68, flow: 1, perspective: 0.08, skew: -0.08 },
-  vision: { rgb: [130, 177, 255], bend: 1.15, flow: 0.24, perspective: 1, skew: 0.42 },
-  track: { rgb: [212, 165, 224], bend: 0.82, flow: 0.68, perspective: 0.42, skew: 0.68 },
-  skills: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06 },
-  contact: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06 },
+  top: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06, converge: 0 },
+  about: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06, converge: 0 },
+  steel: { rgb: [123, 228, 184], bend: 0.36, flow: 0.22, perspective: 0.18, skew: 0.1, converge: 0 },
+  signal: { rgb: [255, 184, 108], bend: 0.68, flow: 1, perspective: 0.08, skew: -0.08, converge: 0 },
+  vision: { rgb: [130, 177, 255], bend: 1.15, flow: 0.24, perspective: 1, skew: 0.42, converge: 0 },
+  track: { rgb: [212, 165, 224], bend: 0.82, flow: 0.68, perspective: 0.42, skew: 0.68, converge: 0 },
+  skills: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06, converge: 0 },
+  contact: { rgb: [194, 225, 126], bend: 0.3, flow: 0.04, perspective: 0.12, skew: 0.02, converge: 0.26 },
 }
 
 export function SpatialField({
@@ -43,6 +44,7 @@ export function SpatialField({
   const scrollRef = useRef(0)
   const sceneRef = useRef<FieldScene>({ ...scenes.top, rgb: [...scenes.top.rgb] })
   const elapsedRef = useRef(0)
+  const hasWokenRef = useRef(false)
 
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
     scrollRef.current = progress
@@ -57,6 +59,7 @@ export function SpatialField({
     let height = 0
     let frame = 0
     let previousFrame = 0
+    const wakeStartedAt = performance.now()
     let pointerX = -1000
     let pointerY = -1000
     let pointerWeight = 0
@@ -82,6 +85,7 @@ export function SpatialField({
       scene.flow += (targetScene.flow - scene.flow) * sceneMix
       scene.perspective += (targetScene.perspective - scene.perspective) * sceneMix
       scene.skew += (targetScene.skew - scene.skew) * sceneMix
+      scene.converge += (targetScene.converge - scene.converge) * sceneMix
 
       const pointer = pointerTarget.current
       const pointerMix = reduceMotion ? 0 : 1 - Math.exp(-0.012 * elapsed)
@@ -90,6 +94,10 @@ export function SpatialField({
       pointerWeight += ((pointer.active && !reduceMotion ? 1 : 0) - pointerWeight) * pointerMix
 
       const progress = reduceMotion ? 0 : scrollRef.current
+      const wakeProgress = reduceMotion || !pageVisible || hasWokenRef.current
+        ? 1
+        : Math.min(1, Math.max(0, (timestamp - wakeStartedAt) / 1180))
+      if (wakeProgress === 1) hasWokenRef.current = true
       const centerX = width * 0.5
       const centerY = height * 0.5
       const scale = 1 + (progress - 0.35) * 0.036
@@ -107,7 +115,7 @@ export function SpatialField({
         const baseX = originX + column * stepX
         const baseY = originY + row * stepY
         const centeredY = baseY - centerY
-        const ambient = reduceMotion || !pageVisible ? 0 : 3.6
+        const ambient = reduceMotion || !pageVisible ? 0 : 3.6 * (1 - scene.converge * 0.8)
         const wave = Math.sin(baseX * 0.004 + phase + baseY * 0.002) * ambient
         const audioBend = Math.sin(baseX * 0.004 + baseY * 0.006 - phase * 1.3) * scene.flow * 14
         const pointerDX = baseX - pointerX
@@ -116,9 +124,15 @@ export function SpatialField({
         const falloff = pointerWeight * Math.pow(Math.max(0, 1 - distance / radius), 1.8)
         const inverseDistance = 1 / Math.max(distance, 1)
 
+        const x = centerX + (baseX - centerX) * scale + centeredY * (progress * 0.012 + scene.skew * 0.075) + wave - pointerDX * inverseDistance * falloff * 68 * scene.bend
+        const y = centerY + centeredY * (scale + (centeredY / centerY) * scene.perspective * 0.09) + Math.cos(baseX * 0.004 - phase) * ambient * 0.65 + audioBend - pointerDY * inverseDistance * falloff * 68 * scene.bend
+        const focusX = width * 0.39
+        const focusY = height * 0.36
+        const converge = scene.converge * Math.max(0, Math.min(1, (progress - 0.78) / 0.22))
+
         return {
-          x: centerX + (baseX - centerX) * scale + centeredY * (progress * 0.012 + scene.skew * 0.075) + wave - pointerDX * inverseDistance * falloff * 68 * scene.bend,
-          y: centerY + centeredY * (scale + (centeredY / centerY) * scene.perspective * 0.09) + Math.cos(baseX * 0.004 - phase) * ambient * 0.65 + audioBend - pointerDY * inverseDistance * falloff * 68 * scene.bend,
+          x: x + (focusX - x) * converge,
+          y: y + (focusY - y) * converge,
         }
       }
 
@@ -131,7 +145,7 @@ export function SpatialField({
           if (column === 0) context.moveTo(point.x, point.y)
           else context.lineTo(point.x, point.y)
         }
-        context.strokeStyle = `rgba(${color},0.14)`
+        context.strokeStyle = `rgba(${color},${0.14 * wakeProgress})`
         context.stroke()
       }
       for (let column = 0; column < columns; column += 1) {
@@ -141,7 +155,7 @@ export function SpatialField({
           if (row === 0) context.moveTo(point.x, point.y)
           else context.lineTo(point.x, point.y)
         }
-        context.strokeStyle = `rgba(${color},0.14)`
+        context.strokeStyle = `rgba(${color},${0.14 * wakeProgress})`
         context.stroke()
       }
     }
