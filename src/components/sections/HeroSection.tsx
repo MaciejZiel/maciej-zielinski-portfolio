@@ -1,5 +1,5 @@
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState } from 'react'
 
 import type { Profile } from '../../types/portfolio'
 import { Icon } from '../ui/Icon'
@@ -15,36 +15,14 @@ interface HeroSectionProps {
 
 export function HeroSection({ profile }: HeroSectionProps) {
   const heroRef = useRef<HTMLElement | null>(null)
-  const pointerBounds = useRef<{ left: number; top: number; width: number; height: number } | null>(null)
   const [activeStage, setActiveStage] = useState(0)
   const reduceMotion = useReducedMotion()
-  const pointerX = useMotionValue(0)
-  const pointerY = useMotionValue(0)
-  const flowX = useSpring(pointerX, { stiffness: 90, damping: 24, mass: 0.45 })
-  const flowY = useSpring(pointerY, { stiffness: 90, damping: 24, mass: 0.45 })
   const [firstName, ...lastName] = profile.name.split(' ')
   const lane = profile.heroArtifactLanes[activeStage] ?? profile.heroArtifactLanes[0]
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const nameScrollY = useTransform(scrollYProgress, [0, 0.2, 0.72, 1], [0, -8, -92, -128])
   const nameScale = useTransform(scrollYProgress, [0, 0.3, 0.8, 1], [1, 0.99, 0.88, 0.82])
   const nameRotate = useTransform(scrollYProgress, [0, 0.45, 1], [0, -0.5, -2.1])
-  const nameRotateY = useTransform(flowX, [-9, 9], [1.6, -1.6])
-  const nameRotateX = useTransform(flowY, [-5, 5], [-0.8, 0.8])
-  useEffect(() => {
-    const invalidate = () => { pointerBounds.current = null }
-    window.addEventListener('resize', invalidate)
-    return () => window.removeEventListener('resize', invalidate)
-  }, [])
-  const followPointer = (event: React.PointerEvent<HTMLElement>) => {
-    if (reduceMotion || event.pointerType !== 'mouse') return
-    if (!pointerBounds.current) {
-      const rect = event.currentTarget.getBoundingClientRect()
-      pointerBounds.current = { left: rect.left, top: rect.top + window.scrollY, width: rect.width, height: rect.height }
-    }
-    const bounds = pointerBounds.current
-    pointerX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 18)
-    pointerY.set(((event.clientY + window.scrollY - bounds.top) / bounds.height - 0.5) * 10)
-  }
 
   return (
     <section
@@ -52,11 +30,9 @@ export function HeroSection({ profile }: HeroSectionProps) {
       id="top"
       className="engineering-hero"
       aria-labelledby="hero-name"
-      onPointerMove={followPointer}
-      onPointerLeave={() => { pointerX.set(0); pointerY.set(0) }}
     >
       <svg className="hero-flow" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-        <motion.g style={reduceMotion ? undefined : { x: flowX, y: flowY }}>
+        <motion.g data-pointer-proximity="route">
           <path className="hero-flow__track" d="M16 380 C210 380 88 70 342 128 C560 178 472 420 720 354 C856 318 830 620 982 702 C1004 802 884 874 914 1030" />
           <motion.path
             className="hero-flow__signal"
@@ -70,7 +46,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
         <span>{profile.location}</span>
       </div>
 
-      <motion.div className="hero-masthead" style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate, rotateX: nameRotateX, rotateY: nameRotateY }}>
+      <motion.div className="hero-masthead" style={reduceMotion ? undefined : { y: nameScrollY, scale: nameScale, rotate: nameRotate }}>
         <h1 id="hero-name" className="hero-name" aria-label={profile.name} data-cursor="signature" data-cursor-label="MZ / 01">
           {[firstName, lastName.join(' ')].map((word, index) => (
             <motion.span

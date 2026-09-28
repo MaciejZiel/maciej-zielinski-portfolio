@@ -201,6 +201,11 @@ span {
 .motion-reveal[data-revealed='true']::after { transform: scaleY(0); transition: transform 920ms cubic-bezier(.2,.82,.2,1); }
 .motion-reveal:focus-within::after { transform: scaleY(0); transition: none; }
 
+[data-pointer-proximity] { transition: translate 160ms cubic-bezier(.2,.8,.2,1); }
+.hero-name__glyph,
+.project-diagram__visual,
+.contact-heading { transition: translate 160ms cubic-bezier(.2,.8,.2,1); }
+
 [data-magnetic] { translate: var(--magnetic-x, 0px) var(--magnetic-y, 0px); transition: translate 220ms cubic-bezier(.2,.8,.2,1); }
 
 @media (max-width: 760px), (pointer: coarse) {

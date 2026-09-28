@@ -9,6 +9,16 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { usePageVisible } from '../../hooks/usePageVisible'
 import { SpatialField } from './SpatialField'
 
+interface ProximityTarget {
+  element: HTMLElement
+  left: number
+  top: number
+  width: number
+  height: number
+  radius: number
+  strength: number
+}
+
 const chapterAccents: Record<string, string> = {
   top: '#c8f958',
   about: '#c8f958',
@@ -41,6 +51,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
   const [visible, setVisible] = useState(false)
   const [cursor, setCursor] = useState<{ mode: CursorMode; label: string; edge: boolean }>({ mode: 'default', label: '', edge: false })
   const [chapter, setChapter] = useState('top')
+  const pointerTarget = useRef({ x: -1000, y: -1000, active: false })
   const previousLabel = useRef('')
   const previousMagnet = useRef<HTMLElement | null>(null)
   const chapterAccent = chapterAccents[chapter] ?? chapterAccents.top
@@ -51,6 +62,49 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
     let pending: PointerEvent | null = null
     let cursorVisible = false
     let magnetBounds: DOMRect | null = null
+    let proximityTargets: ProximityTarget[] = []
+    let proximityBoundsInvalid = true
+    const clearProximity = () => {
+      proximityTargets.forEach(({ element }) => { element.style.translate = '0px 0px' })
+    }
+    const refreshProximityBounds = () => {
+      const targets: ProximityTarget[] = []
+      const addTargets = (selector: string, radius: number, strength: number) => {
+        document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
+          const bounds = element.getBoundingClientRect()
+          const [translateX = '0', translateY = '0'] = element.style.translate.split(/\s+/)
+          targets.push({
+            element,
+            left: bounds.left - (Number.parseFloat(translateX) || 0),
+            top: bounds.top - (Number.parseFloat(translateY) || 0),
+            width: bounds.width,
+            height: bounds.height,
+            radius,
+            strength,
+          })
+        })
+      }
+      addTargets('.hero-name__glyph', 255, 13)
+      addTargets('[data-pointer-proximity="route"]', 420, 10)
+      addTargets('.project-diagram__visual', 330, 7)
+      addTargets('.contact-heading', 390, 9)
+      proximityTargets = targets
+      proximityBoundsInvalid = false
+    }
+    const applyProximity = (x: number, y: number) => {
+      if (reduceMotion) return
+      if (proximityBoundsInvalid) refreshProximityBounds()
+      proximityTargets.forEach((target) => {
+        const offsetX = target.left + target.width / 2 - x
+        const offsetY = target.top + target.height / 2 - y
+        const distance = Math.hypot(offsetX, offsetY)
+        const falloff = Math.pow(Math.max(0, 1 - distance / target.radius), 2)
+        const inverseDistance = 1 / Math.max(distance, 1)
+        const shiftX = offsetX * inverseDistance * target.strength * falloff
+        const shiftY = offsetY * inverseDistance * target.strength * falloff
+        target.element.style.translate = `${shiftX.toFixed(2)}px ${shiftY.toFixed(2)}px`
+      })
+    }
     const setMagnet = (element: HTMLElement | null, x = 0, y = 0) => {
       element?.style.setProperty('--magnetic-x', `${x}px`)
       element?.style.setProperty('--magnetic-y', `${y}px`)
@@ -62,6 +116,10 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       if (!event) return
       pointerX.set(Math.min(event.clientX, window.innerWidth - 44))
       pointerY.set(Math.min(event.clientY, window.innerHeight - 44))
+      pointerTarget.current.x = event.clientX
+      pointerTarget.current.y = event.clientY
+      pointerTarget.current.active = true
+      applyProximity(event.clientX, event.clientY)
       if (!cursorVisible) { cursorVisible = true; setVisible(true) }
 
       const target = event.target instanceof Element ? event.target : null
@@ -98,13 +156,18 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       if (!frame) frame = requestAnimationFrame(flushMove)
     }
 
-    const invalidateBounds = () => { magnetBounds = null }
+    const invalidateBounds = () => {
+      magnetBounds = null
+      proximityBoundsInvalid = true
+    }
     const hideCursor = () => {
       cancelAnimationFrame(frame)
       frame = 0
       pending = null
       cursorVisible = false
+      pointerTarget.current.active = false
       setVisible(false)
+      clearProximity()
       setMagnet(previousMagnet.current)
       previousMagnet.current = null
       magnetBounds = null
@@ -135,6 +198,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       window.removeEventListener('resize', invalidateBounds)
       window.removeEventListener('blur', hideCursor)
       setMagnet(previousMagnet.current)
+      clearProximity()
     }
   }, [pointerX, pointerY, reduceMotion])
 
@@ -170,6 +234,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         aria-hidden="true"
       >
         <SpatialField
+          pointerTarget={pointerTarget}
           reduceMotion={Boolean(reduceMotion)}
           pageVisible={pageVisible}
           scrollYProgress={scrollYProgress}
