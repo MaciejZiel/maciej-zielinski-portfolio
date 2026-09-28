@@ -15,27 +15,23 @@ export function ProjectsSection({
     <section
       id="projects"
       className="projects-section"
-      data-section-word="Work"
     >
       <MotionReveal className="projects-section__intro">
         <div className="section-intro__eyebrow">
-          <span className="section-index">02</span>
-          <p className="section-kicker">Selected Work</p>
+          <span className="section-index">03 // SELECTED CASE STUDIES</span>
+          <span className="section-bracket">[ PRODUCTION ARCHITECTURES ]</span>
         </div>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
-            Projects that best show how I build backend-heavy products and
-            practical AI tools.
+            Built closer to products than coursework.
           </h2>
           <div className="projects-section__intro-copy">
             <p className="section-copy">
-              CaseFlow sits first because it says the most about how I think:
-              clear boundaries, explicit workflow state, and predictable
-              operational behavior.
+              CaseFlow sits first because it reflects systems-level thinking:
+              multi-tenant policy boundaries, deterministic state machines, and auditable event dispatching.
             </p>
             <p className="projects-section__intro-note">
-              The rest extends that same mindset into transcription, computer
-              vision, and domain-heavy API work.
+              Followed by audio processing pipelines, live computer vision streaming, and strict domain API contracts.
             </p>
           </div>
         </div>
@@ -64,6 +60,8 @@ export function ProjectsSection({
               href={item.href}
               rel="noreferrer"
               target="_blank"
+              data-magnetic
+              data-cursor-label="OPEN PROJECT"
             >
               <span className="projects-rail__item-index">0{index + 1}</span>
               <span className="projects-rail__item-body">
