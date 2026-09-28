@@ -20,7 +20,7 @@ import {
 import './styles/app.css'
 
 function App() {
-  const { scrollYProgress } = useScroll()
+  const { scrollY, scrollYProgress } = useScroll()
 
   return (
     <MotionConfig reducedMotion="user">
@@ -36,6 +36,7 @@ function App() {
             headline={profile.headline}
             navigationItems={navigationItems}
             socialLinks={profile.socialLinks}
+            scrollY={scrollY}
           />
           <main id="main-content" className="main-content">
             <HeroSection profile={profile} />

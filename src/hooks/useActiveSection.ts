@@ -1,9 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useMotionValueEvent, type MotionValue } from 'framer-motion'
 
 import type { NavigationItem } from '../types/portfolio'
 
-export function useActiveSection(items: NavigationItem[]) {
+export function useActiveSection(items: NavigationItem[], scrollY: MotionValue<number>) {
   const [activeHref, setActiveHref] = useState('')
+  const active = useRef('')
+  const offsets = useRef<{ href: string; top: number }[]>([])
+
+  const syncActiveSection = (scrollTop: number) => {
+    const threshold = scrollTop + window.innerHeight * 0.35
+    let currentHref = ''
+
+    for (const section of offsets.current) {
+      if (section.top <= threshold) currentHref = section.href
+    }
+
+    if (active.current !== currentHref) {
+      active.current = currentHref
+      setActiveHref(currentHref)
+    }
+  }
+
+  useMotionValueEvent(scrollY, 'change', syncActiveSection)
 
   useEffect(() => {
     const sections = items
@@ -13,42 +32,21 @@ export function useActiveSection(items: NavigationItem[]) {
       }))
       .filter((entry) => entry.element !== null)
 
-    let frame = 0
-    let active = ''
-    let offsets: { href: string; top: number }[] = []
-    const syncActiveSection = () => {
-      frame = 0
-      const threshold = window.scrollY + window.innerHeight * 0.35
-      let currentHref = ''
-
-      for (const section of offsets) {
-        if (section.top <= threshold) {
-          currentHref = section.href
-        }
-      }
-
-      if (active !== currentHref) { active = currentHref; setActiveHref(currentHref) }
-    }
-
     const measure = () => {
-      cancelAnimationFrame(frame)
-      offsets = sections.map(section => ({ href: section.href, top: section.element!.getBoundingClientRect().top + window.scrollY }))
-      syncActiveSection()
+      const scrollTop = window.scrollY
+      offsets.current = sections.map(section => ({ href: section.href, top: section.element!.getBoundingClientRect().top + scrollTop }))
+      syncActiveSection(scrollTop)
     }
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(syncActiveSection) }
     const observer = new ResizeObserver(measure)
     observer.observe(document.querySelector('main') ?? document.body)
     measure()
-    window.addEventListener('scroll', schedule, { passive: true })
     window.addEventListener('resize', measure)
 
     return () => {
-      cancelAnimationFrame(frame)
       observer.disconnect()
-      window.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', measure)
     }
-  }, [items])
+  }, [items, scrollY])
 
   return activeHref
 }

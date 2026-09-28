@@ -1,3 +1,4 @@
+import { useScroll } from 'framer-motion'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import type { NavigationItem } from '../../types/portfolio'
 
@@ -6,7 +7,8 @@ interface SectionShortcutProps {
 }
 
 export function SectionShortcut({ items }: SectionShortcutProps) {
-  const activeHref = useActiveSection(items)
+  const { scrollY } = useScroll()
+  const activeHref = useActiveSection(items, scrollY)
 
   return (
     <aside className="section-shortcut" aria-label="Section shortcut">

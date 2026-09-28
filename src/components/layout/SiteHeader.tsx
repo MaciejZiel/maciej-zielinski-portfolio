@@ -1,5 +1,5 @@
 import type { ActionLink, NavigationItem } from '../../types/portfolio'
-import { motion } from 'framer-motion'
+import { motion, type MotionValue } from 'framer-motion'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { Icon } from '../ui/Icon'
 
@@ -8,6 +8,7 @@ interface SiteHeaderProps {
   headline: string
   navigationItems: NavigationItem[]
   socialLinks: ActionLink[]
+  scrollY: MotionValue<number>
 }
 
 export function SiteHeader({
@@ -15,8 +16,9 @@ export function SiteHeader({
   headline,
   navigationItems,
   socialLinks,
+  scrollY,
 }: SiteHeaderProps) {
-  const activeHref = useActiveSection(navigationItems)
+  const activeHref = useActiveSection(navigationItems, scrollY)
 
   return (
     <header className="site-header">
