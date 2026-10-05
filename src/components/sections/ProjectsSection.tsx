@@ -1,7 +1,6 @@
 import type { FeaturedProject, ProjectRailItem } from '../../types/portfolio'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectShowcase } from './ProjectShowcase'
-import { LiveFlightsShowcase } from './LiveFlightsShowcase'
 
 interface ProjectsSectionProps {
   featuredProjects: FeaturedProject[]
@@ -37,7 +36,6 @@ export function ProjectsSection({
         {featuredProjects.map((project, index) => (
           <ProjectShowcase key={project.name} index={index} project={project} />
         ))}
-        <LiveFlightsShowcase />
       </div>
 
       <MotionReveal className="projects-rail" delay={0.08}>

@@ -110,34 +110,10 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <p className="project-showcase__headline">{project.headline}</p>
             </div>
 
-            {project.theme === 'steel' ? (
-              <div className="caseflow-story" role="group" aria-label="CaseFlow request journey">
-                <p className="caseflow-story__prompt">A request has to pass three deliberate gates.</p>
-                {project.artifactLanes.map((lane, laneIndex) => (
-                  <button
-                    className="caseflow-story__step"
-                    data-active={activeLaneIndex === laneIndex}
-                    key={lane.label}
-                    type="button"
-                    aria-pressed={activeLaneIndex === laneIndex}
-                    data-magnetic
-                    onClick={() => setActiveLaneIndex(laneIndex)}
-                  >
-                    <span className="caseflow-story__step-index">0{laneIndex + 1}</span>
-                    <span className="caseflow-story__step-copy">
-                      <span className="caseflow-story__step-title">{lane.label}</span>
-                      <span className="caseflow-story__step-summary">{lane.summary}</span>
-                      <span className="caseflow-story__step-details">{lane.items.join(' / ')}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div className="project-showcase__spotlight">
-                <span className="project-showcase__spotlight-label">The through-line</span>
-                <p className="project-showcase__spotlight-copy">{project.outcome}</p>
-              </div>
-            )}
+            <div className="project-showcase__spotlight">
+              <span className="project-showcase__spotlight-label">The through-line</span>
+              <p className="project-showcase__spotlight-copy">{project.outcome}</p>
+            </div>
 
             <details className="project-showcase__deep-dive">
               <summary><span>Open the engineering notes</span><span aria-hidden="true">+</span></summary>

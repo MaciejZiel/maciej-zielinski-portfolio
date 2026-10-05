@@ -289,6 +289,66 @@ export const featuredProjects: FeaturedProject[] = [
       },
     ],
   },
+  {
+    name: 'live_flights_map',
+    category: 'Full-stack real-time data app',
+    headline:
+      'A live aircraft map with a resilient path from external feeds to searchable flight history.',
+    context:
+      'A full-stack flight-tracking application that combines external position feeds, a local archive, and a map-based interface.',
+    summary:
+      'OpenSky is the primary live data provider, with ADSB.lol available as a fallback. A Flask service brokers the requests and stores aircraft positions in SQLite for later search and replay.',
+    challenge:
+      'The application needs to make changing external data useful over time: handle provider availability, retain position history, and keep aircraft movement legible on a live map.',
+    outcome:
+      'The result connects live tracking with a searchable local archive, replay, and flight trails instead of treating each provider response as a disposable snapshot.',
+    details: [
+      'OpenSky primary feed with ADSB.lol provider fallback.',
+      'Flask proxy, bounding-box caching, and a SQLite position archive.',
+      'Svelte and Leaflet map with polling by default and optional server-sent events.',
+    ],
+    technologies: [
+      'Flask',
+      'SQLite',
+      'Svelte',
+      'Leaflet',
+      'OpenSky',
+      'ADSB.lol',
+      'Server-Sent Events',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/live_flights_map',
+    repositoryLabel: 'View repository',
+    stageLabel: 'Live data route',
+    status: 'Public repository / real-time aircraft tracking',
+    year: '2026',
+    theme: 'vision',
+    visualization: 'flight-route',
+    metrics: [
+      { label: 'Live feeds', value: 'OpenSky + ADSB.lol fallback' },
+      { label: 'Archive', value: 'SQLite position history' },
+      { label: 'Map', value: 'Svelte + Leaflet' },
+    ],
+    artifactTitle: 'Live position pipeline',
+    artifactSummary:
+      'Provider feeds pass through a Flask service before live map updates and searchable position history.',
+    artifactLanes: [
+      {
+        label: 'Sources',
+        summary: 'Live aircraft states come from a primary provider with a fallback source.',
+        items: ['OpenSky', 'ADSB.lol fallback', 'Bounding-box cache'],
+      },
+      {
+        label: 'Archive',
+        summary: 'The Flask service stores positions so past activity can be explored later.',
+        items: ['Flask proxy', 'SQLite archive', 'Position search'],
+      },
+      {
+        label: 'Map & replay',
+        summary: 'The map turns position history into movement, trails, and replay.',
+        items: ['Svelte + Leaflet', 'Flight trails', 'Polling / optional SSE'],
+      },
+    ],
+  },
 ]
 
 export const projectRail: ProjectRailItem[] = [

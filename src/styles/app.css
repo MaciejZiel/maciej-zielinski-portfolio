@@ -519,31 +519,6 @@
 .project-showcase__active-lane-chip { padding: 4px 12px 4px 0; margin-right: 12px; color: var(--color-text); font: .66rem var(--mono-font); }
 .project-showcase__chip-dot { display: none; }
 
-/* CaseFlow turns the usual project write-up into a scroll-synced request journey. */
-.caseflow-story { display: grid; margin-top: 8px; }
-.caseflow-story__prompt { max-width: 30ch; margin: 0 0 4px; color: var(--color-text-muted); font: .72rem/1.6 var(--mono-font); text-transform: uppercase; }
-.caseflow-story__step {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-  min-height: clamp(200px, 36vh, 340px);
-  padding: 26px 0;
-  border: 0;
-  border-top: 1px solid var(--color-border);
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.caseflow-story__step[data-active='true'] { border-top-color: var(--color-accent); }
-.caseflow-story__step-index { padding-top: 3px; color: var(--color-text-muted); font: .7rem var(--mono-font); transition: color 240ms ease; }
-.caseflow-story__step[data-active='true'] .caseflow-story__step-index { color: var(--color-accent); }
-.caseflow-story__step-copy { display: grid; gap: 10px; }
-.caseflow-story__step-title { color: var(--color-text); font: 600 clamp(1.45rem, 2.3vw, 2rem)/1.1 var(--heading-font); letter-spacing: -.055em; transition: color 240ms ease; }
-.caseflow-story__step[data-active='true'] .caseflow-story__step-title { color: var(--color-accent); }
-.caseflow-story__step-summary { max-width: 38ch; color: var(--color-text-muted); font-size: .9rem; line-height: 1.65; }
-.caseflow-story__step-details { color: var(--color-text); font: .65rem/1.8 var(--mono-font); }
 .project-showcase__artifact--pinned { position: sticky; top: 104px; align-self: start; }
 .project-showcase--steel .project-showcase__artifact-frame { padding-top: 8px; }
 .project-showcase--steel .project-showcase__lane-display { min-height: 150px; }
@@ -937,6 +912,15 @@
 .diagram-transcript path { fill: none; stroke: var(--color-text); stroke-width: 2; opacity: .76; vector-effect: non-scaling-stroke; }
 .diagram-transcript text { fill: var(--color-accent); }
 .project-diagram--vision svg { max-height: 205px; }
+.project-diagram--flight-route svg { max-height: 205px; }
+.flight-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.flight-route-signal { fill: none; stroke: var(--project-accent); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+.flight-route-signal--active { stroke-width: 1.8; }
+.flight-route-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.flight-route-node--active circle { fill: var(--project-accent); }
+.flight-route-node--active text { fill: var(--color-text); }
+.flight-route-node text { fill: var(--color-text-muted); font-size: 7px; }
+.flight-route-packet { fill: var(--color-text); }
 .vision-scan { fill: none; stroke: var(--color-accent); stroke-width: 1; opacity: .58; vector-effect: non-scaling-stroke; }
 .vision-loop-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; vector-effect: non-scaling-stroke; }
@@ -1002,8 +986,6 @@
 @media (max-width: 760px) {
   .section-intro__eyebrow { gap: 16px; align-items: start; font-size: .62rem; letter-spacing: .08em; }
   .project-showcase__artifact--pinned { position: static; }
-  .caseflow-story__step { min-height: 210px; }
-  .project-showcase--steel .caseflow-story { display: none; }
   .project-showcase__body { grid-template-columns: 1fr; gap: 28px; }
   .project-showcase:nth-child(even) .project-showcase__content,
   .project-showcase:nth-child(even) .project-showcase__artifact { order: initial; }

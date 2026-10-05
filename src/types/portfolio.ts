@@ -56,6 +56,7 @@ export interface FeaturedProject {
   status: string
   year: string
   theme: 'steel' | 'signal' | 'vision' | 'track'
+  visualization?: 'flight-route'
   metrics: ProjectMetric[]
   artifactTitle: string
   artifactSummary: string

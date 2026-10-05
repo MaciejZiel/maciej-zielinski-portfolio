@@ -225,17 +225,74 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
   )
 }
 
+function FlightRoute({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
+  const routes = [
+    'M104 62 C188 62 222 132 304 132',
+    'M104 202 C188 202 222 132 304 132',
+    'M360 132 C442 132 470 62 548 62',
+    'M360 132 C442 132 470 202 548 202',
+  ]
+  const sourceActive = (index: number) => index < 2
+  const routeActive = (index: number) =>
+    sourceActive(index) || (activeLane >= 1 && index === 3) || (activeLane >= 2 && index === 2)
+  const packetPositions = activeLane === 0
+    ? { x: [104, 188, 304], y: [62, 82, 132] }
+    : activeLane === 1
+      ? { x: [104, 188, 304, 430, 548], y: [202, 184, 132, 166, 202] }
+      : { x: [104, 188, 304, 430, 548], y: [62, 82, 132, 106, 62] }
+
+  return (
+    <svg viewBox="0 0 720 270" role="img" aria-label={`${project.name} live aircraft data route`}>
+      {routes.map((path, index) => (
+        <g key={path}>
+          <path className="flight-route-track" d={path} />
+          <motion.path
+            className={routeActive(index) ? 'flight-route-signal flight-route-signal--active' : 'flight-route-signal'}
+            d={path}
+            initial={false}
+            animate={{ pathLength: routeActive(index) ? 1 : 0.12, opacity: routeActive(index) ? 1 : 0.3 }}
+            transition={{ duration: reduceMotion ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </g>
+      ))}
+      {[
+        { x: 78, y: 62, label: 'OPENSKY', active: true },
+        { x: 78, y: 202, label: 'ADSB.LOL', active: true },
+        { x: 332, y: 132, label: 'FLASK API', active: true },
+        { x: 576, y: 62, label: 'LIVE MAP', active: activeLane >= 2 },
+        { x: 576, y: 202, label: 'SQLITE ARCHIVE', active: activeLane >= 1 },
+      ].map((node) => (
+        <g className={`flight-route-node${node.active ? ' flight-route-node--active' : ''}`} key={node.label}>
+          <circle cx={node.x} cy={node.y} r="5" />
+          <text x={node.x} y={node.y + (node.y < 132 ? -18 : 24)} textAnchor="middle">{node.label}</text>
+        </g>
+      ))}
+      {!reduceMotion && isVisible ? (
+        <motion.circle
+          className="flight-route-packet"
+          r="3.5"
+          initial={false}
+          animate={{ cx: packetPositions.x, cy: packetPositions.y }}
+          transition={{ duration: 3.2, repeat: Infinity, repeatDelay: 0.35, ease: 'linear' }}
+        />
+      ) : null}
+      <text x="22" y="256">LIVE FEEDS / POSITION HISTORY / REPLAY</text>
+    </svg>
+  )
+}
+
 export function ProjectDiagram({ project, activeLane, onSelectLane }: ProjectDiagramProps) {
   const reduceMotion = useReducedMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
   const isVisible = useAmbientActivity(diagramRef)
 
   return (
-    <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}`} data-reduced={reduceMotion}>
+    <div ref={diagramRef} className={`project-diagram project-diagram--${project.theme}${project.visualization ? ` project-diagram--${project.visualization}` : ''}`} data-reduced={reduceMotion}>
       <div className="project-diagram__visual" aria-hidden="true">
+      {project.visualization === 'flight-route' ? <FlightRoute project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
-      {project.theme === 'vision' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
+      {project.theme === 'vision' && project.visualization !== 'flight-route' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       </div>
       {project.theme === 'signal' && onSelectLane ? (
