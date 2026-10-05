@@ -250,13 +250,13 @@
 .live-flights-showcase__notes { display: grid; gap: 12px; }
 .live-flights-showcase__link { margin-top: 12px; }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .project-overview__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .project-overview__list li:nth-child(4) { border-left: 0; }
   .project-overview__list li:nth-child(n + 4) { border-top: 1px solid var(--color-border-strong); }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 860px) {
   .project-overview__heading { display: block; }
   .project-overview__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-overview__list li:nth-child(3),
@@ -265,6 +265,7 @@
   .project-overview__list li:nth-child(4) { border-left: 1px solid var(--color-border); }
   .project-overview__link { min-height: 148px; padding-inline: 12px; }
   .about-section__body { grid-template-columns: 1fr; gap: 30px; }
+  .live-flights-showcase__path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .live-flights-showcase__header,
   .live-flights-showcase__body,
   .live-flights-showcase__link,

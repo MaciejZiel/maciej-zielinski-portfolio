@@ -822,6 +822,7 @@
 
 @media (max-width: 680px) {
   .section-heading { font-size: clamp(2rem, 8vw, 3rem); max-width: 18ch; }
+  .site-header { background: var(--color-bg); }
   .site-header__inner { gap: 12px; }
   .brand { min-width: 0; }
   .brand__name { white-space: nowrap; font-size: 0.82rem; }
