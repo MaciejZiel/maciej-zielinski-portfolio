@@ -12,8 +12,8 @@ const linkedInUrl =
   'https://www.linkedin.com/in/maciej-zieli%C5%84ski-28669b3a4/'
 
 export const navigationItems: NavigationItem[] = [
+  { label: 'Work', href: '#project-overview', activeHrefs: ['#projects'] },
   { label: 'About', href: '#about' },
-  { label: 'Work', href: '#projects' },
   { label: 'Stack', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -22,9 +22,9 @@ export const profile: Profile = {
   name: 'Maciej Zieliński',
   headline: 'Software Engineer | Python / Applied AI',
   intro:
-    'I build backend systems and AI-powered products with a backend-first mindset: clear boundaries, reliable workflows, practical AI integration, and software that behaves predictably under real constraints.',
+    'I like turning complex workflows into clear, dependable tools. I care about solid APIs, predictable runtime behavior, and interfaces that make software easier to understand and use.',
   summary:
-    'Computer Science student focused on Python backend development, applied AI systems, and projects that are structured closer to products than coursework.',
+    'I’m a Computer Science student at PJATK in Warsaw, building software across backend engineering, applied AI, computer vision, and real-time data.',
   availability: 'Open to software engineering internships and junior roles focused on Python, backend, and applied AI.',
   location: 'Warsaw, Poland',
   education: 'PJATK, 3rd year Computer Science',
@@ -32,23 +32,6 @@ export const profile: Profile = {
     'Backend systems with clear data boundaries, authentication, and domain logic.',
     'Applied AI workflows that need retrieval, orchestration, and runtime control.',
     'Projects built with testing, Docker, and maintainable structure in mind.',
-  ],
-  heroLinks: [
-    { label: 'View Work', href: '#projects', variant: 'primary' },
-    {
-      label: 'GitHub',
-      href: githubProfileUrl,
-      icon: 'github',
-      variant: 'text',
-      external: true,
-    },
-    {
-      label: 'LinkedIn',
-      href: linkedInUrl,
-      icon: 'linkedin',
-      variant: 'text',
-      external: true,
-    },
   ],
   socialLinks: [
     {
@@ -64,57 +47,7 @@ export const profile: Profile = {
       external: true,
     },
   ],
-  details: [
-    { label: 'Primary stack', value: 'Python / FastAPI / Django / SQL' },
-    { label: 'AI layer', value: 'RAG / LLM integrations / CV pipelines' },
-    { label: 'Build style', value: 'Backend-first, system-oriented builds' },
-    { label: 'Role target', value: 'Software engineering internships / junior roles' },
-  ],
-  heroRibbon: [
-    'CaseFlow / public multi-tenant backend',
-    'clip_to_text / FastAPI + Faster-Whisper',
-    'camera_object_recognition / YOLOv8 + OpenCV',
-    'live_flights_map / real-time map + replay',
-    'Motorsport_API / DRF + JWT + OpenAPI',
-  ],
-  heroArtifactTitle: 'CaseFlow system snapshot',
-  heroArtifactSummary:
-    'The flagship project is a public multi-tenant backend built around access boundaries, workflow state, auditable events, and reliable delivery paths.',
-  heroArtifactLanes: [
-    {
-      label: 'Entry',
-      summary: 'Every request is tenant-aware before business logic runs.',
-      items: ['Session-backed auth', 'RBAC checks', 'Tenant context'],
-    },
-    {
-      label: 'Workflow',
-      summary: 'Document state changes are explicit and traceable.',
-      items: ['Document transitions', 'Action history', 'State rules'],
-    },
-    {
-      label: 'Delivery',
-      summary: 'Side effects are pushed through controlled operational paths.',
-      items: ['Webhook dispatch', 'Retry handling', 'Background jobs'],
-    },
-    {
-      label: 'Quality',
-      summary: 'The build is treated like a system, not just an endpoint set.',
-      items: ['Docker services', 'Alembic migrations', 'Integration tests'],
-    },
-  ],
 }
-
-export const aboutPoints: string[] = [
-  'I care most about the part of software that has to stay understandable when the product gets more complex: APIs, data flow, authentication, background work, and the seams between services.',
-  'On the AI side, I am interested in systems where models are only one part of the stack. Retrieval quality, orchestration, runtime controls, and user trust matter more to me than surface-level demos.',
-  'A lot of my best work sits between backend engineering and AI tooling. I like building systems that need both solid Python fundamentals and enough product thinking to be genuinely useful.',
-]
-
-export const projectSignals: string[] = [
-  'Public B2B backend architecture with auth, auditability, and workflow logic.',
-  'Public AI and CV projects that expose orchestration, runtime state, and real-time behavior.',
-  'Recent GitHub work that covers transcription pipelines, computer vision, APIs, and live data products.',
-]
 
 export const featuredProjects: FeaturedProject[] = [
   {
@@ -360,11 +293,6 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const projectRail: ProjectRailItem[] = [
   {
-    name: 'live_flights_map',
-    description: 'Real-time flight tracking workspace with replay and airport dashboards.',
-    href: 'https://github.com/MaciejZiel/live_flights_map',
-  },
-  {
     name: 'RAG_Retrieval_Augmented_Generation',
     description: 'Python retrieval workflow combining FAISS, semantic search, and LLM integration.',
     href: 'https://github.com/MaciejZiel/RAG_Retrieval_Augmented_Generation',
@@ -380,6 +308,37 @@ export const projectRail: ProjectRailItem[] = [
     href: 'https://github.com/MaciejZiel/F1InfoMobileApp',
   },
 ]
+
+export const projectAnchorId = (name: string) =>
+  `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
+
+export const projectHighlights = [
+  {
+    name: 'CaseFlow',
+    description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',
+    anchorId: projectAnchorId('CaseFlow'),
+  },
+  {
+    name: 'clip_to_text',
+    description: 'An audio-to-transcript workflow with live job progress and practical exports.',
+    anchorId: projectAnchorId('clip_to_text'),
+  },
+  {
+    name: 'camera_object_recognition',
+    description: 'A live vision pipeline for detection, tracking, and runtime control.',
+    anchorId: projectAnchorId('camera_object_recognition'),
+  },
+  {
+    name: 'Motorsport_API',
+    description: 'A documented API for race results, teams, drivers, and standings.',
+    anchorId: projectAnchorId('Motorsport_API'),
+  },
+  {
+    name: 'Live Flights Map',
+    description: 'A real-time aircraft map with search, history replay, and provider fallback.',
+    anchorId: projectAnchorId('live_flights_map'),
+  },
+] as const
 
 export const skillLanes: SkillLane[] = [
   {

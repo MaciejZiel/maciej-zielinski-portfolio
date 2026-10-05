@@ -8,16 +8,15 @@ import { ProjectsSection } from './components/sections/ProjectsSection'
 import { SkillsSection } from './components/sections/SkillsSection'
 import { ExperienceLayer } from './components/ui/ExperienceLayer'
 import {
-  aboutPoints,
   contactMethods,
   featuredProjects,
   navigationItems,
   profile,
   projectRail,
-  projectSignals,
   skillLanes,
 } from './data/portfolio'
 import './styles/app.css'
+import './styles/content-structure.css'
 
 function App() {
   const { scrollY, scrollYProgress } = useScroll()
@@ -40,10 +39,7 @@ function App() {
           />
           <main id="main-content" className="main-content">
             <HeroSection profile={profile} />
-            <AboutSection
-              aboutPoints={aboutPoints}
-              projectSignals={projectSignals}
-            />
+            <AboutSection profile={profile} />
             <ProjectsSection
               featuredProjects={featuredProjects}
               projectRail={projectRail}
@@ -54,7 +50,7 @@ function App() {
 
           <footer className="site-footer">
             <p>{profile.name}</p>
-            <p>Portfolio focused on backend systems, Python, and applied AI.</p>
+            <p>Software engineering across Python, applied AI, and real-time data.</p>
           </footer>
         </div>
       </>

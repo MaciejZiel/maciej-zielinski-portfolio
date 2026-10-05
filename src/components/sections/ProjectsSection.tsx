@@ -1,6 +1,7 @@
 import type { FeaturedProject, ProjectRailItem } from '../../types/portfolio'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectShowcase } from './ProjectShowcase'
+import { LiveFlightsShowcase } from './LiveFlightsShowcase'
 
 interface ProjectsSectionProps {
   featuredProjects: FeaturedProject[]
@@ -22,15 +23,11 @@ export function ProjectsSection({
         </div>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
-            Built closer to products than coursework.
+            Five projects, each built around a different problem.
           </h2>
           <div className="projects-section__intro-copy">
             <p className="section-copy">
-              CaseFlow sits first because it reflects systems-level thinking:
-              multi-tenant policy boundaries, deterministic state machines, and auditable event dispatching.
-            </p>
-            <p className="projects-section__intro-note">
-              Followed by audio processing pipelines, live computer vision streaming, and strict domain API contracts.
+              A closer look at the decisions, engineering, and details behind each one.
             </p>
           </div>
         </div>
@@ -40,6 +37,7 @@ export function ProjectsSection({
         {featuredProjects.map((project, index) => (
           <ProjectShowcase key={project.name} index={index} project={project} />
         ))}
+        <LiveFlightsShowcase />
       </div>
 
       <MotionReveal className="projects-rail" delay={0.08}>

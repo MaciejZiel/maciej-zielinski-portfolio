@@ -25,16 +25,18 @@ export function useActiveSection(items: NavigationItem[], scrollY: MotionValue<n
   useMotionValueEvent(scrollY, 'change', syncActiveSection)
 
   useEffect(() => {
-    const sections = items
-      .map((item) => ({
-        href: item.href,
-        element: document.querySelector<HTMLElement>(item.href),
-      }))
-      .filter((entry) => entry.element !== null)
+    const sections = items.flatMap((item) =>
+      [item.href, ...(item.activeHrefs ?? [])].map((href) => ({
+        navHref: item.href,
+        element: document.querySelector<HTMLElement>(href),
+      })),
+    ).filter((entry) => entry.element !== null)
 
     const measure = () => {
       const scrollTop = window.scrollY
-      offsets.current = sections.map(section => ({ href: section.href, top: section.element!.getBoundingClientRect().top + scrollTop }))
+      offsets.current = sections
+        .map(section => ({ href: section.navHref, top: section.element!.getBoundingClientRect().top + scrollTop }))
+        .sort((a, b) => a.top - b.top)
       syncActiveSection(scrollTop)
     }
     const observer = new ResizeObserver(measure)

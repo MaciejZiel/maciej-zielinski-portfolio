@@ -5,6 +5,7 @@ export type IconName = 'arrow-up-right' | 'github' | 'linkedin' | 'mail'
 export interface NavigationItem {
   label: string
   href: string
+  activeHrefs?: string[]
 }
 
 export interface ActionLink {
@@ -13,11 +14,6 @@ export interface ActionLink {
   icon?: IconName
   variant?: ButtonVariant
   external?: boolean
-}
-
-export interface HeroDetail {
-  label: string
-  value: string
 }
 
 export interface ArtifactLane {
@@ -35,13 +31,7 @@ export interface Profile {
   location: string
   education: string
   focusAreas: string[]
-  heroLinks: ActionLink[]
   socialLinks: ActionLink[]
-  details: HeroDetail[]
-  heroRibbon: string[]
-  heroArtifactTitle: string
-  heroArtifactSummary: string
-  heroArtifactLanes: ArtifactLane[]
 }
 
 export interface ProjectMetric {
@@ -76,6 +66,12 @@ export interface ProjectRailItem {
   name: string
   description: string
   href: string
+}
+
+export interface ProjectHighlight {
+  name: string
+  description: string
+  anchorId: string
 }
 
 export interface SkillLane {

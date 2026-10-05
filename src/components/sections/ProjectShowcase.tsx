@@ -9,6 +9,7 @@ import {
 import { useRef, useState } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
+import { projectAnchorId } from '../../data/portfolio'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
@@ -49,6 +50,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   return (
     <article
       ref={sectionRef}
+      id={projectAnchorId(project.name)}
       className={`project-showcase project-showcase--${project.theme}`}
       data-chapter={project.theme}
     >
