@@ -236,19 +236,18 @@ function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps 
     'M360 132 C442 132 470 62 548 62',
     'M360 132 C442 132 470 202 548 202',
   ]
-  const sourceActive = (index: number) => index < 2
-  const routeActive = (index: number) =>
-    sourceActive(index) || (activeLane >= 1 && index === 3) || (activeLane >= 2 && index === 2)
+  const routeVisible = (index: number) =>
+    index < 2 || (activeLane >= 1 && index === 3) || (activeLane >= 2 && index === 2)
   return (
     <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live aircraft data route`}>
       {routes.map((path, index) => (
         <g key={path}>
-          <path className="flight-route-track" d={path} />
+          {routeVisible(index) ? <path className="flight-route-track" d={path} /> : null}
           <motion.path
-            className={routeActive(index) ? 'flight-route-signal flight-route-signal--active' : 'flight-route-signal'}
+            className={routeVisible(index) ? 'flight-route-signal flight-route-signal--active' : 'flight-route-signal'}
             d={path}
             initial={false}
-            animate={{ pathLength: routeActive(index) ? 1 : 0.12, opacity: routeActive(index) ? 1 : 0.3 }}
+            animate={{ pathLength: routeVisible(index) ? 1 : 0, opacity: routeVisible(index) ? 1 : 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.58, ease: [0.22, 1, 0.36, 1] }}
           />
         </g>
