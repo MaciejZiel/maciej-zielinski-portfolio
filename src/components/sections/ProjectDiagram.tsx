@@ -24,24 +24,40 @@ interface ProjectDiagramProps {
 function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const labels = project.artifactLanes.map((lane) => lane.label)
   const nodeX = [96, 320, 544]
-  const progress = [0.09, 0.5, 1][activeLane] ?? 0.09
+  const activeNodeX = nodeX[activeLane] ?? nodeX[0]
 
   return (
     <svg viewBox="0 0 640 280" role="img" aria-label={`${projectDisplayName(project.name)} system flow diagram`}>
       <path className="caseflow-route-track" d="M48 140H592" />
-      <motion.path
+      <motion.line
         className="caseflow-route-signal"
-        d="M48 140H592"
+        x1="48"
+        y1="140"
+        x2={nodeX[0]}
+        y2="140"
         initial={false}
-        animate={{ pathLength: progress }}
-        transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ x2: activeNodeX }}
+        transition={reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       />
       {nodeX.map((x, index) => (
         <g key={x} className={index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
-          <circle cx={x} cy="140" r={index === activeLane ? 11 : 7} />
+          <circle cx={x} cy="140" r="7" />
           <text x={x} y="92" textAnchor="middle">0{index + 1} / {labels[index] ?? 'Stage'}</text>
         </g>
       ))}
+      <motion.circle
+        className="caseflow-route-traveler"
+        cx={nodeX[0]}
+        cy="140"
+        r="12"
+        initial={false}
+        animate={{ cx: activeNodeX }}
+        transition={reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
+      />
       <text x="42" y="248">REQUEST / POLICY → STATE → DELIVERY</text>
     </svg>
   )

@@ -891,10 +891,10 @@
 .diagram-route--active text { fill: var(--color-text); }
 .diagram-traveler { fill: none; stroke: var(--color-text); stroke-width: 1; stroke-dasharray: 3 9; vector-effect: non-scaling-stroke; opacity: .65; }
 .caseflow-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.caseflow-route-signal { fill: none; stroke: var(--color-accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.caseflow-route-signal { fill: none; stroke: var(--color-accent); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .caseflow-route-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.48); stroke-width: 1.2; vector-effect: non-scaling-stroke; transition: fill 240ms ease, stroke 240ms ease; }
-.caseflow-route-node--active circle { fill: var(--color-accent); stroke: var(--color-accent); }
 .caseflow-route-node--active text { fill: var(--color-text); }
+.caseflow-route-traveler { fill: var(--color-accent); stroke: var(--color-bg); stroke-width: 2; vector-effect: non-scaling-stroke; }
 .project-diagram--signal svg { max-height: 176px; }
 .diagram-wave-mid { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 1; }
 .diagram-waveform { transform-box: view-box; transform-origin: 0 50% !important; }
