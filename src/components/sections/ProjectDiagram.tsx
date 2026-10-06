@@ -123,6 +123,8 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
     { x: 340, y: 54, width: 126, height: 142 },
     { x: 495, y: 108, width: 94, height: 92 },
   ]
+  const loopNodes = [['CAPTURE', 110], ['INFERENCE', 360], ['CONTROL', 610]] as const
+  const activeNodeX = loopNodes[activeLane]?.[1] ?? loopNodes[0][1]
 
   return (
     <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live frame and detection bounds`}>
@@ -134,19 +136,35 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
         </g>
       ))}
       <path className="vision-loop-track" d="M70 230H650" />
-      <motion.path
+      <motion.line
         className="vision-loop-signal"
-        d="M70 230H650"
+        x1="70"
+        y1="230"
+        x2={loopNodes[0][1]}
+        y2="230"
         initial={false}
-        animate={{ pathLength: [0.33, 0.66, 1][activeLane] ?? 0.33 }}
-        transition={{ duration: reduceMotion ? 0 : 0.62, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ x2: activeNodeX }}
+        transition={reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       />
-      {[['CAPTURE', 110], ['INFERENCE', 360], ['CONTROL', 610]].map(([label, x], index) => (
+      {loopNodes.map(([label, x], index) => (
         <g className={index === activeLane ? 'vision-loop-node vision-loop-node--active' : 'vision-loop-node'} key={label}>
           <circle cx={x} cy="230" r="4" />
           <text x={x} y="218" textAnchor="middle">{label}</text>
         </g>
       ))}
+      <motion.circle
+        className="vision-loop-traveler"
+        cx={loopNodes[0][1]}
+        cy="230"
+        r="6"
+        initial={false}
+        animate={{ cx: activeNodeX }}
+        transition={reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
+      />
       <text x="20" y="265">FRAME BUFFER / CLOSED CONTROL LOOP</text>
     </svg>
   )

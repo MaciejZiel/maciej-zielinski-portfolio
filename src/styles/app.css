@@ -927,10 +927,10 @@
 .flight-route-node text { fill: var(--color-text-muted); font-size: 7px; }
 .vision-scan { fill: none; stroke: var(--color-accent); stroke-width: 1; opacity: .58; vector-effect: non-scaling-stroke; }
 .vision-loop-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; vector-effect: non-scaling-stroke; }
+.vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .vision-loop-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.45); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-loop-node--active circle { fill: var(--color-accent); stroke: var(--color-accent); }
 .vision-loop-node--active text { fill: var(--color-accent); }
+.vision-loop-traveler { fill: var(--color-accent); stroke: var(--color-bg); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
 .vision-target path { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .vision-target--active path { stroke: var(--project-accent); stroke-width: 1.6; }
 .vision-target--active text { fill: var(--project-accent); }
