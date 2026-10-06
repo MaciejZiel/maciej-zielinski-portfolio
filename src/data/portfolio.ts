@@ -12,7 +12,7 @@ const linkedInUrl =
   'https://www.linkedin.com/in/maciej-zieli%C5%84ski-28669b3a4/'
 
 export const navigationItems: NavigationItem[] = [
-  { label: 'Work', href: '#project-overview', activeHrefs: ['#projects'] },
+  { label: 'Work', href: '#projects' },
   { label: 'About', href: '#about' },
   { label: 'Stack', href: '#skills' },
   { label: 'Contact', href: '#contact' },
