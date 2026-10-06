@@ -45,8 +45,6 @@ function colorAtProgress(stops: ColorStop[], progress: number): RGB {
   const interval = Math.max(to.progress - from.progress, 0.0001)
   const linearProgress = clamp01((progress - from.progress) / interval)
   const easedProgress = linearProgress * linearProgress * (3 - 2 * linearProgress)
-  // Passing through a quiet neutral keeps the field inside the site's palette
-  // instead of sweeping through vivid intermediate hues like yellow or magenta.
   const neutral: RGB = [104, 104, 104]
   const mix = (start: RGB, end: RGB, amount: number): RGB =>
     start.map((channel, index) => Math.round(channel + (end[index] - channel) * amount)) as RGB
@@ -78,13 +76,7 @@ export function SpatialField({
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
     const fieldProgress = reduceMotion ? 0 : progress
     scrollRef.current = fieldProgress
-    const [red, green, blue] = colorAtProgress(colorStopsRef.current, fieldProgress)
-    document.documentElement.style.setProperty('--scrollbar-accent', `rgb(${red} ${green} ${blue})`)
   })
-
-  useEffect(() => () => {
-    document.documentElement.style.removeProperty('--scrollbar-accent')
-  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -112,8 +104,6 @@ export function SpatialField({
           rgb,
         }]
       })
-      const [red, green, blue] = colorAtProgress(colorStopsRef.current, scrollRef.current)
-      document.documentElement.style.setProperty('--scrollbar-accent', `rgb(${red} ${green} ${blue})`)
     }
 
     const resize = () => {

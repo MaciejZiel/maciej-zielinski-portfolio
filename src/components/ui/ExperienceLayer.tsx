@@ -92,6 +92,14 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
   const chapterAccent = chapterAccents[chapter] ?? chapterAccents.top
 
   useEffect(() => {
+    document.documentElement.style.setProperty('--scrollbar-accent', chapterAccent)
+  }, [chapterAccent])
+
+  useEffect(() => () => {
+    document.documentElement.style.removeProperty('--scrollbar-accent')
+  }, [])
+
+  useEffect(() => {
     const coarsePointer = window.matchMedia('(pointer: coarse)')
     if (CUSTOM_CURSOR_ENABLED) {
       document.documentElement.dataset.customCursor = 'enabled'
