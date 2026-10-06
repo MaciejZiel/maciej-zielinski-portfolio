@@ -7,7 +7,6 @@ import { HeroSection } from './components/sections/HeroSection'
 import { ProjectsSection } from './components/sections/ProjectsSection'
 import { SkillsSection } from './components/sections/SkillsSection'
 import { ExperienceLayer } from './components/ui/ExperienceLayer'
-import { FieldDirectionLab } from './components/FieldDirectionLab'
 import {
   contactMethods,
   featuredProjects,
@@ -20,10 +19,6 @@ import './styles/app.css'
 import './styles/content-structure.css'
 
 function App() {
-  if (new URLSearchParams(window.location.search).get('field-lab') === '1') {
-    return <FieldDirectionLab />
-  }
-
   return <PortfolioExperience />
 }
 
