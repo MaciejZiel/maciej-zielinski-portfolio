@@ -27,7 +27,7 @@ export const profile: Profile = {
     'I’m a Computer Science student at PJATK in Warsaw, building software across backend engineering, applied AI, computer vision, and real-time data.',
   availability: 'Open to software engineering internships and junior roles focused on Python, backend, and applied AI.',
   location: 'Warsaw, Poland',
-  education: 'PJATK, 3rd year Computer Science',
+  education: 'PJATK, 4th year Computer Science',
   focusAreas: [
     'Backend systems with clear data boundaries, authentication, and domain logic.',
     'Applied AI workflows that need retrieval, orchestration, and runtime control.',
