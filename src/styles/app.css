@@ -924,7 +924,6 @@
 .diagram-wave-cluster--4 { animation-delay: -1.4s; animation-duration: 2.25s; }
 .diagram-wave-cluster--5 { animation-delay: -1.75s; animation-duration: 2.55s; }
 @keyframes waveform-breathe { 0% { transform: scaleY(.68); } 55% { transform: scaleY(1.16); } 100% { transform: scaleY(.84); } }
-.diagram-playhead { fill: none; stroke: var(--color-text); stroke-width: 1; opacity: .72; vector-effect: non-scaling-stroke; }
 .diagram-conversion-route { fill: none; stroke: var(--color-accent); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
 .diagram-transcript { color: var(--color-text); }
 .diagram-transcript path { fill: none; stroke: var(--color-text); stroke-width: 2; opacity: .76; vector-effect: non-scaling-stroke; }

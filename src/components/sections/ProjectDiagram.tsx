@@ -105,13 +105,6 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         <path d="M475 90H674M475 108H638M475 126H665M475 144H617M475 162H650" />
         <text x="475" y="190">SRT / EXPORT</text>
       </motion.g>
-      <motion.path
-        className="diagram-playhead"
-        d="M0 18V202"
-        initial={false}
-        animate={reduceMotion || !isVisible ? { x: [0, 480, 700][activeLane] } : { x: [0, 700] }}
-        transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 6, repeat: Infinity, ease: 'linear' }}
-      />
       <text x="0" y="216">INGEST</text><text x="332" y="216">RUNTIME</text><text x="652" y="216">EXPORT</text>
     </svg>
   )
