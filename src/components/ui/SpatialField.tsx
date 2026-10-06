@@ -9,24 +9,27 @@ interface PointerTarget {
 
 interface FieldScene {
   rgb: [number, number, number]
-  bend: number
   flow: number
-  perspective: number
-  skew: number
-  converge: number
-  routes: number
+  pointer: number
 }
 
 const scenes: Record<string, FieldScene> = {
-  top: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06, converge: 0, routes: 0 },
-  about: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06, converge: 0, routes: 0 },
-  steel: { rgb: [123, 228, 184], bend: 0.36, flow: 0.22, perspective: 0.18, skew: 0.1, converge: 0, routes: 0.12 },
-  signal: { rgb: [255, 184, 108], bend: 0.68, flow: 1, perspective: 0.08, skew: -0.08, converge: 0, routes: 0 },
-  vision: { rgb: [130, 177, 255], bend: 1.15, flow: 0.24, perspective: 1, skew: 0.42, converge: 0, routes: 0 },
-  flights: { rgb: [113, 198, 218], bend: 0.58, flow: 0.38, perspective: 0.3, skew: 0.08, converge: 0, routes: 0.92 },
-  track: { rgb: [212, 165, 224], bend: 0.82, flow: 0.68, perspective: 0.42, skew: 0.68, converge: 0, routes: 0 },
-  skills: { rgb: [194, 225, 126], bend: 0.42, flow: 0.12, perspective: 0.16, skew: 0.06, converge: 0, routes: 0 },
-  contact: { rgb: [194, 225, 126], bend: 0.3, flow: 0.04, perspective: 0.12, skew: 0.02, converge: 0.26, routes: 0 },
+  top: { rgb: [194, 225, 126], flow: 0.76, pointer: 1 },
+  about: { rgb: [194, 225, 126], flow: 0.68, pointer: 0.9 },
+  steel: { rgb: [123, 228, 184], flow: 0.48, pointer: 0.88 },
+  signal: { rgb: [255, 184, 108], flow: 1, pointer: 1.08 },
+  vision: { rgb: [130, 177, 255], flow: 0.58, pointer: 0.92 },
+  flights: { rgb: [113, 198, 218], flow: 0.78, pointer: 1 },
+  track: { rgb: [212, 165, 224], flow: 0.88, pointer: 1.04 },
+  skills: { rgb: [194, 225, 126], flow: 0.58, pointer: 0.86 },
+  contact: { rgb: [194, 225, 126], flow: 0.34, pointer: 0.82 },
+}
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
+
+function cellNoise(column: number, row: number) {
+  const value = Math.sin(column * 127.1 + row * 311.7) * 43758.5453
+  return value - Math.floor(value)
 }
 
 export function SpatialField({
@@ -65,6 +68,7 @@ export function SpatialField({
     let pointerX = -1000
     let pointerY = -1000
     let pointerWeight = 0
+
     const resize = () => {
       width = window.innerWidth
       height = window.innerHeight
@@ -75,20 +79,18 @@ export function SpatialField({
     }
 
     const draw = (timestamp: number) => {
-      if (width === 0 || height === 0) return
-      const elapsed = previousFrame === 0 ? 0 : Math.min(timestamp - previousFrame, 50)
+      if (!width || !height) return
+
+      const elapsed = previousFrame ? Math.min(timestamp - previousFrame, 50) : 0
       previousFrame = timestamp
-      elapsedRef.current += reduceMotion || !pageVisible ? 0 : elapsed
+      if (!reduceMotion && pageVisible) elapsedRef.current += elapsed
+
       const scene = sceneRef.current
       const targetScene = scenes[chapter] ?? scenes.top
       const sceneMix = reduceMotion ? 1 : 1 - Math.exp(-0.0019 * elapsed)
       scene.rgb = scene.rgb.map((channel, index) => channel + (targetScene.rgb[index] - channel) * sceneMix) as FieldScene['rgb']
-      scene.bend += (targetScene.bend - scene.bend) * sceneMix
       scene.flow += (targetScene.flow - scene.flow) * sceneMix
-      scene.perspective += (targetScene.perspective - scene.perspective) * sceneMix
-      scene.skew += (targetScene.skew - scene.skew) * sceneMix
-      scene.converge += (targetScene.converge - scene.converge) * sceneMix
-      scene.routes += (targetScene.routes - scene.routes) * sceneMix
+      scene.pointer += (targetScene.pointer - scene.pointer) * sceneMix
 
       const pointer = pointerTarget.current
       const pointerMix = reduceMotion ? 0 : 1 - Math.exp(-0.012 * elapsed)
@@ -96,205 +98,95 @@ export function SpatialField({
       pointerY += ((pointer.active ? pointer.y : -1000) - pointerY) * pointerMix
       pointerWeight += ((pointer.active && !reduceMotion ? 1 : 0) - pointerWeight) * pointerMix
 
-      const progress = reduceMotion ? 0 : scrollRef.current
+      const scroll = reduceMotion ? 0 : scrollRef.current
       const wakeProgress = reduceMotion || !pageVisible || hasWokenRef.current
         ? 1
         : Math.min(1, Math.max(0, (timestamp - wakeStartedAt) / 1180))
       if (wakeProgress === 1) hasWokenRef.current = true
-      const centerX = width * 0.5
-      const centerY = height * 0.5
-      const scale = 1 + (progress - 0.35) * 0.036
-      const stepX = width <= 760 ? 128 : 94
-      const stepY = width <= 760 ? 116 : 88
-      const columns = Math.ceil(width / stepX) + 3
-      const rows = Math.ceil(height / stepY) + 3
-      const originX = (width - (columns - 1) * stepX) / 2 - stepX
-      const originY = (height - (rows - 1) * stepY) / 2 - stepY
-      const radius = Math.min(520, width * 0.42)
-      const time = elapsedRef.current
-      const phase = time * 0.00022
-      const color = scene.rgb.map((channel) => Math.round(channel)).join(',')
-      const pointAt = (column: number, row: number) => {
-        const baseX = originX + column * stepX
-        const baseY = originY + row * stepY
-        const centeredY = baseY - centerY
-        const ambient = reduceMotion || !pageVisible ? 0 : 3.6 * (1 - scene.converge * 0.8)
-        const wave = Math.sin(baseX * 0.004 + phase + baseY * 0.002) * ambient
-        const audioBend = Math.sin(baseX * 0.004 + baseY * 0.006 - phase * 1.3) * scene.flow * 14
-        const pointerDX = baseX - pointerX
-        const pointerDY = baseY - pointerY
-        const distance = Math.hypot(pointerDX, pointerDY)
-        const falloff = pointerWeight * Math.pow(Math.max(0, 1 - distance / radius), 1.8)
-        const inverseDistance = 1 / Math.max(distance, 1)
 
-        const x = centerX + (baseX - centerX) * scale + centeredY * (progress * 0.012 + scene.skew * 0.075) + wave - pointerDX * inverseDistance * falloff * 68 * scene.bend
-        const y = centerY + centeredY * (scale + (centeredY / centerY) * scene.perspective * 0.09) + Math.cos(baseX * 0.004 - phase) * ambient * 0.65 + audioBend - pointerDY * inverseDistance * falloff * 68 * scene.bend
-        const focusX = width * 0.39
-        const focusY = height * 0.36
-        const converge = scene.converge * Math.max(0, Math.min(1, (progress - 0.78) / 0.22))
+      const mobile = width <= 760
+      const spacingX = mobile ? 38 : 40
+      const spacingY = mobile ? 42 : 38
+      const columns = Math.ceil(width / spacingX) + 2
+      const rows = Math.ceil(height / spacingY) + 2
+      const originX = (width - (columns - 1) * spacingX) / 2 - spacingX / 2
+      const originY = (height - (rows - 1) * spacingY) / 2 - spacingY / 2
+      const radius = Math.min(360, width * (mobile ? 0.62 : 0.32))
+      const phase = elapsedRef.current * 0.00016 + scroll * 1.35
+      const [red, green, blue] = scene.rgb.map((channel) => Math.round(channel))
+      const basePath = new Path2D()
+      const outerResponse = new Path2D()
+      const middleResponse = new Path2D()
+      const innerResponse = new Path2D()
 
-        return {
-          x: x + (focusX - x) * converge,
-          y: y + (focusY - y) * converge,
+      for (let row = 0; row < rows; row += 1) {
+        for (let column = 0; column < columns; column += 1) {
+          const baseX = originX + column * spacingX
+          const baseY = originY + row * spacingY
+          const seed = cellNoise(column, row)
+          const u = baseX / width
+          const v = baseY / height
+
+          // Overlapping broad waves form a coherent current without turning into a rigid grid.
+          const fieldAngle =
+            Math.sin(u * Math.PI * 4.2 + Math.sin(v * Math.PI * 2.6 + phase * 0.72) * 0.82 + phase) * 0.62 +
+            Math.cos(v * Math.PI * 3.4 - u * Math.PI * 2.1 - phase * 0.83) * 0.48 +
+            Math.sin((u - v) * Math.PI * 2.35 + phase * 0.48) * 0.3 +
+            (scroll - 0.35) * 0.4
+
+          let directionX = Math.cos(fieldAngle)
+          let directionY = Math.sin(fieldAngle)
+          const dx = baseX - pointerX
+          const dy = baseY - pointerY
+          const distance = Math.hypot(dx, dy)
+          const falloff = pointerWeight * Math.pow(clamp01(1 - distance / radius), 2) * scene.pointer
+
+          if (falloff > 0.001 && distance > 0.5) {
+            // Blend the ambient current with a local outward impulse around the pointer.
+            const impulse = Math.min(0.88, falloff * 1.12)
+            directionX = directionX * (1 - impulse) + dx / distance * impulse
+            directionY = directionY * (1 - impulse) + dy / distance * impulse
+            const magnitude = Math.hypot(directionX, directionY) || 1
+            directionX /= magnitude
+            directionY /= magnitude
+          }
+
+          const driftX = Math.sin(phase + row * 0.21 + column * 0.07) * scene.flow * 1.6
+          const driftY = Math.cos(phase * 0.82 + column * 0.16 - row * 0.09) * scene.flow * 1.5
+          const centerX = baseX + driftX
+          const centerY = baseY + driftY
+          const length = (6 + seed * 6.5 + falloff * 10) * (mobile ? 0.9 : 1)
+          const halfLength = length * 0.5
+          const x1 = centerX - directionX * halfLength
+          const y1 = centerY - directionY * halfLength
+          const x2 = centerX + directionX * halfLength
+          const y2 = centerY + directionY * halfLength
+
+          basePath.moveTo(x1, y1)
+          basePath.lineTo(x2, y2)
+          if (falloff > 0.08) {
+            const path = falloff > 0.62 ? innerResponse : falloff > 0.3 ? middleResponse : outerResponse
+            path.moveTo(x1, y1)
+            path.lineTo(x2, y2)
+          }
         }
       }
 
       context.clearRect(0, 0, width, height)
-      context.lineWidth = 0.7
-      for (let row = 0; row < rows; row += 1) {
-        context.beginPath()
-        for (let column = 0; column < columns; column += 1) {
-          const point = pointAt(column, row)
-          if (column === 0) context.moveTo(point.x, point.y)
-          else context.lineTo(point.x, point.y)
-        }
-        const majorLine = row % 4 === 0
-        context.lineWidth = majorLine ? 0.9 : 0.55
-        context.strokeStyle = `rgba(${color},${(majorLine ? 0.105 : 0.045) * wakeProgress})`
-        context.stroke()
-      }
-      for (let column = 0; column < columns; column += 1) {
-        context.beginPath()
-        for (let row = 0; row < rows; row += 1) {
-          const point = pointAt(column, row)
-          if (row === 0) context.moveTo(point.x, point.y)
-          else context.lineTo(point.x, point.y)
-        }
-        const majorLine = column % 4 === 0
-        context.lineWidth = majorLine ? 0.9 : 0.55
-        context.strokeStyle = `rgba(${color},${(majorLine ? 0.105 : 0.045) * wakeProgress})`
-        context.stroke()
-      }
+      context.lineCap = 'round'
+      context.lineWidth = mobile ? 0.8 : 0.85
+      context.strokeStyle = `rgba(${red},${green},${blue},${0.2 * wakeProgress})`
+      context.stroke(basePath)
 
-      // Slow, flowing contours add a second sense of depth to the rigid lattice.
-      const contourCount = width <= 760 ? 7 : 11
-      const contourAmplitude = (12 + scene.bend * 18 + scene.flow * 38) * (width <= 760 ? 0.72 : 1)
-      let centerContour: Path2D | null = null
-      for (let lane = 0; lane < contourCount; lane += 1) {
-        const laneProgress = lane / (contourCount - 1)
-        const baseY = height * (0.12 + laneProgress * 0.76)
-        const phaseOffset = lane * 0.58
-        const centerLane = lane === Math.floor(contourCount / 2)
-        const path = centerLane ? new Path2D() : null
-        if (!path) context.beginPath()
-        for (let sample = 0; sample <= 72; sample += 1) {
-          const progressX = sample / 72
-          const x = progressX * width
-          const wave = Math.sin(progressX * Math.PI * 3 + phase + phaseOffset) * contourAmplitude
-            + Math.sin(progressX * Math.PI * 1.1 - phase * 0.72 + phaseOffset * 1.7) * contourAmplitude * 0.42
-          const pointerDX = x - pointerX
-          const pointerDY = baseY - pointerY
-          const pointerDistance = Math.hypot(pointerDX, pointerDY)
-          const pointerFalloff = pointerWeight * Math.pow(Math.max(0, 1 - pointerDistance / (radius * 0.72)), 2)
-          const pointerWarp = pointerFalloff * Math.sign(pointerDY || 1) * 34 * scene.bend
-          const y = baseY + wave + pointerWarp
-          if (path) {
-            if (sample === 0) path.moveTo(x, y)
-            else path.lineTo(x, y)
-          } else if (sample === 0) context.moveTo(x, y)
-          else context.lineTo(x, y)
-        }
-        context.lineWidth = centerLane ? 1.05 : 0.65
-        context.strokeStyle = `rgba(${color},${(centerLane ? 0.34 + scene.flow * 0.1 : 0.105 + scene.flow * 0.055) * wakeProgress})`
-        if (path) {
-          context.stroke(path)
-          centerContour = path
-        } else context.stroke()
-      }
-
-      // A single moving signal gives the field a sense of direction without UI clutter.
-      if (centerContour && !reduceMotion) {
-        context.beginPath()
-        context.setLineDash([2, 18])
-        context.lineDashOffset = -time * 0.014
-        context.lineWidth = 1.1
-        context.strokeStyle = `rgba(${color},${(0.22 + scene.flow * 0.1) * wakeProgress})`
-        context.stroke(centerContour)
-        context.setLineDash([])
-      }
-
-      // Project atmospheres crossfade through the existing scene interpolation.
-      if (scene.perspective > 0.08) {
-        const horizonX = width * (0.5 + scene.skew * 0.06)
-        const horizonY = height * 0.28
-        context.lineWidth = 0.7
-        context.strokeStyle = `rgba(${color},${(0.035 + scene.perspective * 0.09) * wakeProgress})`
-        for (let ray = -7; ray <= 7; ray += 1) {
-          context.beginPath()
-          context.moveTo(horizonX, horizonY)
-          context.lineTo(width * 0.5 + ray * width * 0.115, height * 1.04)
-          context.stroke()
-        }
-        for (let row = 1; row <= 8; row += 1) {
-          const depth = row / 8
-          const y = horizonY + (height * 1.04 - horizonY) * depth * depth
-          const spread = width * depth * 0.56
-          context.beginPath()
-          context.moveTo(horizonX - spread, y)
-          context.quadraticCurveTo(horizonX, y - 12 * scene.perspective, horizonX + spread, y)
-          context.stroke()
-        }
-      }
-
-      if (scene.skew > 0.18) {
-        context.lineWidth = 0.75
-        context.strokeStyle = `rgba(${color},${(0.025 + scene.skew * 0.11) * wakeProgress})`
-        const centerX = width * 0.52
-        const centerY = height * 0.54
-        for (let lane = 0; lane < 3; lane += 1) {
-          const radiusX = Math.min(width * 0.44, height * 0.82) * (0.48 + lane * 0.2)
-          const radiusY = height * (0.18 + lane * 0.1)
-          context.beginPath()
-          for (let sample = 0; sample <= 96; sample += 1) {
-            const angle = sample / 96 * Math.PI * 2
-            const contour = 1 + Math.sin(angle * 3 + phase + lane * 0.35) * 0.045
-            const x = centerX + Math.cos(angle) * radiusX * contour
-            const y = centerY + Math.sin(angle) * radiusY * contour
-            if (sample === 0) context.moveTo(x, y)
-            else context.lineTo(x, y)
-          }
-          context.closePath()
-          context.stroke()
-        }
-      }
-
-      if (scene.routes > 0.015) {
-        const hubX = width * (0.51 + (pointerX - width * 0.51) * 0.025 * pointerWeight)
-        const hubY = height * (0.49 + (pointerY - height * 0.49) * 0.08 * pointerWeight)
-        let centralRoute: Path2D | null = null
-        for (let route = 0; route < 3; route += 1) {
-          const offset = route - 1
-          const sourceY = height * (0.24 + route * 0.26)
-          const destinationY = height * (0.27 + ((route + 1) % 3) * 0.23)
-          const central = route === 1
-          const path = central ? new Path2D() : null
-          if (path) {
-            path.moveTo(-width * 0.06, sourceY)
-            path.bezierCurveTo(width * 0.2, sourceY, width * 0.31, hubY + offset * 30, hubX, hubY + offset * 12)
-            path.bezierCurveTo(width * 0.7, hubY + offset * 12, width * 0.79, destinationY, width * 1.06, destinationY)
-          } else {
-            context.beginPath()
-            context.moveTo(-width * 0.06, sourceY)
-            context.bezierCurveTo(width * 0.2, sourceY, width * 0.31, hubY + offset * 30, hubX, hubY + offset * 12)
-            context.bezierCurveTo(width * 0.7, hubY + offset * 12, width * 0.79, destinationY, width * 1.06, destinationY)
-          }
-          context.lineWidth = route === 1 ? 1.15 : 0.7
-          context.strokeStyle = `rgba(${color},${(route === 1 ? 0.3 : 0.12) * scene.routes * wakeProgress})`
-          if (path) {
-            context.stroke(path)
-            centralRoute = path
-          } else context.stroke()
-        }
-        if (centralRoute && !reduceMotion) {
-          context.beginPath()
-          context.setLineDash([2, 16])
-          context.lineDashOffset = -time * 0.018
-          context.lineWidth = 1.15
-          context.strokeStyle = `rgba(${color},${0.38 * scene.routes * wakeProgress})`
-          context.stroke(centralRoute)
-          context.setLineDash([])
-        }
-      }
+      // A restrained local lift makes the field's pointer response easy to notice.
+      context.lineWidth = mobile ? 1 : 1.05
+      context.strokeStyle = `rgba(${red},${green},${blue},${0.12 * wakeProgress})`
+      context.stroke(outerResponse)
+      context.strokeStyle = `rgba(${red},${green},${blue},${0.2 * wakeProgress})`
+      context.stroke(middleResponse)
+      context.lineWidth = mobile ? 1.1 : 1.2
+      context.strokeStyle = `rgba(${red},${green},${blue},${0.3 * wakeProgress})`
+      context.stroke(innerResponse)
     }
 
     const handleResize = () => {

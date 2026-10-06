@@ -244,7 +244,7 @@ html[data-custom-cursor='enabled'][data-pointer-input='mouse'] .site-shell * { c
 [data-magnetic] { translate: var(--magnetic-x, 0px) var(--magnetic-y, 0px); transition: translate 220ms cubic-bezier(.2,.8,.2,1); }
 
 @media (max-width: 760px), (pointer: coarse) {
-  .spatial-field { opacity: .44; }
+  .spatial-field { opacity: .58; }
   .site-cursor { display: none; }
 }
 
