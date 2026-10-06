@@ -944,6 +944,7 @@
 
 /* A closing scene with one clear invitation and the existing real contact routes. */
 .contact-section { isolation: isolate; }
+.contact-section[id] { scroll-margin-top: 32px; }
 .contact-section .contact-section__intro-grid { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(220px,.55fr); gap: clamp(24px,6vw,100px); align-items: end; }
 .contact-heading { max-width: 11ch; font-size: clamp(3.5rem, 8.3vw, 8.5rem); line-height: .85; letter-spacing: -.085em; }
 .contact-heading em { color: var(--color-accent); font-style: normal; }
@@ -986,6 +987,7 @@
   .contact-section__link-wrap:first-child { grid-column: 1 / -1; }
 }
 @media (max-width: 760px) {
+  .contact-section[id] { scroll-margin-top: 0; }
   .section-intro__eyebrow { gap: 16px; align-items: start; font-size: .62rem; letter-spacing: .08em; }
   .project-showcase__artifact--pinned { position: static; }
   .project-showcase__body { grid-template-columns: 1fr; gap: 28px; }
