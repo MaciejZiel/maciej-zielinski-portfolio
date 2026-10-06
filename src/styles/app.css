@@ -345,6 +345,11 @@
   text-wrap: balance;
 }
 
+@media (min-width: 761px) {
+  .project-showcase--track .project-showcase__content { padding-right: clamp(16px, 2.2vw, 32px); }
+  .project-showcase--track .project-showcase__name { font-size: clamp(1.9rem, 3vw, 3rem); }
+}
+
 .project-showcase__headline {
   margin: 0;
   font-size: 1.15rem;
