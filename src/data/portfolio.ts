@@ -372,6 +372,20 @@ export const projectRail: ProjectRailItem[] = [
 export const projectAnchorId = (name: string) =>
   `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
 
+const projectDisplayNames: Record<string, string> = {
+  CaseFlow: 'CASEFLOW',
+  clip_to_text: 'CLIP TO TEXT',
+  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
+  Motorsport_API: 'MOTORSPORT API',
+  live_flights_map: 'LIVE FLIGHTS MAP',
+  RAG_Retrieval_Augmented_Generation: 'RAG — RETRIEVAL AUGMENTED GENERATION',
+  hand_gesture_control: 'HAND GESTURE CONTROL',
+  F1InfoMobileApp: 'F1 INFO MOBILE APP',
+}
+
+export const projectDisplayName = (name: string) =>
+  projectDisplayNames[name] ?? name.replaceAll('_', ' ').toLocaleUpperCase('en-US')
+
 export const projectHighlights = [
   {
     name: 'CaseFlow',

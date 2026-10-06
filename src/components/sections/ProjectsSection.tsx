@@ -1,4 +1,5 @@
 import type { FeaturedProject, ProjectRailItem } from '../../types/portfolio'
+import { projectDisplayName } from '../../data/portfolio'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectShowcase } from './ProjectShowcase'
 
@@ -59,7 +60,7 @@ export function ProjectsSection({
             >
               <span className="projects-rail__item-index">0{index + 1}</span>
               <span className="projects-rail__item-body">
-                <span className="projects-rail__item-name">{item.name}</span>
+                <span className="projects-rail__item-name">{projectDisplayName(item.name)}</span>
                 <span className="projects-rail__item-description">
                   {item.description}
                 </span>

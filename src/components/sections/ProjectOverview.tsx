@@ -1,4 +1,4 @@
-import { projectHighlights } from '../../data/portfolio'
+import { projectDisplayName, projectHighlights } from '../../data/portfolio'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
 
@@ -16,7 +16,7 @@ export function ProjectOverview() {
             <a className="project-overview__link" href={`#${project.anchorId}`}>
               <span className="project-overview__index">0{index + 1}</span>
               <span className="project-overview__copy">
-                <span className="project-overview__name">{project.name}</span>
+                <span className="project-overview__name">{projectDisplayName(project.name)}</span>
                 <span className="project-overview__description">{project.description}</span>
               </span>
               <Icon name="arrow-up-right" className="project-overview__arrow" />

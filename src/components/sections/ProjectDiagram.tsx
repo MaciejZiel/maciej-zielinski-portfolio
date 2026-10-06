@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
+import { projectDisplayName } from '../../data/portfolio'
 import { useAmbientActivity } from '../../hooks/useAmbientActivity'
 
 // Static geometry is computed once. Six phased groups retain the full 72-bar waveform.
@@ -28,7 +29,7 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
   const progress = isStaticFlow ? 1 : ([0.09, 0.5, 1][activeLane] ?? 0.09)
 
   return (
-    <svg viewBox="0 0 640 280" role="img" aria-label={`${project.name} system flow diagram`}>
+    <svg viewBox="0 0 640 280" role="img" aria-label={`${projectDisplayName(project.name)} system flow diagram`}>
       <path className="caseflow-route-track" d="M48 140H592" />
       <motion.path
         className="caseflow-route-signal"
@@ -72,7 +73,7 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
 
 function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
   return (
-    <svg viewBox="0 0 720 220" role="img" aria-label={`${project.name} audio processing visualization`}>
+    <svg viewBox="0 0 720 220" role="img" aria-label={`${projectDisplayName(project.name)} audio processing visualization`}>
       <path className="diagram-wave-mid" d="M0 110H720" />
       <motion.g
         className="diagram-waveform"
@@ -129,7 +130,7 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
   const target = targets[activeLane] ?? targets[0]
 
   return (
-    <svg viewBox="0 0 720 270" role="img" aria-label={`${project.name} live frame and detection bounds`}>
+    <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live frame and detection bounds`}>
       <motion.path className="vision-scan" d="M0 0H720" animate={reduceMotion || !isVisible ? { y: 18 } : { y: [18, 250, 18] }} transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 5, repeat: Infinity, ease: 'linear' }} />
       {targets.map((box, index) => (
         <g key={box.x} className={index === activeLane ? 'vision-target vision-target--active' : 'vision-target'}>
@@ -181,7 +182,7 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
   const laneLabel = project.artifactLanes[activeLane]?.label ?? 'Domain'
 
   return (
-    <svg viewBox="0 0 640 270" role="img" aria-label={`${project.name} motorsport domain map`}>
+    <svg viewBox="0 0 640 270" role="img" aria-label={`${projectDisplayName(project.name)} motorsport domain map`}>
       {paths.map((path, index) => (
         <motion.path
           key={path}
@@ -245,7 +246,7 @@ function FlightRoute({ project, activeLane, reduceMotion, isVisible }: ProjectDi
       : { x: [104, 188, 304, 430, 548], y: [62, 82, 132, 106, 62] }
 
   return (
-    <svg viewBox="0 0 720 270" role="img" aria-label={`${project.name} live aircraft data route`}>
+    <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live aircraft data route`}>
       {routes.map((path, index) => (
         <g key={path}>
           <path className="flight-route-track" d={path} />

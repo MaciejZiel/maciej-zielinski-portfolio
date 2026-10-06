@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
-import { projectAnchorId } from '../../data/portfolio'
+import { projectAnchorId, projectDisplayName } from '../../data/portfolio'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
@@ -22,7 +22,8 @@ interface ProjectShowcaseProps {
 export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
-  const hasCompactName = project.name.includes('_') || project.name.length > 16
+  const displayName = projectDisplayName(project.name)
+  const hasCompactName = displayName.length > 16
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -83,15 +84,9 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             <div className="project-showcase__header-block">
               <h3
                 className={`project-showcase__name${hasCompactName ? ' project-showcase__name--compact' : ''}`}
-                aria-label={project.name}
+                aria-label={displayName}
               >
-                {project.name.includes('_')
-                  ? project.name.split('_').map((part, partIndex, parts) => (
-                    <span className="project-showcase__name-part" key={`${part}-${partIndex}`}>
-                      {part}{partIndex < parts.length - 1 ? '_' : ''}
-                    </span>
-                  ))
-                  : project.name}
+                {displayName}
               </h3>
               <p className="project-showcase__headline">{project.headline}</p>
             </div>
@@ -191,7 +186,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </div>
               ) : (
                 <>
-                  <div className={`project-showcase__lane-tabs project-showcase__lane-tabs--${project.theme}`} role="group" aria-label={`${project.name} journey stages`}>
+                  <div className={`project-showcase__lane-tabs project-showcase__lane-tabs--${project.theme}`} role="group" aria-label={`${displayName} journey stages`}>
                     {project.artifactLanes.map((lane, laneIdx) => (
                       <button
                         key={lane.label}
