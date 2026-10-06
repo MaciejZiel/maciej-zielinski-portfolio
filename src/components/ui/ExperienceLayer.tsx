@@ -153,7 +153,6 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         })
       addTargets('.hero-position', 440, 7)
       addTargets('.hero-introduction', 520, 5)
-      addTargets('.project-diagram__visual', 330, 7)
       addTargets('.contact-heading', 410, 15)
       proximityTargets = targets
       proximityBoundsInvalid = false

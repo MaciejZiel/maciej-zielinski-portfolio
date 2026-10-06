@@ -4,19 +4,17 @@ import { useState } from 'react'
 interface MotionRevealProps extends HTMLMotionProps<'div'> {
   delay?: number
   distance?: number
-  disableMotion?: boolean
 }
 
 export function MotionReveal({
   children,
   delay = 0,
   distance = 34,
-  disableMotion = false,
   transition,
   className,
   ...props
 }: MotionRevealProps) {
-  const reduceMotion = useReducedMotion() || disableMotion
+  const reduceMotion = useReducedMotion()
   const [revealed, setRevealed] = useState(Boolean(reduceMotion))
 
   return (
