@@ -23,29 +23,19 @@ export function SiteHeader({
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <div className="site-header__identity">
-          <a className="brand" href="#top" aria-label={`${name} — back to top`} data-magnetic>
-            <span className="brand__text">
-              <span className="brand__name">{name}</span>
-              <span className="brand__headline">{headline}</span>
-            </span>
-          </a>
-          <a
-            className="site-header__contact"
-            href="#contact"
-            aria-current={activeHref === '#contact' ? 'location' : undefined}
-            data-magnetic
-          >
-            Contact
-          </a>
-        </div>
+        <a className="brand" href="#top" aria-label={`${name} — back to top`} data-magnetic>
+          <span className="brand__text">
+            <span className="brand__name">{name}</span>
+            <span className="brand__headline">{headline}</span>
+          </span>
+        </a>
 
         <div className="site-header__right">
           <nav className="site-nav" aria-label="Section navigation">
-            {navigationItems.filter((item) => item.href !== '#contact').map((item) => (
+            {navigationItems.map((item) => (
               <a
                 key={item.label}
-                className={`site-nav__link${item.href === activeHref ? ' site-nav__link--active' : ''}`}
+                className={`site-nav__link${item.href === activeHref ? ' site-nav__link--active' : ''}${item.href === '#contact' ? ' site-nav__link--contact' : ''}`}
                 href={item.href}
                 aria-current={item.href === activeHref ? 'location' : undefined}
                 data-magnetic
