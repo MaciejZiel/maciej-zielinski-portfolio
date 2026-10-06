@@ -39,6 +39,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       id={projectAnchorId(project.name)}
       className={`project-showcase project-showcase--${project.theme}`}
       data-chapter={project.theme}
+      data-atmosphere={project.visualization === 'flight-route' ? 'flights' : undefined}
     >
       <div className="project-showcase__rail-wrap">
         <MotionReveal className="project-showcase__rail" delay={0.04}>

@@ -34,12 +34,13 @@ const chapterAccents: Record<string, string> = {
   steel: '#7be4b8',
   signal: '#ffb86c',
   vision: '#82b1ff',
+  flights: '#71c6da',
   track: '#d4a5e0',
   skills: '#c8f958',
   contact: '#c8f958',
 }
 
-const projectChapters = new Set(['steel', 'signal', 'vision', 'track'])
+const projectChapters = new Set(['steel', 'signal', 'vision', 'flights', 'track'])
 const CUSTOM_CURSOR_ENABLED = false
 const chapterTransitionPaths: Record<string, string[]> = {
   steel: [
@@ -53,6 +54,11 @@ const chapterTransitionPaths: Record<string, string[]> = {
     'M-20 165L1020 70M-20 350H1020M-20 535L1020 630',
     'M120 -20L286 720M320 -20L414 720M520 -20V720M720 -20L626 720M920 -20L754 720',
     'M175 250H825V450H175Z',
+  ],
+  flights: [
+    'M-30 210C190 210 226 350 500 350S790 210 1030 210',
+    'M-30 490C190 490 226 350 500 350S790 490 1030 490',
+    'M500 350H870',
   ],
   track: [
     'M110 220L330 350L550 220L770 350L940 220',
@@ -322,8 +328,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
       if (!current) return
       const target = current.target as HTMLElement
-      const project = target.className.match(/project-showcase--(steel|signal|vision|track)/)
-      const nextChapter = project?.[1] ?? target.id ?? 'top'
+      const project = target.dataset.atmosphere ?? target.className.match(/project-showcase--(steel|signal|vision|track)/)?.[1]
+      const nextChapter = project ?? target.id ?? 'top'
       if (activeChapter.current === nextChapter) return
       const touchSizedViewport = window.innerWidth <= 760 || window.matchMedia('(pointer: coarse)').matches
       if (projectChapters.has(activeChapter.current) && projectChapters.has(nextChapter) && !reduceMotion && !touchSizedViewport) {
