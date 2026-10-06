@@ -14,6 +14,8 @@ import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
 import { TagList } from '../ui/TagList'
 
+const disclosureMotions = new WeakMap<HTMLElement, Animation>()
+
 interface ProjectShowcaseProps {
   index: number
   project: FeaturedProject
@@ -96,7 +98,38 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <p className="project-showcase__spotlight-copy">{project.outcome}</p>
             </div>
 
-            <details className="project-showcase__deep-dive">
+            <details
+              className="project-showcase__deep-dive"
+              onToggle={(event) => {
+                const details = event.currentTarget
+                const mark = details.querySelector<HTMLElement>('summary span:last-child')
+                if (!mark) return
+                disclosureMotions.get(mark)?.cancel()
+                if (reduceMotion || typeof mark.animate !== 'function') return
+
+                const animation = mark.animate(
+                  details.open
+                    ? [
+                        { transform: 'rotate(0deg) scale(1)' },
+                        { transform: 'rotate(228deg) scale(1.12)', offset: 0.68 },
+                        { transform: 'rotate(405deg) scale(1)' },
+                      ]
+                    : [
+                        { transform: 'rotate(45deg) scale(1)' },
+                        { transform: 'rotate(-18deg) scale(.84)', offset: 0.56 },
+                        { transform: 'rotate(0deg) scale(1)' },
+                      ],
+                  {
+                    duration: details.open ? 560 : 390,
+                    easing: 'cubic-bezier(.2,.8,.25,1)',
+                  },
+                )
+                disclosureMotions.set(mark, animation)
+                animation.onfinish = () => {
+                  if (disclosureMotions.get(mark) === animation) disclosureMotions.delete(mark)
+                }
+              }}
+            >
               <summary><span>Open the engineering notes</span><span aria-hidden="true">+</span></summary>
               <div className="project-showcase__deep-dive-body">
                 {project.theme === 'steel' ? <p>{project.outcome}</p> : null}
