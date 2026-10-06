@@ -38,6 +38,8 @@
   padding: 14px 0;
 }
 
+.site-header__identity { display: flex; align-items: center; gap: clamp(12px, 1.4vw, 22px); }
+
 .brand {
   display: flex;
   min-height: 44px;
@@ -96,6 +98,26 @@
 .site-nav__link:hover,
 .site-nav__link--active {
   color: var(--color-accent);
+}
+
+.site-header__contact {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 11px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 78%, transparent);
+  color: var(--color-accent);
+  font: 500 0.72rem/1 var(--mono-font);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+.site-header__contact:hover,
+.site-header__contact:focus-visible {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  color: var(--color-text);
 }
 
 .site-nav__link { position: relative; }
@@ -805,6 +827,7 @@
     gap: 10px;
   }
   .site-nav__link { font-size: 0.63rem; letter-spacing: 0.035em; }
+  .site-header__contact { font-size: 0.63rem; letter-spacing: 0.035em; padding-inline: 9px; }
   .project-showcase__narrative,
   .project-showcase__metrics {
     grid-template-columns: 1fr;
@@ -920,7 +943,6 @@
 .vision-loop-node--active text { fill: var(--color-accent); }
 .vision-target path { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .vision-target--active path { stroke: var(--project-accent); stroke-width: 1.6; }
-.vision-target rect { fill: none; stroke: var(--project-accent); stroke-width: .6; opacity: .25; vector-effect: non-scaling-stroke; }
 .vision-target--active text { fill: var(--project-accent); }
 .domain-link { fill: none; stroke: var(--project-accent); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .domain-link--active { stroke-width: 2.2; }

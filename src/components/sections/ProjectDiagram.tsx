@@ -111,7 +111,6 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
       {targets.map((box, index) => (
         <g key={box.x} className={index === activeLane ? 'vision-target vision-target--active' : 'vision-target'}>
           <path d={`M${box.x} ${box.y + 16}V${box.y}H${box.x + 16}M${box.x + box.width - 16} ${box.y}H${box.x + box.width}V${box.y + 16}M${box.x} ${box.y + box.height - 16}V${box.y + box.height}H${box.x + 16}M${box.x + box.width - 16} ${box.y + box.height}H${box.x + box.width}V${box.y + box.height - 16}`} />
-          {index === activeLane ? <motion.rect x={box.x} y={box.y} width={box.width} height={box.height} initial={false} animate={{ x: box.x, y: box.y }} /> : null}
           <text x={box.x} y={box.y - 8}>{index === activeLane ? `TRACK 0${index + 1} / LOCKED` : `FRAME 0${index + 1}`}</text>
         </g>
       ))}
