@@ -308,19 +308,15 @@
 }
 
 .project-showcase__name {
+  max-width: 100%;
   margin: 0 0 8px;
   font-family: var(--display-font);
-  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  font-size: clamp(2rem, 4vw, 3.75rem);
   font-weight: 800;
-  line-height: 0.96;
-  letter-spacing: -0.04em;
+  line-height: 0.95;
+  letter-spacing: -0.07em;
   color: var(--color-text);
-  overflow-wrap: anywhere;
-}
-.project-showcase__name-part { display: inline-block; white-space: nowrap; }
-
-.project-showcase__name--compact {
-  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  text-wrap: balance;
 }
 
 .project-showcase__headline {
@@ -834,9 +830,6 @@
 .project-showcase__meta { align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid var(--color-border); }
 .project-showcase__status { text-align: right; }
 .project-showcase__header-block { padding-block: 6px 8px; }
-.project-showcase__name { font-size: clamp(2.7rem, 5.2vw, 5.5rem); letter-spacing: -.085em; line-height: .88; }
-.project-showcase__name--compact { font-size: clamp(2.1rem, 2.5vw, 2.8rem); letter-spacing: -.07em; }
-.project-showcase__name--caseflow { font-size: clamp(2rem, 4.7vw, 4.85rem); white-space: nowrap; }
 .project-showcase__headline { max-width: 46ch; font-size: clamp(.95rem, 1.35vw, 1.15rem); line-height: 1.55; font-weight: 500; color: var(--color-text-muted); }
 .project-showcase__spotlight { margin-top: 8px; }
 .project-showcase__spotlight-copy { font-family: var(--heading-font); font-size: clamp(1.12rem, 1.7vw, 1.5rem); line-height: 1.35; letter-spacing: -.035em; }
@@ -988,9 +981,7 @@
   .project-showcase:nth-child(even) .project-showcase__artifact { order: initial; }
   .project-showcase:nth-child(even) .project-showcase__artifact { padding: 22px 0 0; border-right: 0; border-top: 1px solid var(--color-border-strong); }
   .project-showcase:nth-child(even) .project-showcase__rail-copy { text-align: left; }
-  .project-showcase__name { font-size: clamp(2.65rem, 12vw, 4.2rem); overflow-wrap: anywhere; }
-  .project-showcase__name--compact { font-size: clamp(1.6rem, 7vw, 2.7rem); }
-  .project-showcase__name--caseflow { font-size: clamp(1.4rem, 8vw, 2.5rem); white-space: nowrap; }
+  .project-showcase__name { font-size: clamp(1.6rem, 8vw, 3rem); }
   .project-diagram svg { max-height: 180px; }
   .project-showcase__deep-dive-body .project-showcase__narrative { grid-template-columns: 1fr; }
   .contact-section .contact-section__intro-grid { grid-template-columns: 1fr; align-items: start; }

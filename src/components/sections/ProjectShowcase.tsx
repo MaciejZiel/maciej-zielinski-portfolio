@@ -23,7 +23,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
   const displayName = projectDisplayName(project.name)
-  const hasCompactName = displayName.length > 16
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -83,7 +82,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
             <div className="project-showcase__header-block">
               <h3
-                className={`project-showcase__name${hasCompactName ? ' project-showcase__name--compact' : ''}${project.name === 'CaseFlow' ? ' project-showcase__name--caseflow' : ''}`}
+                className="project-showcase__name"
                 aria-label={displayName}
               >
                 {displayName}
