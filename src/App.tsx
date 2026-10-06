@@ -5,7 +5,6 @@ import { AboutSection } from './components/sections/AboutSection'
 import { ContactSection } from './components/sections/ContactSection'
 import { HeroSection } from './components/sections/HeroSection'
 import { ProjectsSection } from './components/sections/ProjectsSection'
-import { PlusMotionLab } from './components/sections/PlusMotionLab'
 import { SkillsSection } from './components/sections/SkillsSection'
 import { ExperienceLayer } from './components/ui/ExperienceLayer'
 import {
@@ -51,7 +50,6 @@ function PortfolioExperience() {
             />
             <SkillsSection skillLanes={skillLanes} />
             <ContactSection contactMethods={contactMethods} />
-            <PlusMotionLab />
           </main>
 
           <footer className="site-footer">
