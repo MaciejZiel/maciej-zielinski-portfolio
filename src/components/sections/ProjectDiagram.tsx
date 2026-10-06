@@ -22,11 +22,10 @@ interface ProjectDiagramProps {
   onSelectLane?: (lane: number) => void
 }
 
-function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
+function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const labels = project.artifactLanes.map((lane) => lane.label)
   const nodeX = [96, 320, 544]
-  const isStaticFlow = project.theme === 'steel'
-  const progress = isStaticFlow ? 1 : ([0.09, 0.5, 1][activeLane] ?? 0.09)
+  const progress = [0.09, 0.5, 1][activeLane] ?? 0.09
 
   return (
     <svg viewBox="0 0 640 280" role="img" aria-label={`${projectDisplayName(project.name)} system flow diagram`}>
@@ -39,33 +38,11 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
         transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
       />
       {nodeX.map((x, index) => (
-        <g key={x} className={!isStaticFlow && index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
-          <circle cx={x} cy="140" r={!isStaticFlow && index === activeLane ? 11 : 7} />
+        <g key={x} className={index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
+          <circle cx={x} cy="140" r={index === activeLane ? 11 : 7} />
           <text x={x} y="92" textAnchor="middle">0{index + 1} / {labels[index] ?? 'Stage'}</text>
         </g>
       ))}
-      {!isStaticFlow ? (
-        <motion.circle
-          className="caseflow-route-token"
-          cx={nodeX[0]}
-          cy="140"
-          r="4"
-          initial={false}
-          animate={{ x: (nodeX[activeLane] ?? nodeX[0]) - nodeX[0] }}
-          transition={{ duration: reduceMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
-        />
-      ) : null}
-      {!reduceMotion && isVisible ? (
-        <motion.circle
-          className="caseflow-route-packet"
-          cy="140"
-          r="3"
-          cx="48"
-          initial={{ x: 0 }}
-          animate={{ x: [0, 544] }}
-          transition={{ duration: 3.4, ease: 'linear', repeat: Infinity, repeatDelay: 0.65 }}
-        />
-      ) : null}
       <text x="42" y="248">REQUEST / POLICY → STATE → DELIVERY</text>
     </svg>
   )
@@ -127,7 +104,6 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
     { x: 340, y: 54, width: 126, height: 142 },
     { x: 495, y: 108, width: 94, height: 92 },
   ]
-  const target = targets[activeLane] ?? targets[0]
 
   return (
     <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live frame and detection bounds`}>
@@ -154,18 +130,6 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
         </g>
       ))}
       <text x="20" y="265">FRAME BUFFER / CLOSED CONTROL LOOP</text>
-      <motion.circle
-        className="vision-reticle"
-        cx="0"
-        cy="0"
-        r="3"
-        initial={false}
-        animate={reduceMotion || !isVisible ? { x: target.x + target.width / 2, y: target.y + target.height / 2 } : {
-          x: [187, 403, 542, 187],
-          y: [123, 125, 154, 123],
-        }}
-        transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 5.4, repeat: Infinity, ease: 'linear' }}
-      />
     </svg>
   )
 }
@@ -229,7 +193,7 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
   )
 }
 
-function FlightRoute({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
+function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const routes = [
     'M104 62 C188 62 222 132 304 132',
     'M104 202 C188 202 222 132 304 132',
@@ -239,12 +203,6 @@ function FlightRoute({ project, activeLane, reduceMotion, isVisible }: ProjectDi
   const sourceActive = (index: number) => index < 2
   const routeActive = (index: number) =>
     sourceActive(index) || (activeLane >= 1 && index === 3) || (activeLane >= 2 && index === 2)
-  const packetPositions = activeLane === 0
-    ? { x: [104, 188, 304], y: [62, 82, 132] }
-    : activeLane === 1
-      ? { x: [104, 188, 304, 430, 548], y: [202, 184, 132, 166, 202] }
-      : { x: [104, 188, 304, 430, 548], y: [62, 82, 132, 106, 62] }
-
   return (
     <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live aircraft data route`}>
       {routes.map((path, index) => (
@@ -271,15 +229,6 @@ function FlightRoute({ project, activeLane, reduceMotion, isVisible }: ProjectDi
           <text x={node.x} y={node.y + (node.y < 132 ? -18 : 24)} textAnchor="middle">{node.label}</text>
         </g>
       ))}
-      {!reduceMotion && isVisible ? (
-        <motion.circle
-          className="flight-route-packet"
-          r="3.5"
-          initial={false}
-          animate={{ cx: packetPositions.x, cy: packetPositions.y }}
-          transition={{ duration: 3.2, repeat: Infinity, repeatDelay: 0.35, ease: 'linear' }}
-        />
-      ) : null}
       <text x="22" y="256">LIVE FEEDS / POSITION HISTORY / REPLAY</text>
     </svg>
   )
