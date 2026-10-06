@@ -856,8 +856,7 @@
 
 .plus-motion-lab__core,
 .plus-motion-lab__bar,
-.plus-motion-lab__corner,
-.plus-motion-lab__panel {
+.plus-motion-lab__corner {
   position: absolute;
   display: block;
 }
@@ -966,35 +965,38 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-/* Shutter: the two doors pull away and uncover the larger cross. */
-.plus-motion-lab__button--shutter .plus-motion-lab__surface {
-  width: 100px;
-  height: 64px;
+/* Scan: the moving line visibly passes the mark before its state changes. */
+.plus-motion-lab__button--scan .plus-motion-lab__surface {
+  width: 92px;
+  height: 80px;
+  border: 0;
+  border-left: 1px solid color-mix(in srgb, currentColor 55%, transparent);
+  border-right: 1px solid color-mix(in srgb, currentColor 55%, transparent);
 }
-.plus-motion-lab__panel {
-  width: 50%;
-  height: 100%;
-  top: 0;
-  background: color-mix(in srgb, currentColor 13%, #101411);
-  transition: transform 580ms cubic-bezier(.2,.9,.2,1), opacity 400ms ease;
+.plus-motion-lab__button--scan .plus-motion-lab__surface::before {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  height: 2px;
+  background: currentColor;
+  content: '';
+  z-index: 3;
+  transform: translateY(0);
+  transition: transform 640ms cubic-bezier(.18,.8,.22,1);
 }
-.plus-motion-lab__panel--left { left: 0; border-right: 1px solid currentColor; }
-.plus-motion-lab__panel--right { right: 0; border-left: 1px solid currentColor; }
-.plus-motion-lab__button--shutter .plus-motion-lab__core {
-  z-index: 1;
-  transition: transform 520ms cubic-bezier(.2,.9,.2,1);
+.plus-motion-lab__button--scan .plus-motion-lab__core {
+  transition: transform 300ms cubic-bezier(.18,1,.25,1) 260ms;
 }
-.plus-motion-lab__button--shutter .plus-motion-lab__bar--horizontal { width: 28px; }
-.plus-motion-lab__button--shutter .plus-motion-lab__bar--vertical { height: 28px; }
-.plus-motion-lab__button--shutter[aria-pressed='true'] .plus-motion-lab__panel--left {
-  transform: translateX(-65%);
-  opacity: .55;
+.plus-motion-lab__button--scan .plus-motion-lab__bar--horizontal { width: 28px; }
+.plus-motion-lab__button--scan .plus-motion-lab__bar--vertical { height: 28px; }
+.plus-motion-lab__button--scan:not([aria-pressed='true']):hover .plus-motion-lab__surface::before {
+  transform: translateY(9px);
 }
-.plus-motion-lab__button--shutter[aria-pressed='true'] .plus-motion-lab__panel--right {
-  transform: translateX(65%);
-  opacity: .55;
+.plus-motion-lab__button--scan[aria-pressed='true'] .plus-motion-lab__surface::before {
+  transform: translateY(62px);
 }
-.plus-motion-lab__button--shutter[aria-pressed='true'] .plus-motion-lab__core {
+.plus-motion-lab__button--scan[aria-pressed='true'] .plus-motion-lab__core {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
@@ -1093,7 +1095,7 @@
     border-left: 1px solid var(--color-border);
   }
   .plus-motion-lab__caption-heading { display: grid; gap: 4px; }
-  .plus-motion-lab__button--shutter .plus-motion-lab__surface { width: 72px; }
+  .plus-motion-lab__button--scan .plus-motion-lab__surface { width: 72px; }
   .plus-motion-lab__button--rail .plus-motion-lab__surface { width: 94px; }
   .plus-motion-lab__button--rail .plus-motion-lab__surface::before { width: 60px; }
   .plus-motion-lab__button--rail[aria-pressed='true'] .plus-motion-lab__core {
@@ -1106,8 +1108,7 @@
   .plus-motion-lab__surface::before,
   .plus-motion-lab__core,
   .plus-motion-lab__bar,
-  .plus-motion-lab__corner,
-  .plus-motion-lab__panel { transition-duration: .01ms !important; transition-delay: 0ms !important; }
+  .plus-motion-lab__corner { transition-duration: .01ms !important; transition-delay: 0ms !important; }
 }
 
 /* RESPONSIVE MEDIA QUERIES */

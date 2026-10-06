@@ -4,7 +4,7 @@ const studies = [
   { id: 'torque', name: 'Torque', note: 'The entire frame turns into a diamond.' },
   { id: 'iris', name: 'Iris', note: 'A circular signal fills and becomes a minus.' },
   { id: 'brackets', name: 'Brackets', note: 'Four corners release the central mark.' },
-  { id: 'shutter', name: 'Shutter', note: 'Two panels separate to reveal the close mark.' },
+  { id: 'scan', name: 'Scan', note: 'A line travels through the mark and leaves an X.' },
   { id: 'rail', name: 'Rail', note: 'The mark travels from one end to the other.' },
 ] as const
 
@@ -49,12 +49,6 @@ export function PlusMotionLab() {
                       <span className="plus-motion-lab__corner plus-motion-lab__corner--tr" />
                       <span className="plus-motion-lab__corner plus-motion-lab__corner--bl" />
                       <span className="plus-motion-lab__corner plus-motion-lab__corner--br" />
-                    </>
-                  )}
-                  {study.id === 'shutter' && (
-                    <>
-                      <span className="plus-motion-lab__panel plus-motion-lab__panel--left" />
-                      <span className="plus-motion-lab__panel plus-motion-lab__panel--right" />
                     </>
                   )}
                   <span className="plus-motion-lab__core">
