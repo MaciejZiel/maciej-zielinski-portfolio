@@ -72,7 +72,7 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         className="diagram-conversion-route"
         d="M412 110 C440 110 430 74 466 74"
         initial={false}
-        animate={{ pathLength: activeLane === 2 ? 1 : activeLane === 1 ? 0.38 : 0 }}
+        animate={{ pathLength: activeLane === 2 ? 1 : 0 }}
         transition={{ duration: reduceMotion ? 0 : 0.62, ease: [0.22, 1, 0.36, 1] }}
       />
       <motion.g
