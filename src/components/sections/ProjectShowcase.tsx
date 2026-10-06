@@ -180,8 +180,8 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
           </MotionReveal>
 
           <motion.div
-            className={`project-showcase__artifact${project.theme === 'steel' ? ' project-showcase__artifact--pinned' : ''}`}
-            style={reduceMotion || project.theme === 'steel' ? undefined : { y: stageY}}
+            className="project-showcase__artifact"
+            style={reduceMotion ? undefined : { y: stageY }}
           >
             <div className="project-showcase__artifact-frame">
               <div className="project-showcase__artifact-topline">

@@ -546,7 +546,6 @@
 .project-showcase__active-lane-chip { padding: 4px 12px 4px 0; margin-right: 12px; color: var(--color-text); font: .66rem var(--mono-font); }
 .project-showcase__chip-dot { display: none; }
 
-.project-showcase__artifact--pinned { position: sticky; top: 104px; align-self: start; }
 .project-showcase--steel .project-showcase__artifact-frame { padding-top: 8px; }
 .project-showcase--steel .project-showcase__lane-display { min-height: 150px; }
 
@@ -1001,7 +1000,6 @@
 @media (max-width: 760px) {
   .contact-section[id] { scroll-margin-top: -24px; }
   .section-intro__eyebrow { gap: 16px; align-items: start; font-size: .62rem; letter-spacing: .08em; }
-  .project-showcase__artifact--pinned { position: static; }
   .project-showcase__body { grid-template-columns: 1fr; gap: 28px; }
   .project-showcase:nth-child(even) .project-showcase__content,
   .project-showcase:nth-child(even) .project-showcase__artifact { order: initial; }
