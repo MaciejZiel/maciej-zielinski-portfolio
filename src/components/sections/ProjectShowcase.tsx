@@ -14,7 +14,30 @@ import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
 import { TagList } from '../ui/TagList'
 
-const disclosureMotions = new WeakMap<HTMLElement, Animation>()
+const runningDisclosureAnimations = new WeakMap<HTMLElement, Animation>()
+
+const disclosureMotionByProject: Record<string, { open: Keyframe[]; close: Keyframe[] }> = {
+  CaseFlow: {
+    open: [{ transform: 'rotate(0deg) scale(.94)' }, { transform: 'rotate(52deg) scale(1.05)' }, { transform: 'rotate(45deg) scale(1)' }],
+    close: [{ transform: 'rotate(45deg) scale(1)' }, { transform: 'rotate(-5deg) scale(.96)' }, { transform: 'rotate(0deg) scale(1)' }],
+  },
+  clip_to_text: {
+    open: [{ transform: 'rotate(0deg) scaleX(.84)' }, { transform: 'rotate(30deg) scaleX(1.08)' }, { transform: 'rotate(45deg) scaleX(1)' }],
+    close: [{ transform: 'rotate(45deg) scaleX(1)' }, { transform: 'rotate(25deg) scaleX(.86)' }, { transform: 'rotate(0deg) scaleX(1)' }],
+  },
+  camera_object_recognition: {
+    open: [{ transform: 'rotate(0deg) scale(.9)' }, { transform: 'rotate(45deg) scale(1.07)' }, { transform: 'rotate(45deg) scale(1)' }],
+    close: [{ transform: 'rotate(45deg) scale(1)' }, { transform: 'rotate(59deg) scale(.92)' }, { transform: 'rotate(0deg) scale(1)' }],
+  },
+  Motorsport_API: {
+    open: [{ transform: 'rotate(-8deg) scale(.95)' }, { transform: 'rotate(53deg) scale(1.04)' }, { transform: 'rotate(45deg) scale(1)' }],
+    close: [{ transform: 'rotate(45deg) scale(1)' }, { transform: 'rotate(38deg) scale(.95)' }, { transform: 'rotate(0deg) scale(1)' }],
+  },
+  live_flights_map: {
+    open: [{ transform: 'translateY(3px) rotate(0deg)' }, { transform: 'translateY(-2px) rotate(45deg)' }, { transform: 'translateY(0) rotate(45deg)' }],
+    close: [{ transform: 'translateY(0) rotate(45deg)' }, { transform: 'translateY(2px) rotate(52deg)' }, { transform: 'translateY(0) rotate(0deg)' }],
+  },
+}
 
 interface ProjectShowcaseProps {
   index: number
@@ -104,29 +127,23 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 const details = event.currentTarget
                 const mark = details.querySelector<HTMLElement>('summary span:last-child')
                 if (!mark) return
-                disclosureMotions.get(mark)?.cancel()
+                runningDisclosureAnimations.get(mark)?.cancel()
                 if (reduceMotion || typeof mark.animate !== 'function') return
 
+                const projectMotion = disclosureMotionByProject[project.name]
                 const animation = mark.animate(
-                  details.open
-                    ? [
-                        { transform: 'rotate(0deg) scale(1)' },
-                        { transform: 'rotate(228deg) scale(1.12)', offset: 0.68 },
-                        { transform: 'rotate(405deg) scale(1)' },
-                      ]
-                    : [
-                        { transform: 'rotate(45deg) scale(1)' },
-                        { transform: 'rotate(-18deg) scale(.84)', offset: 0.56 },
-                        { transform: 'rotate(0deg) scale(1)' },
-                      ],
+                  (details.open ? projectMotion?.open : projectMotion?.close) ?? [
+                    { transform: details.open ? 'rotate(0deg)' : 'rotate(45deg)' },
+                    { transform: details.open ? 'rotate(45deg)' : 'rotate(0deg)' },
+                  ],
                   {
-                    duration: details.open ? 560 : 390,
+                    duration: details.open ? 420 : 320,
                     easing: 'cubic-bezier(.2,.8,.25,1)',
                   },
                 )
-                disclosureMotions.set(mark, animation)
+                runningDisclosureAnimations.set(mark, animation)
                 animation.onfinish = () => {
-                  if (disclosureMotions.get(mark) === animation) disclosureMotions.delete(mark)
+                  if (runningDisclosureAnimations.get(mark) === animation) runningDisclosureAnimations.delete(mark)
                 }
               }}
             >
