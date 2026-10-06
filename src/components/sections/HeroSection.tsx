@@ -166,6 +166,9 @@ export function HeroSection({ profile }: HeroSectionProps) {
         <div className="hero-position">
           <p><span>Software engineer.</span></p>
           <span className="hero-position__stack">Python / Applied AI</span>
+          <a className="hero-position__background-link" href="/?field-lab=1">
+            Compare 4 backgrounds <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </motion.div>
 
