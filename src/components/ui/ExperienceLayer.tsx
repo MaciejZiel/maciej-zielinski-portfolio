@@ -358,7 +358,6 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
         aria-hidden="true"
       >
         <SpatialField
-          chapter={chapter}
           pointerTarget={pointerTarget}
           reduceMotion={Boolean(reduceMotion)}
           pageVisible={pageVisible}

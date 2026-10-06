@@ -7,23 +7,24 @@ interface PointerTarget {
   active: boolean
 }
 
-interface FieldScene {
-  rgb: [number, number, number]
-  flow: number
-  pointer: number
+type RGB = [number, number, number]
+
+interface ColorStop {
+  progress: number
+  rgb: RGB
 }
 
-const scenes: Record<string, FieldScene> = {
-  top: { rgb: [194, 225, 126], flow: 0.76, pointer: 1 },
-  about: { rgb: [194, 225, 126], flow: 0.68, pointer: 0.9 },
-  steel: { rgb: [123, 228, 184], flow: 0.48, pointer: 0.88 },
-  signal: { rgb: [255, 184, 108], flow: 1, pointer: 1.08 },
-  vision: { rgb: [130, 177, 255], flow: 0.58, pointer: 0.92 },
-  flights: { rgb: [240, 120, 135], flow: 0.78, pointer: 1 },
-  track: { rgb: [212, 165, 224], flow: 0.88, pointer: 1.04 },
-  skills: { rgb: [194, 225, 126], flow: 0.58, pointer: 0.86 },
-  contact: { rgb: [194, 225, 126], flow: 0.34, pointer: 0.82 },
-}
+const fieldColorAnchors: Array<{ selector: string; rgb: RGB }> = [
+  { selector: '#top', rgb: [194, 225, 126] },
+  { selector: '#about', rgb: [194, 225, 126] },
+  { selector: '#project-caseflow', rgb: [123, 228, 184] },
+  { selector: '#project-clip-to-text', rgb: [255, 184, 108] },
+  { selector: '#project-camera-object-recognition', rgb: [130, 177, 255] },
+  { selector: '#project-motorsport-api', rgb: [212, 165, 224] },
+  { selector: '#project-live-flights-map', rgb: [240, 120, 135] },
+  { selector: '#skills', rgb: [194, 225, 126] },
+  { selector: '#contact', rgb: [194, 225, 126] },
+]
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
 
@@ -32,14 +33,80 @@ function cellNoise(column: number, row: number) {
   return value - Math.floor(value)
 }
 
+function rgbToHsl([red, green, blue]: RGB): [number, number, number] {
+  const r = red / 255
+  const g = green / 255
+  const b = blue / 255
+  const maximum = Math.max(r, g, b)
+  const minimum = Math.min(r, g, b)
+  const lightness = (maximum + minimum) / 2
+
+  if (maximum === minimum) return [0, 0, lightness]
+
+  const delta = maximum - minimum
+  const saturation = lightness > 0.5 ? delta / (2 - maximum - minimum) : delta / (maximum + minimum)
+  let hue = maximum === r
+    ? (g - b) / delta + (g < b ? 6 : 0)
+    : maximum === g
+      ? (b - r) / delta + 2
+      : (r - g) / delta + 4
+
+  hue /= 6
+  return [hue, saturation, lightness]
+}
+
+function hslToRgb(hue: number, saturation: number, lightness: number): RGB {
+  if (saturation === 0) {
+    const gray = Math.round(lightness * 255)
+    return [gray, gray, gray]
+  }
+
+  // The portfolio palette uses light accent colors, so HSL lightness interpolation stays vivid and smooth.
+  const q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
+  const p = 2 * lightness - q
+  const channel = (offset: number) => {
+    let t = hue + offset
+    if (t < 0) t += 1
+    if (t > 1) t -= 1
+    if (t < 1 / 6) return p + (q - p) * 6 * t
+    if (t < 1 / 2) return q
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
+    return p
+  }
+
+  return [channel(1 / 3), channel(0), channel(-1 / 3)].map((value) => Math.round(value * 255)) as RGB
+}
+
+function colorAtProgress(stops: ColorStop[], progress: number): RGB {
+  if (!stops.length) return [194, 225, 126]
+  if (progress <= stops[0].progress) return stops[0].rgb
+
+  const nextIndex = stops.findIndex((stop) => stop.progress >= progress)
+  if (nextIndex === -1) return stops[stops.length - 1].rgb
+
+  const from = stops[nextIndex - 1]
+  const to = stops[nextIndex]
+  const interval = Math.max(to.progress - from.progress, 0.0001)
+  const linearProgress = clamp01((progress - from.progress) / interval)
+  const easedProgress = linearProgress * linearProgress * (3 - 2 * linearProgress)
+  const [fromHue, fromSaturation, fromLightness] = rgbToHsl(from.rgb)
+  const [toHue, toSaturation, toLightness] = rgbToHsl(to.rgb)
+  const shortestHueArc = ((toHue - fromHue + 1.5) % 1) - 0.5
+  const hue = (fromHue + shortestHueArc * easedProgress + 1) % 1
+
+  return hslToRgb(
+    hue,
+    fromSaturation + (toSaturation - fromSaturation) * easedProgress,
+    fromLightness + (toLightness - fromLightness) * easedProgress,
+  )
+}
+
 export function SpatialField({
-  chapter,
   pointerTarget,
   reduceMotion,
   pageVisible,
   scrollYProgress,
 }: {
-  chapter: string
   pointerTarget: RefObject<PointerTarget>
   reduceMotion: boolean
   pageVisible: boolean
@@ -47,7 +114,7 @@ export function SpatialField({
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const scrollRef = useRef(0)
-  const sceneRef = useRef<FieldScene>({ ...scenes.top, rgb: [...scenes.top.rgb] })
+  const colorStopsRef = useRef<ColorStop[]>([])
   const elapsedRef = useRef(0)
   const hasWokenRef = useRef(false)
 
@@ -69,9 +136,24 @@ export function SpatialField({
     let pointerY = -1000
     let pointerWeight = 0
 
+    const measureColorStops = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      colorStopsRef.current = fieldColorAnchors.flatMap(({ selector, rgb }) => {
+        const element = document.querySelector<HTMLElement>(selector)
+        if (!element) return []
+        const bounds = element.getBoundingClientRect()
+        const centerInDocument = bounds.top + window.scrollY + bounds.height / 2
+        return [{
+          progress: clamp01((centerInDocument - window.innerHeight * 0.52) / maxScroll),
+          rgb,
+        }]
+      })
+    }
+
     const resize = () => {
       width = window.innerWidth
       height = window.innerHeight
+      measureColorStops()
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.25)
       canvas.width = Math.round(width * pixelRatio)
       canvas.height = Math.round(height * pixelRatio)
@@ -85,13 +167,6 @@ export function SpatialField({
       previousFrame = timestamp
       if (!reduceMotion && pageVisible) elapsedRef.current += elapsed
 
-      const scene = sceneRef.current
-      const targetScene = scenes[chapter] ?? scenes.top
-      const sceneMix = reduceMotion ? 1 : 1 - Math.exp(-0.0019 * elapsed)
-      scene.rgb = scene.rgb.map((channel, index) => channel + (targetScene.rgb[index] - channel) * sceneMix) as FieldScene['rgb']
-      scene.flow += (targetScene.flow - scene.flow) * sceneMix
-      scene.pointer += (targetScene.pointer - scene.pointer) * sceneMix
-
       const pointer = pointerTarget.current
       const pointerMix = reduceMotion ? 0 : 1 - Math.exp(-0.012 * elapsed)
       pointerX += ((pointer.active ? pointer.x : -1000) - pointerX) * pointerMix
@@ -99,6 +174,7 @@ export function SpatialField({
       pointerWeight += ((pointer.active && !reduceMotion ? 1 : 0) - pointerWeight) * pointerMix
 
       const scroll = reduceMotion ? 0 : scrollRef.current
+      const [red, green, blue] = colorAtProgress(colorStopsRef.current, scroll).map((channel) => Math.round(channel))
       const wakeProgress = reduceMotion || !pageVisible || hasWokenRef.current
         ? 1
         : Math.min(1, Math.max(0, (timestamp - wakeStartedAt) / 1180))
@@ -113,7 +189,6 @@ export function SpatialField({
       const originY = (height - (rows - 1) * spacingY) / 2 - spacingY / 2
       const radius = Math.min(360, width * (mobile ? 0.62 : 0.32))
       const phase = elapsedRef.current * 0.00016 + scroll * 1.35
-      const [red, green, blue] = scene.rgb.map((channel) => Math.round(channel))
       const basePath = new Path2D()
       const outerResponse = new Path2D()
       const middleResponse = new Path2D()
@@ -139,7 +214,7 @@ export function SpatialField({
           const dx = baseX - pointerX
           const dy = baseY - pointerY
           const distance = Math.hypot(dx, dy)
-          const falloff = pointerWeight * Math.pow(clamp01(1 - distance / radius), 2) * scene.pointer
+          const falloff = pointerWeight * Math.pow(clamp01(1 - distance / radius), 2)
 
           if (falloff > 0.001 && distance > 0.5) {
             // Blend the ambient current with a local outward impulse around the pointer.
@@ -151,8 +226,8 @@ export function SpatialField({
             directionY /= magnitude
           }
 
-          const driftX = Math.sin(phase + row * 0.21 + column * 0.07) * scene.flow * 1.6
-          const driftY = Math.cos(phase * 0.82 + column * 0.16 - row * 0.09) * scene.flow * 1.5
+          const driftX = Math.sin(phase + row * 0.21 + column * 0.07) * 1.15
+          const driftY = Math.cos(phase * 0.82 + column * 0.16 - row * 0.09) * 1.1
           const centerX = baseX + driftX
           const centerY = baseY + driftY
           const length = (6 + seed * 6.5 + falloff * 10) * (mobile ? 0.9 : 1)
@@ -195,6 +270,11 @@ export function SpatialField({
     }
 
     handleResize()
+    const layoutObserver = new ResizeObserver(measureColorStops)
+    fieldColorAnchors.forEach(({ selector }) => {
+      const element = document.querySelector<HTMLElement>(selector)
+      if (element) layoutObserver.observe(element)
+    })
     if (!reduceMotion && pageVisible) {
       const animate = (timestamp: number) => {
         frame = requestAnimationFrame(animate)
@@ -206,9 +286,10 @@ export function SpatialField({
     window.addEventListener('resize', handleResize, { passive: true })
     return () => {
       cancelAnimationFrame(frame)
+      layoutObserver.disconnect()
       window.removeEventListener('resize', handleResize)
     }
-  }, [chapter, pageVisible, pointerTarget, reduceMotion])
+  }, [pageVisible, pointerTarget, reduceMotion])
 
   return <canvas className="spatial-field" ref={canvasRef} aria-hidden="true" />
 }
