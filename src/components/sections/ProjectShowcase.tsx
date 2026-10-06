@@ -2,7 +2,6 @@ import {
   motion,
   useReducedMotion,
   useScroll,
-  useMotionValueEvent,
   useTransform,
   AnimatePresence,
 } from 'framer-motion'
@@ -23,7 +22,6 @@ interface ProjectShowcaseProps {
 export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
-  const scrollLaneIndex = useRef(-1)
   const hasCompactName = project.name.includes('_') || project.name.length > 16
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
@@ -34,18 +32,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const railScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.88, 1, 1.1, 1, 0.88])
   const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.4, 0.75, 1, 0.75, 0.4])
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
-
-  useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    // Touch exploration is manual; desktop only advances when a narrative gate changes.
-    if (project.theme !== 'steel' || reduceMotion || window.innerWidth <= 760) return
-    const stage = Math.min(
-      project.artifactLanes.length - 1,
-      Math.floor(progress * project.artifactLanes.length),
-    )
-    if (scrollLaneIndex.current === stage) return
-    scrollLaneIndex.current = stage
-    setActiveLaneIndex(stage)
-  })
 
   return (
     <article
@@ -191,56 +177,70 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </p>
               </div>
 
-              {/* Interactive Layer Tabs */}
-              <div className={`project-showcase__lane-tabs project-showcase__lane-tabs--${project.theme}`} role="group" aria-label={`${project.name} journey stages`}>
-                {project.artifactLanes.map((lane, laneIdx) => (
-                  <button
-                    key={lane.label}
-                    type="button"
-                    aria-pressed={activeLaneIndex === laneIdx}
-                    className={`project-showcase__lane-tab${activeLaneIndex === laneIdx ? ' project-showcase__lane-tab--active' : ''}`}
-                    data-magnetic
-                    onClick={() => setActiveLaneIndex(laneIdx)}
-                  >
-                    <span className="project-showcase__lane-tab-index">0{laneIdx + 1}</span>
-                    <span className="project-showcase__lane-tab-label">{lane.label}</span>
-                  </button>
-                ))}
-              </div>
-
-              {/* Active Layer Blueprint Display */}
-              <div className="project-showcase__lane-display" aria-live="polite">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeLane.label}
-                    initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
-                    className="project-showcase__active-lane-card"
-                  >
-                    <div className="project-showcase__active-lane-head">
-                      <span className="project-showcase__active-lane-num">0{activeLaneIndex + 1}</span>
+              {project.theme === 'steel' ? (
+                <div className="project-showcase__lane-display project-showcase__static-lanes">
+                  {project.artifactLanes.map((lane, laneIdx) => (
+                    <div className="project-showcase__static-lane" key={lane.label}>
+                      <span className="project-showcase__active-lane-num">0{laneIdx + 1}</span>
                       <div>
-                        <h5 className="project-showcase__active-lane-title">{activeLane.label}</h5>
-                        <p className="project-showcase__active-lane-summary">{activeLane.summary}</p>
+                        <h5 className="project-showcase__active-lane-title">{lane.label}</h5>
+                        <p className="project-showcase__active-lane-summary">{lane.summary}</p>
                       </div>
                     </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <div className={`project-showcase__lane-tabs project-showcase__lane-tabs--${project.theme}`} role="group" aria-label={`${project.name} journey stages`}>
+                    {project.artifactLanes.map((lane, laneIdx) => (
+                      <button
+                        key={lane.label}
+                        type="button"
+                        aria-pressed={activeLaneIndex === laneIdx}
+                        className={`project-showcase__lane-tab${activeLaneIndex === laneIdx ? ' project-showcase__lane-tab--active' : ''}`}
+                        data-magnetic
+                        onClick={() => setActiveLaneIndex(laneIdx)}
+                      >
+                        <span className="project-showcase__lane-tab-index">0{laneIdx + 1}</span>
+                        <span className="project-showcase__lane-tab-label">{lane.label}</span>
+                      </button>
+                    ))}
+                  </div>
 
-                    <div className="project-showcase__active-lane-components">
-                      <span className="project-showcase__active-lane-chips-title">In this layer:</span>
-                      <ul className="project-showcase__active-lane-chips">
-                        {activeLane.items.map((item) => (
-                          <li key={item} className="project-showcase__active-lane-chip">
-                            <span className="project-showcase__chip-dot" aria-hidden="true" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+                  <div className="project-showcase__lane-display" aria-live="polite">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeLane.label}
+                        initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+                        transition={{ duration: 0.2 }}
+                        className="project-showcase__active-lane-card"
+                      >
+                        <div className="project-showcase__active-lane-head">
+                          <span className="project-showcase__active-lane-num">0{activeLaneIndex + 1}</span>
+                          <div>
+                            <h5 className="project-showcase__active-lane-title">{activeLane.label}</h5>
+                            <p className="project-showcase__active-lane-summary">{activeLane.summary}</p>
+                          </div>
+                        </div>
+
+                        <div className="project-showcase__active-lane-components">
+                          <span className="project-showcase__active-lane-chips-title">In this layer:</span>
+                          <ul className="project-showcase__active-lane-chips">
+                            {activeLane.items.map((item) => (
+                              <li key={item} className="project-showcase__active-lane-chip">
+                                <span className="project-showcase__chip-dot" aria-hidden="true" />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </>
+              )}
 
             </div>
           </motion.div>

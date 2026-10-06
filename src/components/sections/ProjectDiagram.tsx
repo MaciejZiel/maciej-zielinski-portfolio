@@ -24,7 +24,8 @@ interface ProjectDiagramProps {
 function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const labels = project.artifactLanes.map((lane) => lane.label)
   const nodeX = [96, 320, 544]
-  const progress = [0.09, 0.5, 1][activeLane] ?? 0.09
+  const isStaticFlow = project.theme === 'steel'
+  const progress = isStaticFlow ? 1 : ([0.09, 0.5, 1][activeLane] ?? 0.09)
 
   return (
     <svg viewBox="0 0 640 280" role="img" aria-label={`${project.name} system flow diagram`}>
@@ -37,20 +38,22 @@ function FlowNodes({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
         transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
       />
       {nodeX.map((x, index) => (
-        <g key={x} className={index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
-          <circle cx={x} cy="140" r={index === activeLane ? 11 : 7} />
+        <g key={x} className={!isStaticFlow && index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
+          <circle cx={x} cy="140" r={!isStaticFlow && index === activeLane ? 11 : 7} />
           <text x={x} y="92" textAnchor="middle">0{index + 1} / {labels[index] ?? 'Stage'}</text>
         </g>
       ))}
-      <motion.circle
-        className="caseflow-route-token"
-        cx={nodeX[0]}
-        cy="140"
-        r="4"
-        initial={false}
-        animate={{ x: (nodeX[activeLane] ?? nodeX[0]) - nodeX[0] }}
-        transition={{ duration: reduceMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
-      />
+      {!isStaticFlow ? (
+        <motion.circle
+          className="caseflow-route-token"
+          cx={nodeX[0]}
+          cy="140"
+          r="4"
+          initial={false}
+          animate={{ x: (nodeX[activeLane] ?? nodeX[0]) - nodeX[0] }}
+          transition={{ duration: reduceMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
+        />
+      ) : null}
       {!reduceMotion && isVisible ? (
         <motion.circle
           className="caseflow-route-packet"

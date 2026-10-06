@@ -522,6 +522,10 @@
 .project-showcase__artifact--pinned { position: sticky; top: 104px; align-self: start; }
 .project-showcase--steel .project-showcase__artifact-frame { padding-top: 8px; }
 .project-showcase--steel .project-showcase__lane-display { min-height: 150px; }
+.project-showcase__static-lanes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 18px 0; }
+.project-showcase__static-lane { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 8px; align-content: start; padding-top: 10px; border-top: 1px solid var(--color-border); }
+.project-showcase__static-lane .project-showcase__active-lane-title { font-size: .9rem; }
+.project-showcase__static-lane .project-showcase__active-lane-summary { margin-top: 5px; font-size: .76rem; }
 
 /* Each stage selector borrows the visual grammar of its project, not a shared card UI. */
 .project-showcase__lane-tabs--signal { position: relative; }
@@ -810,7 +814,8 @@
   }
   .site-nav__link { font-size: 0.63rem; letter-spacing: 0.035em; }
   .project-showcase__narrative,
-  .project-showcase__metrics {
+  .project-showcase__metrics,
+  .project-showcase__static-lanes {
     grid-template-columns: 1fr;
   }
 }
