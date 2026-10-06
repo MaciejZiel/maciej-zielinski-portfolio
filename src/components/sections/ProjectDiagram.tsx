@@ -175,23 +175,20 @@ function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
 
   return (
     <svg viewBox="0 0 640 270" role="img" aria-label={`${projectDisplayName(project.name)} motorsport domain map`}>
-      {paths.map((path, index) => (
-        <motion.path
-          key={path}
-          className={
-            activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1)
-              ? 'domain-link domain-link--active'
-              : 'domain-link'
-          }
-          d={path}
-          initial={false}
-          animate={{
-            pathLength: activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1) ? 1 : 0.16,
-            opacity: activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1) ? 1 : 0.35,
-          }}
-          transition={{ duration: reduceMotion ? 0 : 0.45 }}
-        />
-      ))}
+      {paths.map((path, index) => {
+        const linkActive =
+          activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1)
+        return (
+          <motion.path
+            key={path}
+            className={linkActive ? 'domain-link domain-link--active' : 'domain-link'}
+            d={path}
+            initial={false}
+            animate={{ pathLength: linkActive ? 1 : 0, opacity: linkActive ? 1 : 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.45 }}
+          />
+        )
+      })}
       <motion.path
         className="domain-api-flow"
         d="M28 70H612"
