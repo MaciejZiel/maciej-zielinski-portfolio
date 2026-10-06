@@ -365,8 +365,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
           data-chapter={projectTransition.chapter}
           style={{ '--transition-accent': chapterAccents[projectTransition.chapter] } as CSSProperties}
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.38, 0.24, 0] }}
-          transition={{ duration: 0.62, times: [0, 0.2, 0.62, 1], ease: [0.22, 1, 0.36, 1] }}
+          animate={{ opacity: [0, 0.48, 0.42, 0] }}
+          transition={{ duration: 1.08, times: [0, 0.18, 0.58, 1], ease: 'easeInOut' }}
           onAnimationComplete={() => setProjectTransition((current) => current?.id === projectTransition.id ? null : current)}
           aria-hidden="true"
         >
@@ -377,8 +377,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
                 d={path}
                 className={index === 0 ? 'chapter-transition__path chapter-transition__path--lead' : 'chapter-transition__path'}
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: index === 0 ? 0.78 : 0.3 }}
-                transition={{ duration: 0.5, delay: index * 0.025, ease: [0.22, 1, 0.36, 1] }}
+                animate={{ pathLength: 1, opacity: index === 0 ? 0.84 : 0.38 }}
+                transition={{ duration: 0.78, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
               />
             ))}
             {projectTransition.chapter === 'track' ? chapterTransitionNodes.map((node, index) => (
@@ -389,8 +389,8 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
                 cy={node.y}
                 r={index === 1 || index === 3 ? 6 : 4}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 0.42 }}
-                transition={{ duration: 0.2, delay: 0.14 + index * 0.014 }}
+                animate={{ scale: 1, opacity: 0.5 }}
+                transition={{ duration: 0.36, delay: 0.22 + index * 0.03 }}
               />
             )) : null}
           </svg>
