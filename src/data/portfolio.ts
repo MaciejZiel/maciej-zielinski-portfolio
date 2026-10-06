@@ -24,7 +24,7 @@ export const profile: Profile = {
   intro:
     'I like turning complex workflows into clear, dependable tools. I care about solid APIs, predictable runtime behavior, and interfaces that make software easier to understand and use.',
   summary:
-    'I’m a Computer Science student at PJATK in Warsaw, building software across backend engineering, applied AI, computer vision, and real-time data.',
+    'I’m a software developer and fourth-year Computer Science student at PJATK in Warsaw. I build reliable backend systems and practical software, with a focus on Python, applied AI, computer vision, and real-time data.',
   availability: 'Open to software engineering internships and junior roles focused on Python, backend, and applied AI.',
   location: 'Warsaw, Poland',
   education: 'PJATK, 4th year Computer Science',
