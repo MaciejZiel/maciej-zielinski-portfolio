@@ -19,6 +19,7 @@ interface ProjectDiagramProps {
   project: FeaturedProject
   activeLane: number
   isVisible?: boolean
+  motionDisabled?: boolean
 }
 
 function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
@@ -270,8 +271,8 @@ function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps 
   )
 }
 
-export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
-  const reduceMotion = useReducedMotion()
+export function ProjectDiagram({ project, activeLane, motionDisabled = false }: ProjectDiagramProps) {
+  const reduceMotion = useReducedMotion() || motionDisabled
   const diagramRef = useRef<HTMLDivElement>(null)
   const isVisible = useAmbientActivity(diagramRef)
 

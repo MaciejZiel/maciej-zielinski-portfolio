@@ -19,11 +19,14 @@ interface ProjectShowcaseProps {
   project: FeaturedProject
 }
 
+// Project visuals stay still for now; stage controls still update their selected state instantly.
+const PROJECT_MOTION_ENABLED = false
+
 export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
   const displayName = projectDisplayName(project.name)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotion() || !PROJECT_MOTION_ENABLED
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -42,7 +45,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       data-atmosphere={project.visualization === 'flight-route' ? 'flights' : undefined}
     >
       <div className="project-showcase__rail-wrap">
-        <MotionReveal className="project-showcase__rail" delay={0.04}>
+        <MotionReveal className="project-showcase__rail" delay={0.04} disableMotion={!PROJECT_MOTION_ENABLED}>
           <div className="project-showcase__rail-meter" aria-hidden="true">
             <span className="project-showcase__rail-meter-track" />
             <motion.span
@@ -76,7 +79,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
       <div className="project-showcase__main-wrap">
         <div className="project-showcase__body">
-          <MotionReveal className="project-showcase__content">
+          <MotionReveal className="project-showcase__content" disableMotion={!PROJECT_MOTION_ENABLED}>
             <div className="project-showcase__meta">
               <span className="project-showcase__status">{project.status}</span>
             </div>
@@ -160,7 +163,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 </div>
               </div>
 
-              <ProjectDiagram project={project} activeLane={activeLaneIndex} />
+              <ProjectDiagram project={project} activeLane={activeLaneIndex} motionDisabled={!PROJECT_MOTION_ENABLED} />
 
               <div className="project-showcase__artifact-header">
                 <span className="project-showcase__artifact-label">Explore the build</span>
