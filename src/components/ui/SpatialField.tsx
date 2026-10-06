@@ -33,50 +33,6 @@ function cellNoise(column: number, row: number) {
   return value - Math.floor(value)
 }
 
-function rgbToHsl([red, green, blue]: RGB): [number, number, number] {
-  const r = red / 255
-  const g = green / 255
-  const b = blue / 255
-  const maximum = Math.max(r, g, b)
-  const minimum = Math.min(r, g, b)
-  const lightness = (maximum + minimum) / 2
-
-  if (maximum === minimum) return [0, 0, lightness]
-
-  const delta = maximum - minimum
-  const saturation = lightness > 0.5 ? delta / (2 - maximum - minimum) : delta / (maximum + minimum)
-  let hue = maximum === r
-    ? (g - b) / delta + (g < b ? 6 : 0)
-    : maximum === g
-      ? (b - r) / delta + 2
-      : (r - g) / delta + 4
-
-  hue /= 6
-  return [hue, saturation, lightness]
-}
-
-function hslToRgb(hue: number, saturation: number, lightness: number): RGB {
-  if (saturation === 0) {
-    const gray = Math.round(lightness * 255)
-    return [gray, gray, gray]
-  }
-
-  // The portfolio palette uses light accent colors, so HSL lightness interpolation stays vivid and smooth.
-  const q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
-  const p = 2 * lightness - q
-  const channel = (offset: number) => {
-    let t = hue + offset
-    if (t < 0) t += 1
-    if (t > 1) t -= 1
-    if (t < 1 / 6) return p + (q - p) * 6 * t
-    if (t < 1 / 2) return q
-    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
-    return p
-  }
-
-  return [channel(1 / 3), channel(0), channel(-1 / 3)].map((value) => Math.round(value * 255)) as RGB
-}
-
 function colorAtProgress(stops: ColorStop[], progress: number): RGB {
   if (!stops.length) return [194, 225, 126]
   if (progress <= stops[0].progress) return stops[0].rgb
@@ -89,16 +45,17 @@ function colorAtProgress(stops: ColorStop[], progress: number): RGB {
   const interval = Math.max(to.progress - from.progress, 0.0001)
   const linearProgress = clamp01((progress - from.progress) / interval)
   const easedProgress = linearProgress * linearProgress * (3 - 2 * linearProgress)
-  const [fromHue, fromSaturation, fromLightness] = rgbToHsl(from.rgb)
-  const [toHue, toSaturation, toLightness] = rgbToHsl(to.rgb)
-  const shortestHueArc = ((toHue - fromHue + 1.5) % 1) - 0.5
-  const hue = (fromHue + shortestHueArc * easedProgress + 1) % 1
+  // Passing through a quiet neutral keeps the field inside the site's palette
+  // instead of sweeping through vivid intermediate hues like yellow or magenta.
+  const neutral: RGB = [104, 104, 104]
+  const mix = (start: RGB, end: RGB, amount: number): RGB =>
+    start.map((channel, index) => Math.round(channel + (end[index] - channel) * amount)) as RGB
+  const segmentProgress = easedProgress < 0.5 ? easedProgress * 2 : (easedProgress - 0.5) * 2
+  const segmentEase = segmentProgress * segmentProgress * (3 - 2 * segmentProgress)
 
-  return hslToRgb(
-    hue,
-    fromSaturation + (toSaturation - fromSaturation) * easedProgress,
-    fromLightness + (toLightness - fromLightness) * easedProgress,
-  )
+  return easedProgress < 0.5
+    ? mix(from.rgb, neutral, segmentEase)
+    : mix(neutral, to.rgb, segmentEase)
 }
 
 export function SpatialField({
