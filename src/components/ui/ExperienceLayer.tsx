@@ -42,6 +42,8 @@ const chapterAccents: Record<string, string> = {
 
 const projectChapters = new Set(['steel', 'signal', 'vision', 'flights', 'track'])
 const CUSTOM_CURSOR_ENABLED = false
+// Full-screen chapter takeover lines are paused for now; enable this to restore the scroll transition overlays.
+const PROJECT_TRANSITIONS_ENABLED = false
 const chapterTransitionPaths: Record<string, string[]> = {
   steel: [
     'M-40 350H175C250 350 252 210 326 210H610C685 210 682 490 758 490H1040',
@@ -332,7 +334,7 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       const nextChapter = project ?? target.id ?? 'top'
       if (activeChapter.current === nextChapter) return
       const touchSizedViewport = window.innerWidth <= 760 || window.matchMedia('(pointer: coarse)').matches
-      if (projectChapters.has(activeChapter.current) && projectChapters.has(nextChapter) && !reduceMotion && !touchSizedViewport) {
+      if (PROJECT_TRANSITIONS_ENABLED && projectChapters.has(activeChapter.current) && projectChapters.has(nextChapter) && !reduceMotion && !touchSizedViewport) {
         setProjectTransition({ chapter: nextChapter, id: ++transitionSequence.current })
       }
       activeChapter.current = nextChapter
