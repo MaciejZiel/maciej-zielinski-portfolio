@@ -119,8 +119,15 @@ export function SpatialField({
   const hasWokenRef = useRef(false)
 
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    scrollRef.current = progress
+    const fieldProgress = reduceMotion ? 0 : progress
+    scrollRef.current = fieldProgress
+    const [red, green, blue] = colorAtProgress(colorStopsRef.current, fieldProgress)
+    document.documentElement.style.setProperty('--scrollbar-accent', `rgb(${red} ${green} ${blue})`)
   })
+
+  useEffect(() => () => {
+    document.documentElement.style.removeProperty('--scrollbar-accent')
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -148,6 +155,8 @@ export function SpatialField({
           rgb,
         }]
       })
+      const [red, green, blue] = colorAtProgress(colorStopsRef.current, scrollRef.current)
+      document.documentElement.style.setProperty('--scrollbar-accent', `rgb(${red} ${green} ${blue})`)
     }
 
     const resize = () => {
