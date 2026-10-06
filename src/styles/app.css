@@ -952,8 +952,6 @@
 .domain-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .domain-node--active circle { fill: var(--project-accent); }
 .domain-node--active text { fill: var(--color-text); }
-.domain-pulse { fill: none; stroke: var(--color-accent); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.domain-packet { fill: var(--color-text); }
 
 /* A closing scene with one clear invitation and the existing real contact routes. */
 .contact-section { isolation: isolate; }

@@ -170,7 +170,7 @@ function VisionFrame({ project, activeLane, reduceMotion, isVisible }: ProjectDi
   )
 }
 
-function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
+function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const nodes = [
     { x: 100, y: 70, label: 'SEASON' },
     { x: 320, y: 70, label: 'RACE' },
@@ -213,17 +213,6 @@ function DomainMap({ project, activeLane, reduceMotion, isVisible }: ProjectDiag
           <text x={node.x} y={node.y + 24} textAnchor="middle">{node.label}</text>
         </g>
       ))}
-      <motion.circle className="domain-pulse" cx={nodes[activeLane === 2 ? 2 : activeLane === 1 ? 4 : 0].x} cy={nodes[activeLane === 2 ? 2 : activeLane === 1 ? 4 : 0].y} r="15" animate={reduceMotion || !isVisible ? { opacity: 0.28, scale: 1 } : { opacity: [0.15, 0.45, 0.15], scale: [0.9, 1.1, 0.9] }} transition={reduceMotion || !isVisible ? undefined : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }} />
-      <motion.circle
-        className="domain-packet"
-        r="4"
-        initial={false}
-        animate={reduceMotion || !isVisible ? { x: nodes[0].x, y: nodes[0].y } : {
-          x: [100, 320, 540, 430, 320, 210, 100],
-          y: [70, 70, 70, 200, 70, 200, 70],
-        }}
-        transition={reduceMotion || !isVisible ? { duration: 0 } : { duration: 7.2, repeat: Infinity, ease: 'linear' }}
-      />
       <text x="24" y="258">{laneLabel.toUpperCase()} / RELATED RESOURCES</text>
     </svg>
   )
@@ -281,7 +270,7 @@ export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' && project.visualization !== 'flight-route' ? <VisionFrame project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
-      {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
+      {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} reduceMotion={reduceMotion ?? false} /> : null}
       </div>
     </div>
   )
