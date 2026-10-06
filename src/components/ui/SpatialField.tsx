@@ -19,7 +19,7 @@ const scenes: Record<string, FieldScene> = {
   steel: { rgb: [123, 228, 184], flow: 0.48, pointer: 0.88 },
   signal: { rgb: [255, 184, 108], flow: 1, pointer: 1.08 },
   vision: { rgb: [130, 177, 255], flow: 0.58, pointer: 0.92 },
-  flights: { rgb: [113, 198, 218], flow: 0.78, pointer: 1 },
+  flights: { rgb: [240, 120, 135], flow: 0.78, pointer: 1 },
   track: { rgb: [212, 165, 224], flow: 0.88, pointer: 1.04 },
   skills: { rgb: [194, 225, 126], flow: 0.58, pointer: 0.86 },
   contact: { rgb: [194, 225, 126], flow: 0.34, pointer: 0.82 },

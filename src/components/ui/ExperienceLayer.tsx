@@ -34,7 +34,7 @@ const chapterAccents: Record<string, string> = {
   steel: '#7be4b8',
   signal: '#ffb86c',
   vision: '#82b1ff',
-  flights: '#71c6da',
+  flights: '#f07887',
   track: '#d4a5e0',
   skills: '#c8f958',
   contact: '#c8f958',

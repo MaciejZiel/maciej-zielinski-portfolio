@@ -238,6 +238,11 @@
   --project-soft: rgba(130, 177, 255, 0.08);
 }
 
+.project-showcase[data-atmosphere='flights'] {
+  --project-accent: #f07887;
+  --project-accent-soft: rgba(240, 120, 135, 0.08);
+}
+
 .project-showcase--track {
   --project-accent: #d4a5e0;
   --project-soft: rgba(212, 165, 224, 0.08);
