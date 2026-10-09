@@ -19,7 +19,7 @@ const fieldColorAnchors: Array<{ selector: string; rgb: RGB }> = [
   { selector: '#about', rgb: [194, 225, 126] },
   { selector: '#project-caseflow', rgb: [123, 228, 184] },
   { selector: '#project-clip-to-text', rgb: [255, 184, 108] },
-  { selector: '#project-camera-object-recognition', rgb: [130, 177, 255] },
+  { selector: '#project-agentic-rag-platform', rgb: [130, 177, 255] },
   { selector: '#project-motorsport-api', rgb: [212, 165, 224] },
   { selector: '#project-live-flights-map', rgb: [240, 120, 135] },
   { selector: '#skills', rgb: [194, 225, 126] },
