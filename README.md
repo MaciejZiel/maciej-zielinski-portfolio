@@ -70,5 +70,5 @@ That includes:
 
 ## Notes
 
-- `CaseFlow` is presented as a featured backend project with a profile link because the main implementation is private.
+- `CaseFlow` is presented as a featured backend project and links to its public repository: <https://github.com/MaciejZiel/caseflow>.
 - The site uses semantic sections and basic accessibility support, including a skip link and keyboard-friendly link states.
