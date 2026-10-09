@@ -443,7 +443,6 @@ export const skillLanes: SkillLane[] = [
       'FAISS',
       'Semantic search',
       'Prompt engineering',
-      'Codex',
       'Faster-Whisper',
       'YOLOv8',
     ],
