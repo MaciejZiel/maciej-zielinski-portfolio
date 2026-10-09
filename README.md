@@ -72,3 +72,7 @@ That includes:
 
 - `CaseFlow` is presented as a featured backend project and links to its public repository: <https://github.com/MaciejZiel/caseflow>.
 - The site uses semantic sections and basic accessibility support, including a skip link and keyboard-friendly link states.
+
+## License
+
+MIT License, see [LICENSE](LICENSE).
