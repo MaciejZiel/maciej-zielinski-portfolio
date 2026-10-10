@@ -58,7 +58,7 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
           ? { duration: 0 }
           : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       />
-      <text x="42" y="248">REQUEST / POLICY → STATE → DELIVERY</text>
+      <text x="42" y="248">{project.flowCaption ?? 'REQUEST / POLICY → STATE → DELIVERY'}</text>
     </svg>
   )
 }
@@ -257,7 +257,8 @@ export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
       <div className="project-diagram__visual" aria-hidden="true">
       {project.visualization === 'flight-route' ? <FlightRoute project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'steel' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
-      {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
+      {project.visualization === 'queue' ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
+      {project.theme === 'signal' && project.visualization !== 'queue' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'vision' && project.visualization !== 'flight-route' ? <RetrievalFrame project={project} activeLane={activeLane} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} reduceMotion={reduceMotion ?? false} /> : null}
       </div>
