@@ -39,6 +39,14 @@ export interface ProjectMetric {
   value: string
 }
 
+export interface ProjectScreenshot {
+  src: string
+  alt: string
+  width: number
+  height: number
+  caption?: string
+}
+
 export interface FeaturedProject {
   name: string
   category: string
@@ -56,7 +64,9 @@ export interface FeaturedProject {
   status: string
   year: string
   theme: 'steel' | 'signal' | 'vision' | 'track'
-  visualization?: 'flight-route'
+  visualization?: 'flight-route' | 'queue'
+  flowCaption?: string
+  screenshot?: ProjectScreenshot
   metrics: ProjectMetric[]
   artifactTitle: string
   artifactSummary: string
