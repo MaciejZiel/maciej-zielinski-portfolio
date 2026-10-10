@@ -53,19 +53,20 @@ export const featuredProjects: FeaturedProject[] = [
   {
     name: 'CaseFlow',
     category: 'Multi-tenant backend platform',
-    headline: 'A multi-tenant FastAPI backend designed like a production B2B system.',
+    headline: 'A multi-tenant FastAPI backend for case and document workflows, with a Next.js workspace on top.',
     context:
       'A backend-first B2B platform focused on case and document workflows, tenant separation, and operational reliability.',
     summary:
-      'CaseFlow is the strongest example of how I approach backend engineering: tenant-aware architecture, RBAC, session-backed authentication, document workflow state, audit logs, webhook delivery, retry logic, background processing, Dockerized services, and integration testing around operational paths.',
+      'CaseFlow is the clearest example of how I approach backend engineering: tenant isolation in one shared schema, RBAC, persisted sessions, versioned uploads with a review flow, audit logs, HMAC-signed webhooks and outbound email driven by persisted work records with retries, plus a case-scoped assistant that answers with stored citations using deterministic keyword scoring (no external LLM).',
     challenge:
       'The interesting part was not exposing endpoints. It was designing a backend where permissions, workflow transitions, and downstream delivery all stay coherent as the domain gets more complex.',
     outcome:
-      'The result is a backend case study that looks closer to a real B2B system than a student CRUD app: policy gates, operational paths, auditable state, and test coverage around failure-prone workflows.',
+      'The result is a backend case study built around the problems a B2B system has to solve: policy gates, operational paths, auditable state, and test coverage around failure-prone workflows.',
     details: [
       'Tenant isolation with role-based access control and session-backed auth flows.',
       'Document workflow orchestration with auditable actions and event delivery.',
       'Retry and background processing patterns designed around reliability rather than demo-only behavior.',
+      'Next.js workspace with case lists and case detail: documents, comments, activity and the assistant.',
     ],
     technologies: [
       'FastAPI',
@@ -74,6 +75,7 @@ export const featuredProjects: FeaturedProject[] = [
       'RBAC',
       'Session Auth',
       'Webhooks',
+      'Next.js',
       'Docker',
       'Integration Tests',
     ],
@@ -90,6 +92,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'System concerns', value: 'Auth, workflows, auditability' },
       { label: 'Quality bar', value: 'Docker + integration tests' },
     ],
+    screenshot: {
+      src: '/projects/caseflow-cases.png',
+      alt: 'CaseFlow case list for a demo workspace, with status and priority breakdowns',
+      width: 1440,
+      height: 1027,
+      caption: 'Case list in the Next.js workspace (demo data).',
+    },
     artifactTitle: 'Operational architecture',
     artifactSummary:
       'The system is organized around clear policy boundaries, explicit workflow state, and delivery infrastructure that can be observed and retried.',
@@ -112,61 +121,72 @@ export const featuredProjects: FeaturedProject[] = [
     ],
   },
   {
-    name: 'clip_to_text',
-    category: 'Applied AI system',
+    name: 'pgqueue',
+    category: 'Infrastructure library',
     headline:
-      'A local transcription workflow with queued jobs, live progress, caching, and export-ready output.',
+      'A background job queue that runs only on PostgreSQL, with explicit and tested failure semantics.',
     context:
-      'A practical transcription tool that treats speech-to-text as a repeatable workflow instead of a single model call.',
+      'Most applications that need background jobs already have PostgreSQL. Keeping the queue in the same database lets a job be enqueued in the same transaction as the data it refers to.',
     summary:
-      'Built around FastAPI, FFmpeg, and Faster-Whisper, clip_to_text treats transcription as a product workflow rather than a one-shot script. It tracks jobs in real time, stores history in SQLite, caches work, and supports optional SRT export for practical downstream use.',
+      'pgqueue claims jobs with SELECT … FOR UPDATE SKIP LOCKED, retries failures with capped exponential backoff, protects running jobs with heartbeated leases and fences every completion on the current lease holder. Idle workers wake through LISTEN/NOTIFY, cron-like periodic jobs fire once per tick without leader election, and an admin dashboard and Prometheus metrics show what the queue is doing.',
     challenge:
-      'The main challenge was orchestration: upload handling, preprocessing, model execution, progress reporting, and output persistence all needed to feel reliable from a user perspective.',
+      'The hard part is what happens when things go wrong: crashed or partitioned workers, late results from a worker that lost its lease, lost notifications. Each case has a defined outcome, and stress tests with several worker processes check that no attempt ever runs twice.',
     outcome:
-      'It ends up feeling like a small AI product, not an experiment: queued work, persisted history, observable progress, and outputs that are immediately useful downstream.',
+      'On a laptop with default Postgres settings it drains about 6,600 no-op jobs per second with 8 worker processes and picks up a new job in about 4 ms (p50) through LISTEN/NOTIFY. The benchmark also exposed a claim query that sorted the whole backlog; fixing it doubled throughput.',
     details: [
-      'FastAPI orchestration around transcription jobs instead of a single synchronous request.',
-      'Live job progress, persisted history, and caching for repeated work.',
-      'Export path designed for usable outputs, not just a raw transcript dump.',
+      'One-statement batch claims with SKIP LOCKED, priorities and per-queue partial indexes.',
+      'Leases, a reaper for crashed workers and fenced completions for at-least-once delivery.',
+      'Typed pydantic payloads, transactional enqueue, idempotency keys and dead letters.',
+      'Admin API, dashboard, Prometheus metrics and 143 tests against real PostgreSQL 16 and 17.',
     ],
     technologies: [
+      'Python',
+      'asyncio',
+      'asyncpg',
+      'PostgreSQL',
+      'SQLAlchemy Core',
+      'Alembic',
       'FastAPI',
-      'Faster-Whisper',
-      'FFmpeg',
-      'SQLite',
-      'Job Progress',
-      'Caching',
-      'SRT Export',
+      'Prometheus',
     ],
-    repositoryUrl: 'https://github.com/MaciejZiel/clip_to_text',
-    repositoryLabel: 'GitHub',
-    stageLabel: 'Transcription pipeline',
-    status: 'Public repo / updated 2026',
+    repositoryUrl: 'https://github.com/MaciejZiel/pgqueue',
+    repositoryLabel: 'View repository',
+    stageLabel: 'Job lifecycle',
+    status: 'Public repository / Python library',
     year: '2026',
     theme: 'signal',
+    visualization: 'queue',
+    flowCaption: 'ENQUEUE → CLAIM + LEASE → COMPLETE / RETRY',
     metrics: [
-      { label: 'Model layer', value: 'Faster-Whisper' },
-      { label: 'Runtime flow', value: 'Jobs, progress, persistence' },
-      { label: 'Delivery', value: 'Local web app + export support' },
+      { label: 'Throughput', value: '~6,600 jobs/s, 8 workers' },
+      { label: 'Pickup latency', value: '4.1 ms p50 (LISTEN/NOTIFY)' },
+      { label: 'Delivery', value: 'At-least-once, fenced' },
     ],
-    artifactTitle: 'Transcription workflow',
+    screenshot: {
+      src: '/projects/pgqueue-dashboard.png',
+      alt: 'pgqueue admin dashboard with job counts per queue and state, workers and recent failures',
+      width: 1200,
+      height: 850,
+      caption: 'Admin dashboard running the Docker Compose demo.',
+    },
+    artifactTitle: 'Job lifecycle',
     artifactSummary:
-      'The interesting work sits in the queue and runtime lifecycle around the model, not just in speech recognition itself.',
+      'A job moves through three steps, and each one is a single SQL statement whose shape is the correctness argument.',
     artifactLanes: [
       {
-        label: 'Ingest',
-        summary: 'Media is normalized into a predictable processing path.',
-        items: ['Upload input', 'FFmpeg prep', 'Job creation'],
+        label: 'Enqueue',
+        summary: 'Jobs are inserted in the caller\'s transaction, so they exist only if the data does.',
+        items: ['Transactional enqueue', 'Idempotency keys', 'NOTIFY trigger'],
       },
       {
-        label: 'Runtime',
-        summary: 'Transcription is tracked as work with observable progress.',
-        items: ['Whisper job', 'Live progress', 'Caching'],
+        label: 'Claim',
+        summary: 'Workers lock different rows concurrently and take a lease on each job.',
+        items: ['SKIP LOCKED batch', 'Heartbeated leases', 'Reaper for crashes'],
       },
       {
-        label: 'Output',
-        summary: 'Results are persisted and shaped for practical reuse.',
-        items: ['SQLite history', 'SRT export', 'Readable transcript'],
+        label: 'Finish',
+        summary: 'Results are accepted only from the current lease holder for the current attempt.',
+        items: ['Fenced completion', 'Backoff + jitter', 'Dead letters'],
       },
     ],
   },
@@ -178,7 +198,7 @@ export const featuredProjects: FeaturedProject[] = [
     context:
       'A multi-tenant RAG platform where documents are uploaded, chunked, embedded, and queried through an authenticated API and a React frontend.',
     summary:
-      'Agentic RAG Platform combines FastAPI, PostgreSQL, and Qdrant into a retrieval workflow that goes beyond a single prompt. It indexes documents with configurable chunking, answers questions with source citations and SSE streaming, extracts structured JSON, and ships with JWT and API key auth, Redis caching, rate limiting, webhooks, Kubernetes manifests, and Prometheus/Grafana monitoring.',
+      'Agentic RAG Platform combines FastAPI, PostgreSQL, and Qdrant into a retrieval workflow that goes beyond a single prompt. Documents are indexed in the background by a Celery worker with configurable chunking; questions are answered with source citations over SSE, and documents can be turned into JSON that follows a user-supplied schema. Every query, vector search and statistic is scoped to the caller\'s tenant, and accounts support email verification and optional TOTP two-factor authentication.',
     challenge:
       'The hard part was keeping answers grounded and the platform operable: tenant-scoped data, vector cleanup when documents change, cached and rate-limited LLM calls, and metrics that show how the system behaves.',
     outcome:
@@ -186,13 +206,15 @@ export const featuredProjects: FeaturedProject[] = [
     details: [
       'Document ingestion with configurable chunking and Qdrant vector storage.',
       'Cited Q&A with SSE streaming, conversation history, and structured JSON extraction.',
-      'JWT and API key auth, multi-tenancy, Redis caching, rate limiting, and Prometheus/Grafana metrics.',
+      'Tenant isolation, JWT and API key auth, optional TOTP 2FA with recovery codes.',
+      'Redis caching, rate limiting, signed webhooks, and Prometheus/Grafana metrics.',
     ],
     technologies: [
       'FastAPI',
       'PostgreSQL',
       'Qdrant',
       'Redis',
+      'Celery',
       'React',
       'Kubernetes',
       'Prometheus',
@@ -207,8 +229,15 @@ export const featuredProjects: FeaturedProject[] = [
     metrics: [
       { label: 'Retrieval', value: 'Qdrant + PostgreSQL' },
       { label: 'Interface', value: 'React + FastAPI' },
-      { label: 'Operations', value: 'Kubernetes, Prometheus, Grafana' },
+      { label: 'Indexing', value: 'Background jobs on Celery' },
     ],
+    screenshot: {
+      src: '/projects/agentic-rag-chat.png',
+      alt: 'Chat view answering a question with numbered source chips that link to document chunks',
+      width: 1440,
+      height: 900,
+      caption: 'Local run with sample documents; the model was replaced by a stub, the retrieval pipeline is real.',
+    },
     artifactTitle: 'Grounded answer pipeline',
     artifactSummary:
       'The value is in the path from raw documents to answers that can be traced back to their sources, not just in calling an LLM.',
@@ -216,7 +245,7 @@ export const featuredProjects: FeaturedProject[] = [
       {
         label: 'Ingest',
         summary: 'Documents are parsed, chunked, and embedded into a tenant-scoped index.',
-        items: ['PDF / DOCX / TXT', 'Chunking strategies', 'Qdrant vectors'],
+        items: ['PDF / DOCX / TXT / MD', 'Celery worker', 'Qdrant vectors'],
       },
       {
         label: 'Retrieve',
@@ -234,11 +263,11 @@ export const featuredProjects: FeaturedProject[] = [
     name: 'Motorsport_API',
     category: 'Backend API',
     headline:
-      'A production-minded Django REST API with standings logic, JWT auth, filtering, and documented contracts.',
+      'A Django REST API with computed standings, JWT auth and documented contracts, plus an Angular dashboard on top.',
     context:
       'A domain-heavy REST API where the backend has to model seasons, teams, races, results, and standings cleanly.',
     summary:
-      'Motorsport_API models seasons, teams, drivers, races, and race results with domain logic that goes beyond CRUD. It layers in JWT authentication, filtering, pagination, Swagger/OpenAPI documentation, Dockerized setup, and testable backend structure.',
+      'Motorsport_API models seasons, teams, drivers, races, and race results for a fictional championship, with driver and constructor standings computed in SQL. Browsers get JWTs in HttpOnly cookies with CSRF protection while API clients use Bearer tokens; reads are public and writes need a staff account. An Angular 21 dashboard ("Pit Wall") shows standings, driver profiles, the race calendar and classifications, with every number coming from the API.',
     challenge:
       'The core challenge was modeling a sports domain where standings and result logic matter, then exposing it as a clean API with documented contracts and usable auth.',
     outcome:
@@ -247,13 +276,15 @@ export const featuredProjects: FeaturedProject[] = [
       'Backend domain modeling for standings, race results, teams, and drivers.',
       'JWT authentication, pagination, and filtering for usable API consumption.',
       'OpenAPI documentation and Dockerized local workflow for maintainability.',
+      'Angular frontend served by Nginx, which proxies the API to Django.',
     ],
     technologies: [
       'Django',
       'Django REST Framework',
+      'PostgreSQL',
       'JWT',
       'OpenAPI',
-      'Swagger',
+      'Angular',
       'Docker',
       'Testing',
       'CI/CD',
@@ -267,8 +298,15 @@ export const featuredProjects: FeaturedProject[] = [
     metrics: [
       { label: 'Framework', value: 'Django REST Framework' },
       { label: 'API concerns', value: 'JWT, filtering, pagination' },
-      { label: 'Contracts', value: 'Swagger + OpenAPI' },
+      { label: 'Frontend', value: 'Angular 21 dashboard' },
     ],
+    screenshot: {
+      src: '/projects/motorsport-standings.png',
+      alt: 'Pit Wall dashboard showing drivers and constructors standings for a fictional 2026 season',
+      width: 1440,
+      height: 900,
+      caption: 'Standings in the Angular dashboard (fictional championship data).',
+    },
     artifactTitle: 'API domain map',
     artifactSummary:
       'The strength of the project is the backend contract: coherent models, standings logic, and a usable interface for consumers.',
@@ -354,19 +392,29 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const projectRail: ProjectRailItem[] = [
   {
+    name: 'Reroute',
+    description: 'Local-first Warsaw transit control room: GTFS timetables, live vehicle positions, line punctuality and rerouting around closures (FastAPI + PostGIS + React).',
+    href: 'https://github.com/MaciejZiel/Reroute',
+  },
+  {
     name: 'procurement-graph',
-    description: 'Real BZP public procurement notices traced from buyer to supplier, with a relationship map and PL/EN UI (FastAPI + PostgreSQL).',
+    description: 'Real BZP public procurement notices traced from buyer to supplier, with SQL analytics, a relationship map and PL/EN UI (FastAPI + PostgreSQL).',
     href: 'https://github.com/MaciejZiel/procurement-graph',
+  },
+  {
+    name: 'plan-bot',
+    description: 'Telegram and Discord bot for university timetables from ICS feeds: next class, reminders and change alerts.',
+    href: 'https://github.com/MaciejZiel/plan-bot',
+  },
+  {
+    name: 'clip_to_text',
+    description: 'Local video-to-text transcription with FastAPI, FFmpeg and Faster-Whisper: queued jobs, live progress and SRT export.',
+    href: 'https://github.com/MaciejZiel/clip_to_text',
   },
   {
     name: 'hand_gesture_control',
     description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
     href: 'https://github.com/MaciejZiel/hand_gesture_control',
-  },
-  {
-    name: 'F1InfoMobileApp',
-    description: 'Android app for live motorsport telemetry and race-focused mobile interfaces.',
-    href: 'https://github.com/MaciejZiel/F1InfoMobileApp',
   },
 ]
 
@@ -375,13 +423,15 @@ export const projectAnchorId = (name: string) =>
 
 const projectDisplayNames: Record<string, string> = {
   CaseFlow: 'CASEFLOW',
+  pgqueue: 'PGQUEUE',
   clip_to_text: 'CLIP TO TEXT',
+  'plan-bot': 'PLAN-BOT',
+  Reroute: 'REROUTE',
   'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
   Motorsport_API: 'MOTORSPORT API',
   live_flights_map: 'LIVE FLIGHTS MAP',
   'procurement-graph': 'PROCUREMENT GRAPH',
   hand_gesture_control: 'HAND GESTURE CONTROL',
-  F1InfoMobileApp: 'F1 INFO MOBILE APP',
 }
 
 export const projectDisplayName = (name: string) =>
@@ -394,9 +444,9 @@ export const projectHighlights = [
     anchorId: projectAnchorId('CaseFlow'),
   },
   {
-    name: 'clip_to_text',
-    description: 'An audio-to-transcript workflow with live job progress and practical exports.',
-    anchorId: projectAnchorId('clip_to_text'),
+    name: 'pgqueue',
+    description: 'A PostgreSQL-only job queue with leases, retries, LISTEN/NOTIFY and measured throughput.',
+    anchorId: projectAnchorId('pgqueue'),
   },
   {
     name: 'Agentic RAG Platform',
@@ -405,7 +455,7 @@ export const projectHighlights = [
   },
   {
     name: 'Motorsport_API',
-    description: 'A documented API for race results, teams, drivers, and standings.',
+    description: 'A documented API for race results and standings, with an Angular dashboard.',
     anchorId: projectAnchorId('Motorsport_API'),
   },
   {
@@ -429,6 +479,8 @@ export const skillLanes: SkillLane[] = [
       'Authentication',
       'OpenAPI / Swagger',
       'Background processing',
+      'asyncio',
+      'PostgreSQL job queues',
     ],
   },
   {
