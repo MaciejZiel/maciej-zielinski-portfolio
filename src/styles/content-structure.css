@@ -3,12 +3,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-.project-overview__heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 32px;
-}
+.project-overview__heading { margin-bottom: clamp(18px, 2.4vw, 28px); }
 
 .project-overview__eyebrow,
 .about-section__eyebrow,
@@ -176,7 +171,6 @@
 }
 
 @media (max-width: 860px) {
-  .project-overview__heading { display: block; }
   .project-overview__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-overview__list li:nth-child(3),
   .project-overview__list li:nth-child(5) { border-left: 0; }
