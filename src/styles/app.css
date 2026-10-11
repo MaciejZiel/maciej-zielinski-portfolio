@@ -345,6 +345,12 @@
   text-wrap: balance;
 }
 
+.project-showcase__name--long {
+  padding-right: clamp(16px, 2.2vw, 32px);
+  font-size: clamp(1.6rem, 2.7vw, 2.55rem);
+  overflow-wrap: break-word;
+}
+
 @media (min-width: 761px) {
   .project-showcase--track .project-showcase__content { padding-right: clamp(16px, 2.2vw, 32px); }
   .project-showcase--track .project-showcase__name { font-size: clamp(1.9rem, 3vw, 3rem); }

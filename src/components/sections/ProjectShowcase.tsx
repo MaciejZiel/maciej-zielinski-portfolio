@@ -23,6 +23,9 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
   const displayName = projectDisplayName(project.name)
+  // A long unbreakable word (QUERYGUARD) overflows the wide display face at full size.
+  const longestWord = Math.max(...displayName.split(/[\s-]+/).map((word) => word.length))
+  const nameClass = longestWord > 9 ? 'project-showcase__name project-showcase__name--long' : 'project-showcase__name'
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -83,7 +86,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
             <div className="project-showcase__header-block">
               <h3
-                className="project-showcase__name"
+                className={nameClass}
                 aria-label={displayName}
               >
                 {displayName}
