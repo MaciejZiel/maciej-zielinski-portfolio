@@ -103,7 +103,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             </div>
 
             <div className="project-showcase__spotlight">
-              <span className="project-showcase__spotlight-label">The through-line</span>
+              <span className="project-showcase__spotlight-label">Outcome</span>
               <p className="project-showcase__spotlight-copy">{project.outcome}</p>
             </div>
 
