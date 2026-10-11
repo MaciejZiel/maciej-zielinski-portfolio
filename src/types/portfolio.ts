@@ -47,11 +47,6 @@ export interface ProjectScreenshot {
   caption?: string
 }
 
-export interface ProjectLink {
-  label: string
-  href: string
-}
-
 export interface FeaturedProject {
   name: string
   category: string
@@ -65,7 +60,6 @@ export interface FeaturedProject {
   repositoryUrl: string
   repositoryLabel: string
   repositoryNote?: string
-  extraLinks?: ProjectLink[]
   stageLabel: string
   status: string
   year: string

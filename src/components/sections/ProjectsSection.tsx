@@ -23,7 +23,7 @@ export function ProjectsSection({
         </div>
         <div className="projects-section__intro-grid">
           <h2 className="section-heading">
-            Six projects, each built around a different problem.
+            Five projects, each built around a different problem.
           </h2>
           <div className="projects-section__intro-copy">
             <p className="section-copy">
