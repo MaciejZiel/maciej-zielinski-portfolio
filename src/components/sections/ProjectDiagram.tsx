@@ -65,7 +65,7 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
 
 function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagramProps & { reduceMotion: boolean }) {
   return (
-    <svg viewBox="0 0 720 220" role="img" aria-label={`${projectDisplayName(project.name)} audio processing visualization`}>
+    <svg viewBox="0 36 720 168" role="img" aria-label={`${projectDisplayName(project.name)} audio processing visualization`}>
       <path className="diagram-wave-mid" d="M0 110H720" />
       <motion.g
         className="diagram-waveform"
@@ -105,7 +105,6 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         <path d="M475 90H674M475 108H638M475 126H665M475 144H617M475 162H650" />
         <text x="475" y="190">SRT / EXPORT</text>
       </motion.g>
-      <text x="2" y="216">INGEST</text><text x="332" y="216">RUNTIME</text><text x="718" y="216" textAnchor="end">EXPORT</text>
     </svg>
   )
 }
