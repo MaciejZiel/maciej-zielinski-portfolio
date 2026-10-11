@@ -171,61 +171,61 @@ export const featuredProjects: FeaturedProject[] = [
     ],
   },
   {
-    name: 'camera_object_recognition',
-    category: 'Realtime AI pipeline',
+    name: 'hand_gesture_control',
+    category: 'Realtime vision control',
     headline:
-      'A live computer vision system with streaming, tracking, runtime controls, and per-class analytics.',
+      'A webcam gesture controller with MediaPipe tracking, rule-based recognition, smoothing, and mapped key actions.',
     context:
-      'A realtime vision pipeline combining inference, streaming, tracking, and operator controls in one workflow.',
+      'A realtime vision loop that turns hand landmarks from a regular webcam into stable, configurable desktop actions.',
     summary:
-      'This project combines YOLOv8, FastAPI, and OpenCV into a real-time object recognition workflow that goes beyond detection. It includes streaming, tracking, counting, snapshots, and control surfaces that make the system feel operational instead of purely experimental.',
+      'hand_gesture_control combines MediaPipe, OpenCV, and pynput into a desktop control loop that goes beyond detection. It tracks up to two hands, recognises 11 gestures from 21 landmarks with explainable finger-state rules, and maps them to key presses, shortcuts, media keys, or macros grouped into switchable profiles.',
     challenge:
-      'The hard part was coordinating a live video loop, inference, stateful tracking, and a usable control surface without the whole thing feeling fragile or demo-only.',
+      'The hard part was stopping noisy per-frame predictions from firing thirty times a second: the smoother needs a voting window, minimum hold time, hysteresis on switching, and cooldowns, and it has to stay testable without a camera.',
     outcome:
-      'The result behaves more like an operational vision console: live feed, object counts, snapshots, and controls that expose how the inference loop is behaving in real time.',
+      'The result behaves like a usable input device: a live overlay with on-screen buttons, calibration, a dry-run mode, hot config reload, and bindings that change in config.json without touching code.',
     details: [
-      'Real-time webcam pipeline with detection, tracking, and live streaming.',
-      'Per-class counts and snapshots that make the output measurable and inspectable.',
-      'Runtime controls exposed through a web interface instead of hard-coded parameters.',
+      'Rule-based classifier over 21 landmarks, with thumb and pinch thresholds normalised by palm size.',
+      'Two-hand combinations (BOTH, DUAL, LEFT, RIGHT) that can carry their own bindings.',
+      'Two MediaPipe backends behind one tracker interface, with CI on Python 3.10 and 3.12.',
     ],
     technologies: [
-      'YOLOv8',
-      'FastAPI',
+      'MediaPipe',
       'OpenCV',
-      'Streaming',
-      'Tracking',
-      'Angular',
-      'Runtime Controls',
+      'Python',
+      'pynput',
+      'Smoothing',
+      'Profiles',
+      'Macros',
     ],
-    repositoryUrl: 'https://github.com/MaciejZiel/camera_object_recognition',
+    repositoryUrl: 'https://github.com/MaciejZiel/hand_gesture_control',
     repositoryLabel: 'GitHub',
-    stageLabel: 'Realtime inference loop',
+    stageLabel: 'Realtime gesture loop',
     status: 'Public repo / updated 2026',
     year: '2026',
     theme: 'vision',
     metrics: [
-      { label: 'Inference', value: 'YOLOv8 + OpenCV' },
-      { label: 'Interface', value: 'Angular + FastAPI' },
-      { label: 'Focus', value: 'Streaming, tracking, controls' },
+      { label: 'Tracking', value: 'MediaPipe + OpenCV' },
+      { label: 'Gestures', value: '11 single-hand + two-hand combos' },
+      { label: 'Focus', value: 'Smoothing, profiles, macros' },
     ],
-    artifactTitle: 'Realtime inference loop',
+    artifactTitle: 'Realtime gesture loop',
     artifactSummary:
-      'The value is in the live runtime loop and observability around it, not just in returning detections from a model.',
+      'The value is in the smoothing and action layer around the landmarks, not just in naming a gesture per frame.',
     artifactLanes: [
       {
         label: 'Capture',
-        summary: 'Frames are pulled and normalized for live processing.',
-        items: ['Webcam feed', 'Frame pipeline', 'Streaming path'],
+        summary: 'Frames are tracked into landmarks for each visible hand.',
+        items: ['Webcam feed', 'MediaPipe landmarks', 'Two hands'],
       },
       {
         label: 'Inference',
-        summary: 'Detection and tracking stay stateful across frames.',
-        items: ['YOLOv8 detect', 'Object tracking', 'Class counts'],
+        summary: 'Finger-state rules name the gesture and smoothing keeps it stable.',
+        items: ['Rule classifier', '11 gestures', 'Smoothing + hysteresis'],
       },
       {
         label: 'Control',
-        summary: 'Operators can inspect and shape runtime behavior.',
-        items: ['Angular UI', 'Snapshots', 'Runtime controls'],
+        summary: 'Stable gestures trigger the actions of the active profile.',
+        items: ['Key presses', 'Macros', 'Profiles'],
       },
     ],
   },
@@ -353,14 +353,14 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const projectRail: ProjectRailItem[] = [
   {
-    name: 'RAG_Retrieval_Augmented_Generation',
-    description: 'Python retrieval workflow combining FAISS, semantic search, and LLM integration.',
-    href: 'https://github.com/MaciejZiel/RAG_Retrieval_Augmented_Generation',
+    name: 'agentic-rag-platform',
+    description: 'Multi-tenant FastAPI document Q&A with Qdrant retrieval and cited answers.',
+    href: 'https://github.com/MaciejZiel/agentic-rag-platform',
   },
   {
-    name: 'hand_gesture_control',
-    description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
-    href: 'https://github.com/MaciejZiel/hand_gesture_control',
+    name: 'pytest-queryguard',
+    description: 'pytest plugin that catches N+1 queries and enforces SQLAlchemy query budgets.',
+    href: 'https://github.com/MaciejZiel/pytest-queryguard',
   },
   {
     name: 'F1InfoMobileApp',
@@ -375,11 +375,11 @@ export const projectAnchorId = (name: string) =>
 const projectDisplayNames: Record<string, string> = {
   CaseFlow: 'CASEFLOW',
   clip_to_text: 'CLIP TO TEXT',
-  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
+  hand_gesture_control: 'HAND GESTURE CONTROL',
   Motorsport_API: 'MOTORSPORT API',
   live_flights_map: 'LIVE FLIGHTS MAP',
-  RAG_Retrieval_Augmented_Generation: 'RAG — RETRIEVAL AUGMENTED GENERATION',
-  hand_gesture_control: 'HAND GESTURE CONTROL',
+  'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
+  'pytest-queryguard': 'PYTEST QUERYGUARD',
   F1InfoMobileApp: 'F1 INFO MOBILE APP',
 }
 
@@ -398,9 +398,9 @@ export const projectHighlights = [
     anchorId: projectAnchorId('clip_to_text'),
   },
   {
-    name: 'camera_object_recognition',
-    description: 'A live vision pipeline for detection, tracking, and runtime control.',
-    anchorId: projectAnchorId('camera_object_recognition'),
+    name: 'hand_gesture_control',
+    description: 'A webcam gesture controller with stable recognition and configurable actions.',
+    anchorId: projectAnchorId('hand_gesture_control'),
   },
   {
     name: 'Motorsport_API',
