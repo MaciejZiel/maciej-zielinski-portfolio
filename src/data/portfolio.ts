@@ -51,6 +51,69 @@ export const profile: Profile = {
 
 export const featuredProjects: FeaturedProject[] = [
   {
+    name: 'pytest-queryguard',
+    category: 'Open-source developer tool',
+    headline: 'A pytest plugin that fails tests which hide N+1 queries and missing indexes.',
+    context:
+      'A published Python package for teams that use SQLAlchemy 2: it watches the SQL a test sends and turns silent performance problems into failing tests.',
+    summary:
+      'pytest-queryguard counts the statements each test sends, recognises the N+1 pattern, enforces per-test query budgets and, on PostgreSQL 16+, plans every distinct SELECT to find reads that no index serves. A failure names the offending line and suggests the fix, such as selectinload or CREATE INDEX.',
+    challenge:
+      'A test can pass while the code behind it sends 101 queries for 100 rows. The hard part was reporting this precisely enough to trust: no noise on harmless repetition, and no race conditions in the cached catalog the index check relies on.',
+    outcome:
+      'On PyPI with CI across Python 3.10 to 3.14 and PostgreSQL 15 to 17. Three independent review rounds fixed real concurrency and API issues before 0.3.0 shipped.',
+    details: [
+      'N+1 detection and query budgets for sync, async (asyncpg) and FastAPI test setups, with call sites in every message.',
+      'Opt-in missing-index check: EXPLAIN in a savepoint with sequential scans off, so the test database is left untouched.',
+      'A small public API, record_queries(), for asserting on the queries a block sent.',
+    ],
+    technologies: [
+      'Python',
+      'pytest',
+      'SQLAlchemy 2',
+      'PostgreSQL',
+      'asyncpg',
+      'GitHub Actions',
+      'PyPI',
+      'mypy --strict',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/pytest-queryguard',
+    repositoryLabel: 'View repository',
+    repositoryNote:
+      'Install with pip install pytest-queryguard. Source, changelog and design notes are in the repository.',
+    stageLabel: 'Published package',
+    status: 'v0.3.0 on PyPI / open source',
+    year: '2026',
+    theme: 'steel',
+    visualization: 'query-log',
+    metrics: [
+      { label: 'Release', value: 'v0.3.0 on PyPI' },
+      { label: 'Quality bar', value: '630+ tests, 99% coverage' },
+      { label: 'Runs on', value: 'Python 3.10-3.14, PostgreSQL 15-17' },
+    ],
+    diagramCaption: 'SQL EVENTS → VERDICT → EXPLAIN',
+    artifactTitle: 'How a failing test is found',
+    artifactSummary:
+      'The plugin listens to SQLAlchemy events, groups the statements of each test, and judges them after the test body has run.',
+    artifactLanes: [
+      {
+        label: 'Collect',
+        summary: 'Every statement a test sends is recorded with the line of code that caused it.',
+        items: ['SQLAlchemy events', 'Per-test log', 'Call sites'],
+      },
+      {
+        label: 'Judge',
+        summary: 'Repeated statements and budget overruns become readable failures.',
+        items: ['N+1 detection', 'Query budgets', 'Fix suggestions'],
+      },
+      {
+        label: 'Verify',
+        summary: 'Optionally, PostgreSQL itself says whether a query reads a whole table.',
+        items: ['EXPLAIN in a savepoint', 'Missing-index hints', 'asyncpg support'],
+      },
+    ],
+  },
+  {
     name: 'CaseFlow',
     category: 'Multi-tenant backend platform',
     headline: 'A multi-tenant FastAPI backend designed like a production B2B system.',
@@ -109,68 +172,6 @@ export const featuredProjects: FeaturedProject[] = [
         label: 'Delivery layer',
         summary: 'Operational side effects are dispatched outside the request path.',
         items: ['Webhook queue', 'Retry logic', 'Background processing'],
-      },
-    ],
-  },
-  {
-    name: 'pytest-queryguard',
-    category: 'Open-source developer tool',
-    headline: 'A pytest plugin that fails tests which hide N+1 queries and missing indexes.',
-    context:
-      'A published Python package for teams that use SQLAlchemy 2: it watches the SQL a test sends and turns silent performance problems into failing tests.',
-    summary:
-      'pytest-queryguard counts the statements each test sends, recognises the N+1 pattern, enforces per-test query budgets and, on PostgreSQL 16+, plans every distinct SELECT to find reads that no index serves. A failure names the offending line and suggests the fix, such as selectinload or CREATE INDEX.',
-    challenge:
-      'A test can pass while the code behind it sends 101 queries for 100 rows. The hard part was reporting this precisely enough to trust: no noise on harmless repetition, and no race conditions in the cached catalog the index check relies on.',
-    outcome:
-      'On PyPI with CI across Python 3.10 to 3.14 and PostgreSQL 15 to 17. Three independent review rounds fixed real concurrency and API issues before 0.3.0 shipped.',
-    details: [
-      'N+1 detection and query budgets for sync, async (asyncpg) and FastAPI test setups, with call sites in every message.',
-      'Opt-in missing-index check: EXPLAIN in a savepoint with sequential scans off, so the test database is left untouched.',
-      'A small public API, record_queries(), for asserting on the queries a block sent.',
-    ],
-    technologies: [
-      'Python',
-      'pytest',
-      'SQLAlchemy 2',
-      'PostgreSQL',
-      'asyncpg',
-      'GitHub Actions',
-      'PyPI',
-      'mypy --strict',
-    ],
-    repositoryUrl: 'https://github.com/MaciejZiel/pytest-queryguard',
-    repositoryLabel: 'View repository',
-    repositoryNote:
-      'Install with pip install pytest-queryguard. Source, changelog and design notes are in the repository.',
-    stageLabel: 'Published package',
-    status: 'v0.3.0 on PyPI / open source',
-    year: '2026',
-    theme: 'steel',
-    metrics: [
-      { label: 'Release', value: 'v0.3.0 on PyPI' },
-      { label: 'Quality bar', value: '630+ tests, 99% coverage' },
-      { label: 'Runs on', value: 'Python 3.10-3.14, PostgreSQL 15-17' },
-    ],
-    diagramCaption: 'SQL EVENTS → VERDICT → EXPLAIN',
-    artifactTitle: 'How a failing test is found',
-    artifactSummary:
-      'The plugin listens to SQLAlchemy events, groups the statements of each test, and judges them after the test body has run.',
-    artifactLanes: [
-      {
-        label: 'Collect',
-        summary: 'Every statement a test sends is recorded with the line of code that caused it.',
-        items: ['SQLAlchemy events', 'Per-test log', 'Call sites'],
-      },
-      {
-        label: 'Judge',
-        summary: 'Repeated statements and budget overruns become readable failures.',
-        items: ['N+1 detection', 'Query budgets', 'Fix suggestions'],
-      },
-      {
-        label: 'Verify',
-        summary: 'Optionally, PostgreSQL itself says whether a query reads a whole table.',
-        items: ['EXPLAIN in a savepoint', 'Missing-index hints', 'asyncpg support'],
       },
     ],
   },
@@ -410,14 +411,14 @@ export const projectDisplayName = (name: string) =>
 
 export const projectHighlights = [
   {
-    name: 'CaseFlow',
-    description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',
-    anchorId: projectAnchorId('CaseFlow'),
-  },
-  {
     name: 'pytest-queryguard',
     description: 'A published pytest plugin that turns N+1 queries and missing indexes into failing tests.',
     anchorId: projectAnchorId('pytest-queryguard'),
+  },
+  {
+    name: 'CaseFlow',
+    description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',
+    anchorId: projectAnchorId('CaseFlow'),
   },
   {
     name: 'clip_to_text',

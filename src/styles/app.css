@@ -929,6 +929,26 @@
 .diagram-transcript { color: var(--color-text); }
 .diagram-transcript path { fill: none; stroke: var(--color-text); stroke-width: 2; opacity: .76; vector-effect: non-scaling-stroke; }
 .diagram-transcript text { fill: var(--color-accent); }
+/* Query log: the rows stay, the stage changes what they mean. */
+.project-diagram--query-log svg { max-height: 215px; }
+.query-log-rule { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.query-row text { fill: var(--color-text-muted); font-size: 10px; letter-spacing: 0; }
+.query-row .query-row__no { opacity: .55; }
+.query-row .query-row__site { opacity: .6; }
+.query-row--hot text { fill: var(--project-accent); }
+.query-row--focus text { fill: var(--color-text); }
+.query-bracket { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.project-diagram .query-big { fill: var(--project-accent); font: 800 44px var(--display-font); letter-spacing: -.04em; }
+.project-diagram .query-verdict { fill: var(--project-accent); }
+.query-plan-node rect { fill: var(--color-bg); stroke: rgba(255,255,255,.3); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.query-plan-node--bad rect { stroke-dasharray: 4 4; }
+.query-plan-node--good rect { fill: var(--project-accent-soft); stroke: var(--project-accent); }
+.project-diagram .query-plan-title { fill: var(--color-text); font-size: 10px; letter-spacing: .02em; }
+.query-plan-arrow { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.query-caret { fill: var(--project-accent); animation: query-caret 1.1s steps(1, end) infinite; animation-play-state: paused; }
+.query-log[data-running='true'] .query-caret { animation-play-state: running; }
+.project-diagram[data-reduced='true'] .query-caret { animation: none; }
+@keyframes query-caret { 50% { opacity: 0; } }
 .project-diagram--vision svg { max-height: 205px; }
 .project-diagram--flight-route svg { max-height: 205px; }
 .flight-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
