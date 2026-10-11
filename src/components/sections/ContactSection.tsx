@@ -1,4 +1,5 @@
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { useRef } from 'react'
 
 import type { ContactMethod } from '../../types/portfolio'
@@ -12,7 +13,7 @@ interface ContactSectionProps {
 
 export function ContactSection({ contactMethods }: ContactSectionProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const ambientActive = useAmbientActivity(sectionRef)
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
   const finaleScale = useTransform(scrollYProgress, [0, 0.24, 0.68, 1], [0.88, 1, 1.04, 0.96])

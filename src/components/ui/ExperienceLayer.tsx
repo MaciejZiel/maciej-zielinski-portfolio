@@ -1,11 +1,11 @@
 import {
   motion,
   useMotionValue,
-  useReducedMotion,
   useSpring,
   type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { usePageVisible } from '../../hooks/usePageVisible'
 import { SpatialField } from './SpatialField'
 
@@ -76,7 +76,7 @@ const chapterTransitionNodes = [
 ]
 
 export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const pageVisible = usePageVisible()
   const pointerX = useMotionValue(-100)
   const pointerY = useMotionValue(-100)

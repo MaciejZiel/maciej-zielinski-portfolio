@@ -270,3 +270,56 @@
   .site-header__inner { flex-wrap: wrap; }
   .brand__name { white-space: normal; }
 }
+/* On phones the name breaks over two lines so the navigation and the motion switch fit one row. */
+@media (max-width: 680px) {
+  .brand { width: min-content; }
+  .brand__name { line-height: 1.15; }
+}
+
+/* Pause motion (WCAG 2.2.2). The switch lives in the header; the page remembers the choice. */
+.motion-toggle {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: 500 max(0.75rem, 12px)/1 var(--mono-font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+.motion-toggle:hover { color: var(--color-text); }
+.motion-toggle__icon {
+  position: relative;
+  width: 10px;
+  height: 12px;
+  border-inline: 3px solid var(--color-accent);
+  box-sizing: border-box;
+}
+/* The icon shows what the button will do: pause bars while motion runs, play while it is paused. */
+.motion-toggle[data-paused='true'] .motion-toggle__icon {
+  width: 0;
+  height: 0;
+  border-inline: 0;
+  border-block: 6px solid transparent;
+  border-left: 10px solid var(--color-accent);
+}
+@media (max-width: 680px) {
+  .site-header__right { gap: 10px; }
+  .site-nav { gap: 14px; }
+  .motion-toggle { min-width: 32px; justify-content: center; }
+  .motion-toggle__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* A paused page freezes every CSS animation and stops smooth scrolling. */
+html[data-motion='paused'],
+html[data-motion='paused'] *,
+html[data-motion='paused'] *::before,
+html[data-motion='paused'] *::after {
+  animation-play-state: paused !important;
+  scroll-behavior: auto !important;
+}

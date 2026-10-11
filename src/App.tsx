@@ -7,6 +7,7 @@ import { HeroSection } from './components/sections/HeroSection'
 import { ProjectsSection } from './components/sections/ProjectsSection'
 import { SkillsSection } from './components/sections/SkillsSection'
 import { ExperienceLayer } from './components/ui/ExperienceLayer'
+import { useMotionPaused } from './hooks/useMotionPreference'
 import {
   contactMethods,
   featuredProjects,
@@ -24,9 +25,10 @@ function App() {
 
 function PortfolioExperience() {
   const { scrollY, scrollYProgress } = useScroll()
+  const motionPaused = useMotionPaused()
 
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion={motionPaused ? 'always' : 'user'}>
       <>
         <a className="skip-link" href="#main-content">
           Skip to content

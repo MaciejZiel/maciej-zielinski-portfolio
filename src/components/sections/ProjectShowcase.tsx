@@ -1,6 +1,5 @@
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   AnimatePresence,
@@ -9,6 +8,7 @@ import { useRef, useState, type CSSProperties } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
 import { projectAccent, projectAnchorId, projectDisplayName } from '../../data/portfolio'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
@@ -26,7 +26,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   // A long unbreakable word (QUERYGUARD) overflows the wide display face at full size.
   const longestWord = Math.max(...displayName.split(/[\s-]+/).map((word) => word.length))
   const nameClass = longestWord > 9 ? 'project-showcase__name project-showcase__name--long' : 'project-showcase__name'
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const accent = projectAccent(project.name)
   const accentStyle = accent
     ? ({

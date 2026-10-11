@@ -1,9 +1,10 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useRef } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
 import { projectDisplayName } from '../../data/portfolio'
 import { useAmbientActivity } from '../../hooks/useAmbientActivity'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 
 // Static geometry is computed once. Six phased groups retain the full 72-bar waveform.
 const waveformGroups = Array.from({ length: 6 }, (_, group) =>
@@ -333,7 +334,7 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
 }
 
 export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const diagramRef = useRef<HTMLDivElement>(null)
   const isVisible = useAmbientActivity(diagramRef)
 
