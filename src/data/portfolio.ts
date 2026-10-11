@@ -90,6 +90,7 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'System concerns', value: 'Auth, workflows, auditability' },
       { label: 'Quality bar', value: 'Docker + integration tests' },
     ],
+    diagramCaption: 'REQUEST / POLICY → STATE → DELIVERY',
     artifactTitle: 'Operational architecture',
     artifactSummary:
       'The system is organized around clear policy boundaries, explicit workflow state, and delivery infrastructure that can be observed and retried.',

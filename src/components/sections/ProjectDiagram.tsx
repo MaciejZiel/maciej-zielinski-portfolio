@@ -58,7 +58,7 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
           ? { duration: 0 }
           : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       />
-      <text x="42" y="248">REQUEST / POLICY → STATE → DELIVERY</text>
+      <text x="42" y="248">{project.diagramCaption ?? ""}</text>
     </svg>
   )
 }

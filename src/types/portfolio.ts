@@ -59,6 +59,7 @@ export interface FeaturedProject {
   visualization?: 'flight-route'
   metrics: ProjectMetric[]
   artifactTitle: string
+  diagramCaption?: string
   artifactSummary: string
   artifactLanes: ArtifactLane[]
 }
