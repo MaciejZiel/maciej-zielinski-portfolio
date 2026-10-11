@@ -257,7 +257,7 @@ const queryRows = [
   })),
   { sql: 'SELECT … FROM payments', site: 'billing.py:8', repeat: false },
 ]
-const queryRowY = (index: number) => 44 + index * 20
+const queryRowY = (index: number) => 46 + index * 24
 
 function QueryLog({ project, activeLane, isVisible, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const transition = reduceMotion ? { duration: 0 } : { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }
@@ -267,12 +267,12 @@ function QueryLog({ project, activeLane, isVisible, reduceMotion }: ProjectDiagr
     <svg
       className="query-log"
       data-running={isVisible ? 'true' : 'false'}
-      viewBox="0 0 560 250"
+      viewBox="0 0 460 372"
       role="img"
       aria-label={`${projectDisplayName(project.name)} query log and plan`}
     >
-      <path className="query-log-rule" d="M14 24H346M356 24V212" />
-      <text x="14" y="16">TEST LOG / 8 STATEMENTS</text>
+      <text x="14" y="18">TEST LOG / 8 STATEMENTS</text>
+      <path className="query-log-rule" d="M14 28H446M14 236H446" />
       {queryRows.map((row, index) => {
         const hot = activeLane === 1 && row.repeat
         const focus = activeLane === 2 && index === 0
@@ -282,45 +282,45 @@ function QueryLog({ project, activeLane, isVisible, reduceMotion }: ProjectDiagr
             key={row.sql}
             className={`query-row${hot ? ' query-row--hot' : ''}${focus ? ' query-row--focus' : ''}`}
             initial={reduceMotion ? false : { opacity: 0, x: -10 }}
-            animate={{ opacity: dim ? 0.3 : 1, x: 0 }}
+            animate={{ opacity: dim ? 0.6 : 1, x: 0 }}
             transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
             <text className="query-row__no" x="14" y={queryRowY(index)}>{String(index + 1).padStart(2, '0')}</text>
-            <text x="34" y={queryRowY(index)}>{row.sql}</text>
-            <text className="query-row__site" x="270" y={queryRowY(index)}>{row.site}</text>
+            <text x="44" y={queryRowY(index)}>{row.sql}</text>
+            <text className="query-row__site" x="446" y={queryRowY(index)} textAnchor="end">{row.site}</text>
           </motion.g>
         )
       })}
-      <rect className="query-caret" x="34" y={queryRowY(queryRows.length) - 8} width="5" height="10" />
+      <rect className="query-caret" x="44" y={queryRowY(queryRows.length) - 10} width="7" height="13" />
       <motion.path
         className="query-bracket"
-        d={`M7 ${queryRowY(1) - 10}H2V${queryRowY(6) + 5}H7`}
+        d={`M7 ${queryRowY(1) - 13}H2V${queryRowY(6) + 6}H7`}
         initial={false}
         animate={{ opacity: shown(1) }}
         transition={transition}
       />
 
       <motion.g initial={false} animate={{ opacity: shown(0) }} transition={transition}>
-        <text className="query-big" x="372" y="108">8</text>
-        <text x="372" y="132">STATEMENTS IN ONE TEST</text>
-        <text x="372" y="146">EACH WITH ITS CALL SITE</text>
+        <text className="query-big" x="14" y="308">8</text>
+        <text x="84" y="288">STATEMENTS IN ONE TEST</text>
+        <text x="84" y="308">EACH WITH ITS CALL SITE</text>
       </motion.g>
 
       <motion.g initial={false} animate={{ opacity: shown(1) }} transition={transition}>
-        <text className="query-big" x="372" y="108">6×</text>
-        <text x="372" y="132">SAME STATEMENT, SAME SITE</text>
-        <text className="query-verdict" x="372" y="146">N+1: LOAD THEM TOGETHER</text>
+        <text className="query-big" x="14" y="308">6×</text>
+        <text x="110" y="288">SAME STATEMENT, SAME SITE</text>
+        <text className="query-verdict" x="110" y="308">N+1: LOAD THEM TOGETHER</text>
       </motion.g>
 
       <motion.g initial={false} animate={{ opacity: shown(2) }} transition={transition}>
         <g className="query-plan-node query-plan-node--bad">
-          <rect x="372" y="36" width="188" height="46" rx="2" />
-          <text className="query-plan-title" x="382" y="55">Seq Scan on orders</text>
-          <text x="382" y="70">Filter: customer_id = $1</text>
+          <rect x="14" y="250" width="190" height="52" rx="2" />
+          <text className="query-plan-title" x="26" y="272">Seq Scan on orders</text>
+          <text className="query-plan-sub" x="26" y="291">customer_id = $1</text>
         </g>
         <motion.path
           className="query-plan-arrow"
-          d="M462 88V114"
+          d="M210 276H250"
           initial={false}
           animate={{ pathLength: activeLane === 2 ? 1 : 0 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.25 }}
@@ -331,15 +331,14 @@ function QueryLog({ project, activeLane, isVisible, reduceMotion }: ProjectDiagr
           animate={{ opacity: activeLane === 2 ? 1 : 0.25 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.5 }}
         >
-          <rect x="372" y="118" width="188" height="46" rx="2" />
-          <text className="query-plan-title" x="382" y="137">Index Scan on orders</text>
-          <text x="382" y="152">orders_customer_id_idx</text>
+          <rect x="256" y="250" width="190" height="52" rx="2" />
+          <text className="query-plan-title" x="268" y="272">Index Scan on orders</text>
+          <text className="query-plan-sub" x="268" y="291">orders_customer_id_idx</text>
         </motion.g>
-        <text className="query-verdict" x="372" y="184">CREATE INDEX ON orders</text>
-        <text className="query-verdict" x="372" y="197">(customer_id)</text>
+        <text className="query-verdict" x="14" y="326">CREATE INDEX ON orders (customer_id)</text>
       </motion.g>
 
-      <text x="14" y="240">{project.diagramCaption ?? ''}</text>
+      <text x="14" y="362">{project.diagramCaption ?? ''}</text>
     </svg>
   )
 }
