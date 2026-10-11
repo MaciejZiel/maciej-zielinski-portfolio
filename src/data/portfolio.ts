@@ -171,61 +171,61 @@ export const featuredProjects: FeaturedProject[] = [
     ],
   },
   {
-    name: 'camera_object_recognition',
-    category: 'Realtime AI pipeline',
+    name: 'pytest-queryguard',
+    category: 'Open-source testing tool',
     headline:
-      'A live computer vision system with streaming, tracking, runtime controls, and per-class analytics.',
+      'A PyPI-published pytest plugin that catches N+1 queries and enforces SQLAlchemy query budgets.',
     context:
-      'A realtime vision pipeline combining inference, streaming, tracking, and operator controls in one workflow.',
+      'A developer tool that turns hidden ORM query patterns into failing tests before they reach production.',
     summary:
-      'This project combines YOLOv8, FastAPI, and OpenCV into a real-time object recognition workflow that goes beyond detection. It includes streaming, tracking, counting, snapshots, and control surfaces that make the system feel operational instead of purely experimental.',
+      'pytest-queryguard watches the SQL each test sends through SQLAlchemy 2 in sync, async, and FastAPI code. It detects lazy-load and repeated-statement N+1 patterns, enforces per-test query budgets, and points each failure at the line of code that caused it.',
     challenge:
-      'The hard part was coordinating a live video loop, inference, stateful tracking, and a usable control surface without the whole thing feeling fragile or demo-only.',
+      'The hard part was detecting N+1 on a test database with only a few rows, and tracing each statement back to user code instead of ORM internals, across threads and async sessions.',
     outcome:
-      'The result behaves more like an operational vision console: live feed, object counts, snapshots, and controls that expose how the inference loop is behaving in real time.',
+      'The result is a zero-configuration plugin on PyPI: install it, and tests fail with a readable explanation, the offending SQL, and a concrete fix instead of a slow endpoint later.',
     details: [
-      'Real-time webcam pipeline with detection, tracking, and live streaming.',
-      'Per-class counts and snapshots that make the output measurable and inspectable.',
-      'Runtime controls exposed through a web interface instead of hard-coded parameters.',
+      'Automatic N+1 detection for lazy-loaded relationships and repeated SELECT statements.',
+      'Query budgets through a max_queries marker or a standalone context manager.',
+      'Failure reports that show the SQL, the source line, and a suggested eager-loading fix.',
     ],
     technologies: [
-      'YOLOv8',
+      'Python',
+      'pytest',
+      'SQLAlchemy 2',
+      'Async',
       'FastAPI',
-      'OpenCV',
-      'Streaming',
-      'Tracking',
-      'Angular',
-      'Runtime Controls',
+      'PyPI',
+      'CI',
     ],
-    repositoryUrl: 'https://github.com/MaciejZiel/camera_object_recognition',
+    repositoryUrl: 'https://github.com/MaciejZiel/pytest-queryguard',
     repositoryLabel: 'GitHub',
-    stageLabel: 'Realtime inference loop',
-    status: 'Public repo / updated 2026',
+    stageLabel: 'Query inspection loop',
+    status: 'Public repo / published on PyPI',
     year: '2026',
     theme: 'vision',
     metrics: [
-      { label: 'Inference', value: 'YOLOv8 + OpenCV' },
-      { label: 'Interface', value: 'Angular + FastAPI' },
-      { label: 'Focus', value: 'Streaming, tracking, controls' },
+      { label: 'Detection', value: 'N+1 lazy loads + repeats' },
+      { label: 'Coverage', value: 'Sync, async, FastAPI' },
+      { label: 'Delivery', value: 'pytest plugin on PyPI' },
     ],
-    artifactTitle: 'Realtime inference loop',
+    artifactTitle: 'Query inspection loop',
     artifactSummary:
-      'The value is in the live runtime loop and observability around it, not just in returning detections from a model.',
+      'The value is in turning SQL traffic into precise, actionable test failures, not just in counting queries.',
     artifactLanes: [
       {
         label: 'Capture',
-        summary: 'Frames are pulled and normalized for live processing.',
-        items: ['Webcam feed', 'Frame pipeline', 'Streaming path'],
+        summary: 'SQLAlchemy events record every statement a test body sends.',
+        items: ['Engine events', 'ORM lazy loads', 'Source lines'],
       },
       {
-        label: 'Inference',
-        summary: 'Detection and tracking stay stateful across frames.',
-        items: ['YOLOv8 detect', 'Object tracking', 'Class counts'],
+        label: 'Detection',
+        summary: 'Repeated patterns are recognized even with only a few rows.',
+        items: ['Lazy-load N+1', 'Repeated SELECT', 'Normalized SQL'],
       },
       {
         label: 'Control',
-        summary: 'Operators can inspect and shape runtime behavior.',
-        items: ['Angular UI', 'Snapshots', 'Runtime controls'],
+        summary: 'Budgets and reports keep query counts under explicit limits.',
+        items: ['max_queries', 'Fail or warn', 'Session report'],
       },
     ],
   },
@@ -353,9 +353,9 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const projectRail: ProjectRailItem[] = [
   {
-    name: 'RAG_Retrieval_Augmented_Generation',
-    description: 'Python retrieval workflow combining FAISS, semantic search, and LLM integration.',
-    href: 'https://github.com/MaciejZiel/RAG_Retrieval_Augmented_Generation',
+    name: 'agentic-rag-platform',
+    description: 'Multi-tenant FastAPI document Q&A with Qdrant retrieval and cited answers.',
+    href: 'https://github.com/MaciejZiel/agentic-rag-platform',
   },
   {
     name: 'hand_gesture_control',
@@ -375,10 +375,10 @@ export const projectAnchorId = (name: string) =>
 const projectDisplayNames: Record<string, string> = {
   CaseFlow: 'CASEFLOW',
   clip_to_text: 'CLIP TO TEXT',
-  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
+  'pytest-queryguard': 'PYTEST QUERYGUARD',
   Motorsport_API: 'MOTORSPORT API',
   live_flights_map: 'LIVE FLIGHTS MAP',
-  RAG_Retrieval_Augmented_Generation: 'RAG — RETRIEVAL AUGMENTED GENERATION',
+  'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
   hand_gesture_control: 'HAND GESTURE CONTROL',
   F1InfoMobileApp: 'F1 INFO MOBILE APP',
 }
@@ -398,9 +398,9 @@ export const projectHighlights = [
     anchorId: projectAnchorId('clip_to_text'),
   },
   {
-    name: 'camera_object_recognition',
-    description: 'A live vision pipeline for detection, tracking, and runtime control.',
-    anchorId: projectAnchorId('camera_object_recognition'),
+    name: 'pytest-queryguard',
+    description: 'A pytest plugin that catches N+1 queries and enforces query budgets.',
+    anchorId: projectAnchorId('pytest-queryguard'),
   },
   {
     name: 'Motorsport_API',
