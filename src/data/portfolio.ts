@@ -51,6 +51,70 @@ export const profile: Profile = {
 
 export const featuredProjects: FeaturedProject[] = [
   {
+    name: 'pytest-queryguard',
+    category: 'pytest plugin on PyPI',
+    headline:
+      'A pytest plugin that catches N+1 queries and enforces query budgets for SQLAlchemy 2, in sync, async and FastAPI code.',
+    context:
+      'ORM code that looks correct can send one query per row instead of one query per page. Tests pass because a test database holds a handful of rows, and the endpoint only gets slow in production.',
+    summary:
+      'pytest-queryguard watches the SQL each test sends through two SQLAlchemy listeners. It fails a test when one relationship is lazy-loaded for several parent objects or when the same SELECT runs again and again, points to the line in your code that caused it and suggests the fix, for example selectinload. A max_queries marker and context manager set a hard query budget, and a session report lists the tests that run the most SQL.',
+    challenge:
+      'The detector has to work where the queries actually happen: inside AsyncSession, in the thread FastAPI TestClient runs the app in, and only within the test body, not fixtures. A failure also has to point at the user\'s line, not at SQLAlchemy internals.',
+    outcome:
+      'Published on PyPI as 0.1.0 with Trusted Publishing. 116 tests and 98% coverage run in CI on Python 3.10 to 3.14 against SQLAlchemy 2.0 and 2.1.',
+    details: [
+      'Automatic N+1 detection for lazy-loaded relationships and repeated SELECT statements.',
+      'Query budgets with a max_queries marker or a context manager that also works outside pytest.',
+      'Works with Session, AsyncSession and FastAPI TestClient; fail, warn or off modes.',
+      'Failures name the offending line and the SQL, with a suggested selectinload or IN-query fix.',
+    ],
+    technologies: [
+      'Python',
+      'pytest',
+      'SQLAlchemy',
+      'PostgreSQL-ready',
+      'PyPI',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/pytest-queryguard',
+    repositoryLabel: 'View repository',
+    extraLinks: [
+      { label: 'PyPI', href: 'https://pypi.org/project/pytest-queryguard/' },
+      { label: 'Release v0.1.0', href: 'https://github.com/MaciejZiel/pytest-queryguard/releases/tag/v0.1.0' },
+    ],
+    stageLabel: 'Test run',
+    status: 'Public repository / PyPI package',
+    year: '2026',
+    theme: 'signal',
+    visualization: 'queue',
+    flowCaption: 'TEST BODY → SQL LISTENERS → PASS / FAIL WITH FIX',
+    metrics: [
+      { label: 'Tests', value: '116 tests, 98% coverage' },
+      { label: 'CI matrix', value: 'Python 3.10–3.14 × SQLAlchemy 2.0/2.1' },
+      { label: 'Release', value: 'v0.1.0 on PyPI' },
+    ],
+    artifactTitle: 'From test to fix',
+    artifactSummary:
+      'Every test is measured, checked for N+1 patterns and budgets, and fails with a message that says where the problem is and how to fix it.',
+    artifactLanes: [
+      {
+        label: 'Capture',
+        summary: 'SQLAlchemy listeners record every statement issued inside the test body.',
+        items: ['do_orm_execute', 'before_cursor_execute', 'Sync, async, TestClient'],
+      },
+      {
+        label: 'Detect',
+        summary: 'Statements are grouped to find repeated lazy loads and repeated SELECTs.',
+        items: ['Lazy-load tracking', 'Normalized SQL', 'Query budgets'],
+      },
+      {
+        label: 'Report',
+        summary: 'The failure points to the user\'s line and suggests the fix.',
+        items: ['Offending line', 'selectinload hint', 'Session report'],
+      },
+    ],
+  },
+  {
     name: 'CaseFlow',
     category: 'Multi-tenant backend platform',
     headline: 'A multi-tenant FastAPI backend for case and document workflows, with a Next.js workspace on top.',
@@ -422,6 +486,7 @@ export const projectAnchorId = (name: string) =>
   `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
 
 const projectDisplayNames: Record<string, string> = {
+  'pytest-queryguard': 'PYTEST-QUERYGUARD',
   CaseFlow: 'CASEFLOW',
   pgqueue: 'PGQUEUE',
   clip_to_text: 'CLIP TO TEXT',
@@ -438,6 +503,11 @@ export const projectDisplayName = (name: string) =>
   projectDisplayNames[name] ?? name.replaceAll('_', ' ').toLocaleUpperCase('en-US')
 
 export const projectHighlights = [
+  {
+    name: 'pytest-queryguard',
+    description: 'A pytest plugin on PyPI that catches N+1 queries and enforces query budgets for SQLAlchemy 2.',
+    anchorId: projectAnchorId('pytest-queryguard'),
+  },
   {
     name: 'CaseFlow',
     description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',

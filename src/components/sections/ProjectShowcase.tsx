@@ -146,18 +146,26 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             <div className="project-showcase__footer">
               <TagList items={project.technologies} />
               <div className="project-showcase__link-group">
-                <a
-                  className="project-showcase__link"
-                  href={project.repositoryUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <span>{project.repositoryLabel}</span>
-                  <Icon
-                    name="arrow-up-right"
-                    className="project-showcase__link-icon"
-                  />
-                </a>
+                <div className="project-showcase__links">
+                  {[
+                    { label: project.repositoryLabel, href: project.repositoryUrl },
+                    ...(project.extraLinks ?? []),
+                  ].map((link) => (
+                    <a
+                      key={link.href}
+                      className="project-showcase__link"
+                      href={link.href}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <span>{link.label}</span>
+                      <Icon
+                        name="arrow-up-right"
+                        className="project-showcase__link-icon"
+                      />
+                    </a>
+                  ))}
+                </div>
                 {project.repositoryNote ? (
                   <p className="project-showcase__note">{project.repositoryNote}</p>
                 ) : null}
