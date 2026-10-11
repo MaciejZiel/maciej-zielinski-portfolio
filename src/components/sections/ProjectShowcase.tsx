@@ -5,7 +5,7 @@ import {
   useTransform,
   AnimatePresence,
 } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState, type MouseEvent, type SyntheticEvent, type TransitionEvent } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
 import { projectAnchorId, projectDisplayName } from '../../data/portfolio'
@@ -24,6 +24,43 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
   const displayName = projectDisplayName(project.name)
   const reduceMotion = useReducedMotion()
+  const [notesOpen, setNotesOpen] = useState(false)
+  const [notesExpanded, setNotesExpanded] = useState(false)
+
+  useEffect(() => {
+    if (!notesOpen || reduceMotion) return
+    // Let the panel paint collapsed first, then grow it on the next frame.
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => setNotesExpanded(true))
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [notesOpen, reduceMotion])
+
+  const handleNotesClick = (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    if (!notesExpanded) {
+      // Reopen directly when the panel is still mid-collapse, otherwise mount it first.
+      if (notesOpen || reduceMotion) setNotesExpanded(true)
+      setNotesOpen(true)
+      return
+    }
+    setNotesExpanded(false)
+    if (reduceMotion) setNotesOpen(false)
+  }
+
+  const handleNotesToggle = (event: SyntheticEvent<HTMLDetailsElement>) => {
+    // Keeps state in sync when the browser opens the element itself (find-in-page).
+    const isOpen = event.currentTarget.open
+    if (isOpen !== notesOpen) {
+      setNotesOpen(isOpen)
+      if (!isOpen) setNotesExpanded(false)
+    }
+  }
+
+  const handleNotesTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'grid-template-rows') return
+    if (!notesExpanded) setNotesOpen(false)
+  }
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -96,11 +133,18 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <p className="project-showcase__spotlight-copy">{project.outcome}</p>
             </div>
 
-            <details className="project-showcase__deep-dive">
-              <summary>
+            <details
+              className="project-showcase__deep-dive"
+              open={notesOpen}
+              data-expanded={notesExpanded}
+              onToggle={handleNotesToggle}
+            >
+              <summary onClick={handleNotesClick}>
                 <span>Open the engineering notes</span>
                 <span className="project-showcase__disclosure-mark" aria-hidden="true">+</span>
               </summary>
+              <div className="project-showcase__deep-dive-panel" onTransitionEnd={handleNotesTransitionEnd}>
+              <div className="project-showcase__deep-dive-clip">
               <div className="project-showcase__deep-dive-body">
                 {project.theme === 'steel' ? <p>{project.outcome}</p> : null}
                 <p>{project.context}</p>
@@ -124,6 +168,8 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 <ul className="project-showcase__details">
                   {project.details.map((detail) => <li key={detail}>{detail}</li>)}
                 </ul>
+              </div>
+              </div>
               </div>
             </details>
 

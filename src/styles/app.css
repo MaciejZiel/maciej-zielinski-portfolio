@@ -879,6 +879,10 @@
 .project-showcase__disclosure-mark::after { transform: translate(-50%, -50%) rotate(90deg); }
 .project-showcase__deep-dive > summary:hover .project-showcase__disclosure-mark { border-color: var(--project-accent); background: var(--project-accent); color: var(--color-bg); }
 .project-showcase__deep-dive[open] .project-showcase__disclosure-mark { transform: rotate(45deg); }
+.project-showcase__deep-dive[data-expanded="false"] .project-showcase__disclosure-mark { transform: none; }
+.project-showcase__deep-dive-panel { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 300ms cubic-bezier(.2,.8,.25,1), opacity 300ms cubic-bezier(.2,.8,.25,1); }
+.project-showcase__deep-dive[data-expanded="true"] .project-showcase__deep-dive-panel { grid-template-rows: 1fr; opacity: 1; }
+.project-showcase__deep-dive-clip { min-height: 0; overflow: hidden; }
 .project-showcase__deep-dive-body { padding: 8px 0 20px; color: var(--color-text-muted); font-size: .83rem; line-height: 1.65; }
 .project-showcase__deep-dive-body > p { margin: 0 0 18px; }
 .project-showcase__deep-dive-body .project-showcase__narrative { gap: 20px; }
@@ -1024,6 +1028,7 @@
   .contact-section__status-beacon { animation: none; }
   .project-showcase__deep-dive > summary,
   .project-showcase__disclosure-mark,
+  .project-showcase__deep-dive-panel,
   .project-showcase__link-icon,
   .contact-section__link-icon { transition: none; }
 }
