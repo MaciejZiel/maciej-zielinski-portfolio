@@ -27,14 +27,14 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
   const activeNodeX = nodeX[activeLane] ?? nodeX[0]
 
   return (
-    <svg viewBox="0 0 640 280" role="img" aria-label={`${projectDisplayName(project.name)} system flow diagram`}>
-      <path className="caseflow-route-track" d="M48 140H592" />
+    <svg viewBox="0 0 640 104" role="img" aria-label={`${projectDisplayName(project.name)} system flow diagram`}>
+      <path className="caseflow-route-track" d="M48 72H592" />
       <motion.line
         className="caseflow-route-signal"
         x1="48"
-        y1="140"
+        y1="72"
         x2={nodeX[0]}
-        y2="140"
+        y2="72"
         initial={false}
         animate={{ x2: activeNodeX }}
         transition={reduceMotion
@@ -43,14 +43,14 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
       />
       {nodeX.map((x, index) => (
         <g key={x} className={index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
-          <circle cx={x} cy="140" r="7" />
-          <text x={x} y="92" textAnchor="middle">0{index + 1} / {labels[index] ?? 'Stage'}</text>
+          <circle cx={x} cy="72" r="7" />
+          <text x={x} y="40" textAnchor="middle">0{index + 1} / {labels[index] ?? 'Stage'}</text>
         </g>
       ))}
       <motion.circle
         className="caseflow-route-traveler"
         cx={nodeX[0]}
-        cy="140"
+        cy="72"
         r="12"
         initial={false}
         animate={{ cx: activeNodeX }}
@@ -58,7 +58,6 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
           ? { duration: 0 }
           : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       />
-      <text x="42" y="248">{project.diagramCaption ?? ""}</text>
     </svg>
   )
 }
@@ -171,10 +170,9 @@ function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
     { x: 430, y: 200, label: 'DRIVER' },
   ]
   const paths = ['M100 70H320', 'M320 70H540', 'M100 70L210 200', 'M320 70L210 200', 'M320 70L430 200', 'M540 70L430 200']
-  const laneLabel = project.artifactLanes[activeLane]?.label ?? 'Domain'
 
   return (
-    <svg viewBox="0 0 640 270" role="img" aria-label={`${projectDisplayName(project.name)} motorsport domain map`}>
+    <svg viewBox="0 30 640 206" role="img" aria-label={`${projectDisplayName(project.name)} motorsport domain map`}>
       {paths.map((path, index) => {
         const linkActive =
           activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1)
@@ -202,7 +200,6 @@ function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
           <text x={node.x} y={node.y + (node.y < 130 ? -16 : 24)} textAnchor="middle">{node.label}</text>
         </g>
       ))}
-      <text x="24" y="258">{laneLabel.toUpperCase()} / RELATED RESOURCES</text>
     </svg>
   )
 }
@@ -217,7 +214,7 @@ function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps 
   const routeVisible = (index: number) =>
     index < 2 || (activeLane >= 1 && index === 3) || (activeLane >= 2 && index === 2)
   return (
-    <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live aircraft data route`}>
+    <svg viewBox="0 24 720 218" role="img" aria-label={`${projectDisplayName(project.name)} live aircraft data route`}>
       {routes.map((path, index) => (
         <g key={path}>
           {routeVisible(index) ? <path className="flight-route-track" d={path} /> : null}
@@ -242,7 +239,6 @@ function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps 
           <text x={node.x} y={node.y + (node.y < 132 ? -18 : 24)} textAnchor="middle">{node.label}</text>
         </g>
       ))}
-      <text x="22" y="256">LIVE FEEDS / POSITION HISTORY / REPLAY</text>
     </svg>
   )
 }

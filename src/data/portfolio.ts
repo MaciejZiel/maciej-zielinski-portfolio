@@ -91,7 +91,6 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'Quality bar', value: '630+ tests, 99% coverage' },
       { label: 'Runs on', value: 'Python 3.10-3.14, PostgreSQL 15-17' },
     ],
-    diagramCaption: 'SQL EVENTS → VERDICT → EXPLAIN',
     artifactTitle: 'How a failing test is found',
     artifactSummary:
       'The plugin listens to SQLAlchemy events, groups the statements of each test, and judges them after the test body has run.',
@@ -153,7 +152,6 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'System concerns', value: 'Auth, workflows, auditability' },
       { label: 'Quality bar', value: 'Docker + integration tests' },
     ],
-    diagramCaption: 'REQUEST / POLICY → STATE → DELIVERY',
     artifactTitle: 'Operational architecture',
     artifactSummary:
       'The system is organized around clear policy boundaries, explicit workflow state, and delivery infrastructure that can be observed and retried.',
