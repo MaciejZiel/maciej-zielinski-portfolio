@@ -224,29 +224,6 @@
 .tag-list__item,
 .skill-lane__item { font-size: max(0.8125rem, 13px); }
 
-/* Stage selector stacked: one row per stage instead of three cramped columns. Rows that
-   belong together sit close (proximity) and the active one is marked by the project's
-   accent on its left edge (figure/ground). The per-theme decorations assumed a row. */
-.project-showcase__lane-tabs,
-.project-showcase__lane-tabs--track { grid-template-columns: 1fr; }
-.project-showcase__lane-tab,
-.project-showcase__lane-tabs--signal .project-showcase__lane-tab,
-.project-showcase__lane-tabs--vision .project-showcase__lane-tab,
-.project-showcase__lane-tabs--track .project-showcase__lane-tab {
-  padding: 14px 12px 14px 16px;
-  border-bottom: 1px solid var(--color-border);
-  border-left: 2px solid transparent;
-}
-.project-showcase__lane-tab:last-child { border-bottom-color: transparent; }
-.project-showcase__lane-tab--active { border-left-color: var(--project-accent); background: color-mix(in srgb, var(--project-accent) 7%, transparent); }
-.project-showcase__lane-tabs .project-showcase__lane-tab::before,
-.project-showcase__lane-tabs .project-showcase__lane-tab::after,
-.project-showcase__lane-tabs--signal::before { display: none; }
-
-/* The components of a stage are listed one under the other, not run together in a row. */
-.project-showcase__active-lane-chips { flex-direction: column; flex-wrap: nowrap; gap: 6px; }
-.project-showcase__active-lane-chip { padding: 0; margin-right: 0; }
-
 /* Whitespace: projects and the blocks inside them get room to breathe. */
 .projects-section__list { gap: clamp(80px, 11vw, 150px); }
 .project-showcase__artifact-header { padding: 32px 0 24px; }
