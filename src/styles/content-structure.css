@@ -148,7 +148,7 @@
 .about-section__background {
   margin-top: 24px !important;
   color: var(--color-text-muted);
-  font: 0.7rem/1.6 var(--mono-font) !important;
+  font: max(0.75rem, 12px)/1.6 var(--mono-font) !important;
   text-transform: uppercase;
 }
 
@@ -214,7 +214,9 @@
 .projects-rail__label,
 .projects-rail__item-index,
 .contact-section__link-index,
-dt { font-size: max(0.75rem, 12px); }
+.project-showcase__metric dt,
+.project-showcase__deep-dive > summary,
+.site-footer p { font-size: max(0.75rem, 12px); }
 
 .project-showcase__lane-tab-label,
 .project-showcase__active-lane-chip,
