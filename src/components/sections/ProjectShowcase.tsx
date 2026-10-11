@@ -145,6 +145,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                   href={project.repositoryUrl}
                   rel="noreferrer"
                   target="_blank"
+                  aria-label={`${project.repositoryLabel} for ${project.name.replaceAll('_', ' ')} (opens in a new tab)`}
                 >
                   <span>{project.repositoryLabel}</span>
                   <Icon
