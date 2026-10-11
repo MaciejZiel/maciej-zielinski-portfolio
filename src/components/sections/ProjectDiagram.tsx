@@ -105,7 +105,7 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
         <path d="M475 90H674M475 108H638M475 126H665M475 144H617M475 162H650" />
         <text x="475" y="190">SRT / EXPORT</text>
       </motion.g>
-      <text x="0" y="216">INGEST</text><text x="332" y="216">RUNTIME</text><text x="652" y="216">EXPORT</text>
+      <text x="2" y="216">INGEST</text><text x="332" y="216">RUNTIME</text><text x="718" y="216" textAnchor="end">EXPORT</text>
     </svg>
   )
 }
@@ -199,7 +199,7 @@ function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
       {nodes.map((node, index) => (
         <g key={node.label} className={activeLane === 0 || (activeLane === 1 && index < 3) || (activeLane === 2 && index >= 3) ? 'domain-node domain-node--active' : 'domain-node'}>
           <circle cx={node.x} cy={node.y} r="6" />
-          <text x={node.x} y={node.y + 24} textAnchor="middle">{node.label}</text>
+          <text x={node.x} y={node.y + (node.y < 130 ? -16 : 24)} textAnchor="middle">{node.label}</text>
         </g>
       ))}
       <text x="24" y="258">{laneLabel.toUpperCase()} / RELATED RESOURCES</text>

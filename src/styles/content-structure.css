@@ -189,3 +189,34 @@
   .project-overview__copy { max-width: 38ch; }
   .about-section__focus-item { grid-template-columns: 88px minmax(0, 1fr); gap: 12px; }
 }
+
+/* Readability floor from the accessibility review: nothing a visitor has to read is set
+   below 12px, and the running text of tabs, chips and tags is 13px. */
+.brand__headline,
+.site-nav__link,
+.site-socials__label,
+.hero-position__stack,
+.about-section__background,
+.about-section__focus-label,
+.about-section__eyebrow,
+.section-kicker,
+.project-showcase__status,
+.project-showcase__rail-copy,
+.project-showcase__stage-topline,
+.project-showcase__stage-sep,
+.project-showcase__lane-tab-index,
+.project-showcase__artifact-label,
+.project-showcase__active-lane-chips-title,
+.project-showcase__active-lane-num,
+.project-showcase__spotlight-label,
+.project-showcase__narrative-label,
+.project-overview__index,
+.projects-rail__label,
+.projects-rail__item-index,
+.contact-section__link-index,
+dt { font-size: max(0.75rem, 12px); }
+
+.project-showcase__lane-tab-label,
+.project-showcase__active-lane-chip,
+.tag-list__item,
+.skill-lane__item { font-size: max(0.8125rem, 13px); }

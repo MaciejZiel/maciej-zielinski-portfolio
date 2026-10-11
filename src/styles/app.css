@@ -897,9 +897,9 @@
   border-block: 1px solid var(--color-border);
   color: var(--project-accent);
 }
-.project-diagram svg { width: 100%; height: auto; max-height: 210px; overflow: visible; }
+.project-diagram svg { width: 100%; height: auto; overflow: visible; }
 .project-diagram__visual { position: relative; }
-.project-diagram text { fill: var(--color-text-muted); font: 8px var(--mono-font); letter-spacing: .12em; }
+.project-diagram text { fill: var(--color-text-muted); font: 13px var(--mono-font); letter-spacing: .06em; }
 .diagram-route path { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 .diagram-route circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 .diagram-route--active path { stroke-width: 2.2; }
@@ -911,7 +911,6 @@
 .caseflow-route-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.48); stroke-width: 1.2; vector-effect: non-scaling-stroke; transition: fill 240ms ease, stroke 240ms ease; }
 .caseflow-route-node--active text { fill: var(--color-text); }
 .caseflow-route-traveler { fill: var(--project-accent, var(--color-accent)); stroke: var(--color-bg); stroke-width: 2; vector-effect: non-scaling-stroke; }
-.project-diagram--signal svg { max-height: 176px; }
 .diagram-wave-mid { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 1; }
 .diagram-waveform { transform-box: view-box; transform-origin: 0 50% !important; }
 .diagram-wave-bar { fill: var(--project-accent); opacity: .32; }
@@ -930,7 +929,6 @@
 .diagram-transcript path { fill: none; stroke: var(--color-text); stroke-width: 2; opacity: .76; vector-effect: non-scaling-stroke; }
 .diagram-transcript text { fill: var(--color-accent); }
 /* Query log: the rows stay, the stage changes what they mean. */
-.project-diagram--query-log svg { max-height: 215px; }
 .query-log-rule { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .query-row text { fill: var(--color-text-muted); font-size: 10px; letter-spacing: 0; }
 .query-row .query-row__no { opacity: .55; }
@@ -949,15 +947,13 @@
 .query-log[data-running='true'] .query-caret { animation-play-state: running; }
 .project-diagram[data-reduced='true'] .query-caret { animation: none; }
 @keyframes query-caret { 50% { opacity: 0; } }
-.project-diagram--vision svg { max-height: 205px; }
-.project-diagram--flight-route svg { max-height: 205px; }
 .flight-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .flight-route-signal { fill: none; stroke: var(--project-accent); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
 .flight-route-signal--active { stroke-width: 1.8; }
 .flight-route-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .flight-route-node--active circle { fill: var(--project-accent); }
 .flight-route-node--active text { fill: var(--color-text); }
-.flight-route-node text { fill: var(--color-text-muted); font-size: 7px; }
+.flight-route-node text { fill: var(--color-text-muted); font-size: 12px; }
 .vision-loop-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .vision-loop-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.45); stroke-width: 1; vector-effect: non-scaling-stroke; }
@@ -1025,7 +1021,6 @@
   .project-showcase:nth-child(even) .project-showcase__artifact { padding: 22px 0 0; border-right: 0; border-top: 1px solid var(--color-border-strong); }
   .project-showcase:nth-child(even) .project-showcase__rail-copy { text-align: left; }
   .project-showcase__name { font-size: clamp(1.6rem, 7.4vw, 2.8rem); }
-  .project-diagram svg { max-height: 180px; }
   .project-showcase__deep-dive-body .project-showcase__narrative { grid-template-columns: 1fr; }
   .contact-section .contact-section__intro-grid { grid-template-columns: 1fr; align-items: start; }
   .contact-heading { max-width: 12ch; }
@@ -1034,7 +1029,6 @@
 }
 @media (max-width: 420px) {
   .project-diagram { margin-inline: -2px; }
-  .project-diagram text { font-size: 7px; }
   .contact-heading { font-size: clamp(3.15rem, 14vw, 4rem); }
   .contact-section__links { grid-template-columns: 1fr; }
   .contact-section__link-wrap:first-child { grid-column: auto; }
