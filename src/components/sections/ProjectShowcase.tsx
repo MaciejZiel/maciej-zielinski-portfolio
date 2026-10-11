@@ -91,22 +91,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <p className="project-showcase__headline">{project.headline}</p>
             </div>
 
-            {project.screenshot ? (
-              <figure className="project-showcase__shot">
-                <img
-                  src={project.screenshot.src}
-                  alt={project.screenshot.alt}
-                  width={project.screenshot.width}
-                  height={project.screenshot.height}
-                  loading="lazy"
-                  decoding="async"
-                />
-                {project.screenshot.caption ? (
-                  <figcaption>{project.screenshot.caption}</figcaption>
-                ) : null}
-              </figure>
-            ) : null}
-
             <div className="project-showcase__spotlight">
               <span className="project-showcase__spotlight-label">The through-line</span>
               <p className="project-showcase__spotlight-copy">{project.outcome}</p>

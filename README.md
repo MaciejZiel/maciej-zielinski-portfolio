@@ -51,7 +51,6 @@ src/
   App.tsx
   main.tsx
 public/
-  projects/
   _headers
   _redirects
   favicon.svg
@@ -65,13 +64,13 @@ That includes:
 
 - hero copy
 - navigation links
-- featured projects (with optional screenshots)
+- featured projects
 - skill groups
 - contact details
 
 ## Notes
 
-- Every project links to its public GitHub repository. Project screenshots in `public/projects/` are copied from the `docs/` folders of those repositories.
+- `CaseFlow` links to its public repository.
 - The site uses semantic sections and basic accessibility support, including a skip link and keyboard-friendly link states.
 
 ## License
