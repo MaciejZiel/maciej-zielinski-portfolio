@@ -113,7 +113,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                 <span className="project-showcase__disclosure-mark" aria-hidden="true">+</span>
               </summary>
               <div className="project-showcase__deep-dive-body">
-                {project.theme === 'steel' ? <p>{project.outcome}</p> : null}
                 <p>{project.context}</p>
                 <div className="project-showcase__narrative">
                   <div className="project-showcase__narrative-block">

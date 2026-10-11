@@ -251,3 +251,25 @@
 .projects-section__list { gap: clamp(80px, 11vw, 150px); }
 .project-showcase__artifact-header { padding: 32px 0 24px; }
 .project-showcase__active-lane-card { padding: 24px 0 20px; }
+
+/* Expanded project notes. Overview and challenge sit under each other instead of squeezed
+   into two columns (about 60 characters a line, inside the 50 to 75 range recommended for
+   reading); the metrics are rows; text is 15px; each heading stays closer to its own text
+   (proximity) and blocks are separated by more space than lines inside a block. */
+.project-showcase__deep-dive-body { padding: 16px 0 28px; font-size: max(0.9375rem, 15px); line-height: 1.7; }
+.project-showcase__deep-dive-body > p { margin: 0 0 24px; }
+.project-showcase__deep-dive-body .project-showcase__narrative { grid-template-columns: 1fr; gap: 28px; }
+.project-showcase__narrative-block { gap: 8px; padding-top: 16px; }
+.project-showcase__summary { font-size: max(0.9375rem, 15px); line-height: 1.7; }
+.project-showcase__deep-dive-body .project-showcase__metrics { grid-template-columns: 1fr; gap: 0; margin-top: 28px; padding: 0; }
+.project-showcase__deep-dive-body .project-showcase__metric {
+  grid-template-columns: minmax(110px, 38%) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.project-showcase__deep-dive-body .project-showcase__metric:last-child { border-bottom: 0; }
+.project-showcase__metric dd { font-size: max(0.9375rem, 15px); line-height: 1.4; }
+.project-showcase__details { gap: 14px; margin-top: 28px; }
+.project-showcase__details li { font-size: max(0.9375rem, 15px); line-height: 1.6; }
