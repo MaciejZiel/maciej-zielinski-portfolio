@@ -7,7 +7,7 @@ export function ProjectOverview() {
     <section id="project-overview" className="project-overview" aria-labelledby="project-overview-title">
       <MotionReveal className="project-overview__heading">
         <p className="project-overview__eyebrow">Selected work</p>
-        <h2 id="project-overview-title">Five projects. Different problems. One way of thinking.</h2>
+        <h2 id="project-overview-title">Six projects. Different problems. One way of thinking.</h2>
       </MotionReveal>
 
       <ol className="project-overview__list">
