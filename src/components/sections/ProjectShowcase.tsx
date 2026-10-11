@@ -40,7 +40,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   })
   const stageY = useTransform(scrollYProgress, [0, 1], [16, -16])
   const railScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.88, 1, 1.1, 1, 0.88])
-  const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.4, 0.75, 1, 0.75, 0.4])
+  const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.8, 0.9, 1, 0.9, 0.8])
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
 
   return (
