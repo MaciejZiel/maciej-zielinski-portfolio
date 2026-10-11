@@ -5,10 +5,10 @@ import {
   useTransform,
   AnimatePresence,
 } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, type CSSProperties } from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
-import { projectAnchorId, projectDisplayName } from '../../data/portfolio'
+import { projectAccent, projectAnchorId, projectDisplayName } from '../../data/portfolio'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
@@ -27,6 +27,13 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const longestWord = Math.max(...displayName.split(/[\s-]+/).map((word) => word.length))
   const nameClass = longestWord > 9 ? 'project-showcase__name project-showcase__name--long' : 'project-showcase__name'
   const reduceMotion = useReducedMotion()
+  const accent = projectAccent(project.name)
+  const accentStyle = accent
+    ? ({
+        '--project-accent': accent,
+        '--project-accent-soft': `color-mix(in srgb, ${accent} 8%, transparent)`,
+      } as CSSProperties)
+    : undefined
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -43,6 +50,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       className={`project-showcase project-showcase--${project.theme}`}
       data-chapter={project.theme}
       data-atmosphere={project.visualization === 'flight-route' ? 'flights' : undefined}
+      style={accentStyle}
     >
       <div className="project-showcase__rail-wrap">
         <MotionReveal className="project-showcase__rail" delay={0.04}>

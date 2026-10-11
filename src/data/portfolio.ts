@@ -378,6 +378,18 @@ const projectDisplayNames: Record<string, string> = {
   clip_to_text: 'CLIP TO TEXT',
   camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
   Motorsport_API: 'MOTORSPORT API',
+// One accent per project, so no two projects share a colour whatever their motion theme.
+const projectAccents: Record<string, string> = {
+  CaseFlow: '#7be4b8',
+  'pytest-queryguard': '#f2d76b',
+  clip_to_text: '#ffb86c',
+  Motorsport_API: '#d4a5e0',
+  live_flights_map: '#f07887',
+  'Live Flights Map': '#f07887',
+}
+
+export const projectAccent = (name: string) => projectAccents[name]
+
   live_flights_map: 'LIVE FLIGHTS MAP',
   RAG_Retrieval_Augmented_Generation: 'RAG — RETRIEVAL AUGMENTED GENERATION',
   hand_gesture_control: 'HAND GESTURE CONTROL',
