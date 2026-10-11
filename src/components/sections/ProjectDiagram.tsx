@@ -245,15 +245,11 @@ function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps 
 
 // A test's query log. The same rows stay on screen; the stage decides what they mean.
 const queryRows = [
-  { sql: 'SELECT … FROM orders', site: 'orders.py:11', repeat: false },
-  ...[1, 2, 3, 4, 5].map((id) => ({
-    sql: `SELECT … FROM customers WHERE id = ${id}`,
-    site: 'orders.py:14',
-    repeat: true,
-  })),
-  { sql: 'SELECT … FROM payments', site: 'billing.py:8', repeat: false },
+  { sql: 'SELECT … FROM orders', repeat: false },
+  ...[1, 2, 3, 4].map((id) => ({ sql: `SELECT … FROM customers WHERE id = ${id}`, repeat: true })),
+  { sql: 'SELECT … FROM payments', repeat: false },
 ]
-const queryRowY = (index: number) => 42 + index * 19
+const queryRowY = (index: number) => 40 + index * 19
 const repeatedRows = queryRows.filter((row) => row.repeat).length
 
 function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
@@ -263,12 +259,12 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
   return (
     <svg
       className="query-log"
-      viewBox="0 0 460 256"
+      viewBox="0 0 460 162"
       role="img"
       aria-label={`${projectDisplayName(project.name)} query log and plan`}
     >
-      <text x="14" y="16">TEST LOG / {queryRows.length} STATEMENTS</text>
-      <path className="query-log-rule" d="M14 26H446M14 172H446" />
+      <text className="query-note" x="14" y="14">TEST LOG / {queryRows.length} STATEMENTS</text>
+      <path className="query-log-rule" d="M14 22H294M306 8V150" />
       {queryRows.map((row, index) => {
         const hot = activeLane === 1 && row.repeat
         const focus = activeLane === 2 && index === 0
@@ -282,40 +278,40 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
             transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
             <text className="query-row__no" x="14" y={queryRowY(index)}>{String(index + 1).padStart(2, '0')}</text>
-            <text x="44" y={queryRowY(index)}>{row.sql}</text>
-            <text className="query-row__site" x="446" y={queryRowY(index)} textAnchor="end">{row.site}</text>
+            <text x="36" y={queryRowY(index)}>{row.sql}</text>
           </motion.g>
         )
       })}
       <motion.path
         className="query-bracket"
-        d={`M7 ${queryRowY(1) - 12}H2V${queryRowY(repeatedRows) + 5}H7`}
+        d={`M7 ${queryRowY(1) - 11}H2V${queryRowY(repeatedRows) + 5}H7`}
         initial={false}
         animate={{ opacity: shown(1) }}
         transition={transition}
       />
 
       <motion.g initial={false} animate={{ opacity: shown(0) }} transition={transition}>
-        <text className="query-big" x="14" y="224">{queryRows.length}</text>
-        <text x="84" y="204">STATEMENTS IN ONE TEST</text>
-        <text x="84" y="222">EACH WITH ITS CALL SITE</text>
+        <text className="query-big" x="318" y="80">{queryRows.length}</text>
+        <text className="query-note" x="318" y="102">STATEMENTS</text>
+        <text className="query-note" x="318" y="118">IN ONE TEST</text>
       </motion.g>
 
       <motion.g initial={false} animate={{ opacity: shown(1) }} transition={transition}>
-        <text className="query-big" x="14" y="224">{repeatedRows}×</text>
-        <text x="110" y="204">SAME STATEMENT, SAME SITE</text>
-        <text className="query-verdict" x="110" y="222">N+1: LOAD THEM TOGETHER</text>
+        <text className="query-big" x="318" y="80">{repeatedRows}×</text>
+        <text className="query-note" x="318" y="102">SAME STATEMENT</text>
+        <text className="query-note" x="318" y="118">SAME CALL SITE</text>
+        <text className="query-note query-verdict" x="318" y="138">N+1 FOUND</text>
       </motion.g>
 
       <motion.g initial={false} animate={{ opacity: shown(2) }} transition={transition}>
         <g className="query-plan-node query-plan-node--bad">
-          <rect x="14" y="182" width="190" height="46" rx="2" />
-          <text className="query-plan-title" x="26" y="202">Seq Scan on orders</text>
-          <text className="query-plan-sub" x="26" y="219">customer_id = $1</text>
+          <rect x="318" y="22" width="134" height="42" rx="2" />
+          <text className="query-plan-title" x="328" y="39">Seq Scan</text>
+          <text className="query-plan-sub" x="328" y="55">on orders</text>
         </g>
         <motion.path
           className="query-plan-arrow"
-          d="M210 205H250"
+          d="M385 68V84"
           initial={false}
           animate={{ pathLength: activeLane === 2 ? 1 : 0 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.25 }}
@@ -326,11 +322,11 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
           animate={{ opacity: activeLane === 2 ? 1 : 0.25 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.5 }}
         >
-          <rect x="256" y="182" width="190" height="46" rx="2" />
-          <text className="query-plan-title" x="268" y="202">Index Scan on orders</text>
-          <text className="query-plan-sub" x="268" y="219">orders_customer_id_idx</text>
+          <rect x="318" y="88" width="134" height="42" rx="2" />
+          <text className="query-plan-title" x="328" y="105">Index Scan</text>
+          <text className="query-plan-sub" x="328" y="121">customer_id_idx</text>
         </motion.g>
-        <text className="query-verdict" x="14" y="248">CREATE INDEX ON orders (customer_id)</text>
+        <text className="query-note query-verdict" x="14" y="154">FIX: CREATE INDEX ON orders (customer_id)</text>
       </motion.g>
     </svg>
   )

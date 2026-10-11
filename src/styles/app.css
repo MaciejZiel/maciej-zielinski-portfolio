@@ -930,16 +930,17 @@
 .diagram-transcript text { fill: var(--color-accent); }
 /* Query log: the rows stay, the stage changes what they mean. */
 .query-log-rule { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.query-row text { fill: var(--color-text-muted); font-size: 13px; letter-spacing: 0; }
+.query-row text { fill: var(--color-text-muted); font-size: 12px; letter-spacing: 0; }
+.project-diagram .query-note { font-size: 12px; letter-spacing: .04em; }
 .query-row--hot text { fill: var(--project-accent); }
 .query-row--focus text { fill: var(--color-text); }
 .query-bracket { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-.project-diagram .query-big { fill: var(--project-accent); font: 800 56px var(--display-font); letter-spacing: -.04em; }
+.project-diagram .query-big { fill: var(--project-accent); font: 800 52px var(--display-font); letter-spacing: -.04em; }
 .project-diagram .query-verdict { fill: var(--project-accent); }
 .query-plan-node rect { fill: var(--color-bg); stroke: rgba(255,255,255,.3); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .query-plan-node--bad rect { stroke-dasharray: 4 4; }
 .query-plan-node--good rect { fill: var(--project-accent-soft); stroke: var(--project-accent); }
-.project-diagram .query-plan-title { fill: var(--color-text); font-size: 13px; letter-spacing: 0; }
+.project-diagram .query-plan-title { fill: var(--color-text); font-size: 12px; letter-spacing: 0; }
 .project-diagram .query-plan-sub { letter-spacing: 0; }
 .query-plan-arrow { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 .flight-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
