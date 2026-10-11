@@ -256,3 +256,17 @@
 @media (max-width: 680px) {
   .project-showcase__name--long { padding-right: 0; font-size: min(1.6rem, 6.4vw); }
 }
+
+/* WCAG 1.4.12 (text spacing): with the user's own spacing applied, text must wrap inside its
+   column and the header must reflow instead of overlapping. Nothing changes at default spacing. */
+.project-showcase__content,
+.project-showcase__artifact { min-width: 0; }
+.project-showcase__name,
+.project-showcase__headline,
+.project-showcase__spotlight-copy,
+.project-showcase__summary,
+.project-showcase__deep-dive-body { overflow-wrap: anywhere; }
+@media (max-width: 680px) {
+  .site-header__inner { flex-wrap: wrap; }
+  .brand__name { white-space: normal; }
+}
