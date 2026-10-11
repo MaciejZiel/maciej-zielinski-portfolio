@@ -234,65 +234,6 @@ export const featuredProjects: FeaturedProject[] = [
     ],
   },
   {
-    name: 'camera_object_recognition',
-    category: 'Realtime AI pipeline',
-    headline:
-      'A live computer vision system with streaming, tracking, runtime controls, and per-class analytics.',
-    context:
-      'A realtime vision pipeline combining inference, streaming, tracking, and operator controls in one workflow.',
-    summary:
-      'This project combines YOLOv8, FastAPI, and OpenCV into a real-time object recognition workflow that goes beyond detection. It includes streaming, tracking, counting, snapshots, and control surfaces that make the system feel operational instead of purely experimental.',
-    challenge:
-      'The hard part was coordinating a live video loop, inference, stateful tracking, and a usable control surface without the whole thing feeling fragile or demo-only.',
-    outcome:
-      'The result behaves more like an operational vision console: live feed, object counts, snapshots, and controls that expose how the inference loop is behaving in real time.',
-    details: [
-      'Real-time webcam pipeline with detection, tracking, and live streaming.',
-      'Per-class counts and snapshots that make the output measurable and inspectable.',
-      'Runtime controls exposed through a web interface instead of hard-coded parameters.',
-    ],
-    technologies: [
-      'YOLOv8',
-      'FastAPI',
-      'OpenCV',
-      'Streaming',
-      'Tracking',
-      'Angular',
-      'Runtime Controls',
-    ],
-    repositoryUrl: 'https://github.com/MaciejZiel/camera_object_recognition',
-    repositoryLabel: 'GitHub',
-    stageLabel: 'Realtime inference loop',
-    status: 'Public repo / updated 2026',
-    year: '2026',
-    theme: 'vision',
-    metrics: [
-      { label: 'Inference', value: 'YOLOv8 + OpenCV' },
-      { label: 'Interface', value: 'Angular + FastAPI' },
-      { label: 'Focus', value: 'Streaming, tracking, controls' },
-    ],
-    artifactTitle: 'Realtime inference loop',
-    artifactSummary:
-      'The value is in the live runtime loop and observability around it, not just in returning detections from a model.',
-    artifactLanes: [
-      {
-        label: 'Capture',
-        summary: 'Frames are pulled and normalized for live processing.',
-        items: ['Webcam feed', 'Frame pipeline', 'Streaming path'],
-      },
-      {
-        label: 'Inference',
-        summary: 'Detection and tracking stay stateful across frames.',
-        items: ['YOLOv8 detect', 'Object tracking', 'Class counts'],
-      },
-      {
-        label: 'Control',
-        summary: 'Operators can inspect and shape runtime behavior.',
-        items: ['Angular UI', 'Snapshots', 'Runtime controls'],
-      },
-    ],
-  },
-  {
     name: 'Motorsport_API',
     category: 'Backend API',
     headline:
@@ -390,15 +331,6 @@ export const featuredProjects: FeaturedProject[] = [
       { label: 'Live feeds', value: 'OpenSky + ADSB.lol fallback' },
       { label: 'Archive', value: 'SQLite position history' },
       { label: 'Map', value: 'Svelte + Leaflet' },
-export const projectAnchorId = (name: string) =>
-  `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
-
-const projectDisplayNames: Record<string, string> = {
-  CaseFlow: 'CASEFLOW',
-  'pytest-queryguard': 'PYTEST-QUERYGUARD',
-  clip_to_text: 'CLIP TO TEXT',
-  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
-  Motorsport_API: 'MOTORSPORT API',
     ],
     artifactTitle: 'Live position pipeline',
     artifactSummary:
@@ -414,11 +346,6 @@ const projectDisplayNames: Record<string, string> = {
         summary: 'The Flask service stores positions so past activity can be explored later.',
         items: ['Flask proxy', 'SQLite archive', 'Position search'],
       },
-  {
-    name: 'pytest-queryguard',
-    description: 'A published pytest plugin that turns N+1 queries and missing indexes into failing tests.',
-    anchorId: projectAnchorId('pytest-queryguard'),
-  },
       {
         label: 'Map & replay',
         summary: 'The map turns position history into movement, trails, and replay.',
@@ -440,20 +367,17 @@ export const projectRail: ProjectRailItem[] = [
     href: 'https://github.com/MaciejZiel/hand_gesture_control',
   },
   {
+    name: 'camera_object_recognition',
+    description: 'Real-time webcam object recognition with YOLOv8, FastAPI, OpenCV and Angular.',
+    href: 'https://github.com/MaciejZiel/camera_object_recognition',
+  },
+  {
     name: 'F1InfoMobileApp',
     description: 'Android app for live motorsport telemetry and race-focused mobile interfaces.',
     href: 'https://github.com/MaciejZiel/F1InfoMobileApp',
   },
 ]
 
-export const projectAnchorId = (name: string) =>
-  `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
-
-const projectDisplayNames: Record<string, string> = {
-  CaseFlow: 'CASEFLOW',
-  clip_to_text: 'CLIP TO TEXT',
-  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
-  Motorsport_API: 'MOTORSPORT API',
 // One accent per project, so no two projects share a colour whatever their motion theme.
 const projectAccents: Record<string, string> = {
   CaseFlow: '#7be4b8',
@@ -466,6 +390,15 @@ const projectAccents: Record<string, string> = {
 
 export const projectAccent = (name: string) => projectAccents[name]
 
+export const projectAnchorId = (name: string) =>
+  `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
+
+const projectDisplayNames: Record<string, string> = {
+  CaseFlow: 'CASEFLOW',
+  'pytest-queryguard': 'PYTEST-QUERYGUARD',
+  clip_to_text: 'CLIP TO TEXT',
+  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
+  Motorsport_API: 'MOTORSPORT API',
   live_flights_map: 'LIVE FLIGHTS MAP',
   RAG_Retrieval_Augmented_Generation: 'RAG — RETRIEVAL AUGMENTED GENERATION',
   hand_gesture_control: 'HAND GESTURE CONTROL',
@@ -482,14 +415,14 @@ export const projectHighlights = [
     anchorId: projectAnchorId('CaseFlow'),
   },
   {
+    name: 'pytest-queryguard',
+    description: 'A published pytest plugin that turns N+1 queries and missing indexes into failing tests.',
+    anchorId: projectAnchorId('pytest-queryguard'),
+  },
+  {
     name: 'clip_to_text',
     description: 'An audio-to-transcript workflow with live job progress and practical exports.',
     anchorId: projectAnchorId('clip_to_text'),
-  },
-  {
-    name: 'camera_object_recognition',
-    description: 'A live vision pipeline for detection, tracking, and runtime control.',
-    anchorId: projectAnchorId('camera_object_recognition'),
   },
   {
     name: 'Motorsport_API',
