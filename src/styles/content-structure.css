@@ -250,3 +250,9 @@
 .project-showcase__metric dd { font-size: max(0.9375rem, 15px); line-height: 1.4; }
 .project-showcase__details { gap: 14px; margin-top: 28px; }
 .project-showcase__details li { font-size: max(0.9375rem, 15px); line-height: 1.6; }
+
+/* At 320px a ten-letter unbreakable title (QUERYGUARD, MOTORSPORT) at 1.6rem is wider than
+   the column and gets cut off. It scales with the screen on narrow viewports instead. */
+@media (max-width: 680px) {
+  .project-showcase__name--long { padding-right: 0; font-size: min(1.6rem, 6.4vw); }
+}
