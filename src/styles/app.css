@@ -889,6 +889,7 @@
 .project-showcase__footer { gap: 16px; }
 .project-showcase__link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 0 5px; border-bottom: 1px solid var(--project-accent); background: transparent; color: var(--color-text); }
 .project-showcase__link:hover { transform: none; background: transparent; color: var(--project-accent); }
+.project-showcase__links { display: flex; flex-wrap: wrap; gap: 4px 28px; }
 .project-showcase__link-icon { flex: 0 0 18px; width: 18px; height: 18px; transition: transform 180ms ease; }
 .project-showcase__link > span { white-space: nowrap; }
 .project-showcase__link:hover .project-showcase__link-icon { transform: translate(3px, -3px); }
