@@ -13,7 +13,7 @@
     <meta name="robots" content="index,follow" />
     <meta
       property="og:title"
-      content="Maciej Zieliński | Software Engineer | Python / Applied AI"
+      content="Maciej Zieliński | Software Engineer"
     />
     <meta
       property="og:description"
@@ -50,14 +50,35 @@
         ]
       }
     </script>
-    <title>Maciej Zieliński | Software Engineer | Python / Applied AI</title>
+    <style>
+      html,body{background:#090c0b;color:#e8efeb;font-family:system-ui,sans-serif}
+      #root>main{max-width:70ch;margin:0 auto;padding:4rem 1.5rem;line-height:1.6}
+      #root a{color:#7be4b8}
+    </style>
+    <title>Maciej Zieliński | Software Engineer</title>
   </head>
   <body>
-    <div id="root"></div>
-    <noscript>
-      <h1>Maciej Zieliński, Software Engineer</h1>
-      <p>Python backend developer in Warsaw. Author of pytest-queryguard. This site needs JavaScript; the code is on <a href="https://github.com/MaciejZiel">GitHub</a>.</p>
-    </noscript>
+    <div id="root">
+      <main>
+        <h1>Maciej Zieliński, Software Engineer</h1>
+        <p>Python backend developer and fourth-year Computer Science student at PJATK in Warsaw. I build reliable backend systems and practical software, with a focus on Python, applied AI, computer vision, and real-time data.</p>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="https://github.com/MaciejZiel/pytest-queryguard">pytest-queryguard</a>: a pytest plugin for SQLAlchemy 2 that fails tests which hide N+1 queries and missing indexes. Published on PyPI.</li>
+          <li><a href="https://github.com/MaciejZiel/caseflow">CaseFlow</a>: a tenant-aware backend with RBAC, session-backed authentication, document workflow state, audit logs, webhook delivery and background processing.</li>
+          <li><a href="https://github.com/MaciejZiel/clip_to_text">clip_to_text</a>: a FastAPI, FFmpeg and Faster-Whisper transcription service with live job tracking and SRT export.</li>
+          <li><a href="https://github.com/MaciejZiel/Motorsport_API">Motorsport_API</a>: a Dockerized API for seasons, teams, drivers and race results with JWT authentication and OpenAPI documentation.</li>
+          <li><a href="https://github.com/MaciejZiel/live_flights_map">live_flights_map</a>: a live aircraft map with OpenSky and ADSB.lol data, a Flask service and position replay.</li>
+        </ul>
+        <h2>Links</h2>
+        <ul>
+          <li><a href="https://github.com/MaciejZiel">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/maciej-zieli%C5%84ski-28669b3a4/">LinkedIn</a></li>
+          <li><a href="https://dev.to/maciejziel">dev.to</a></li>
+          <li><a href="https://pypi.org/user/MaciejZiel/">PyPI</a></li>
+        </ul>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
