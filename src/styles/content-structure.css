@@ -363,3 +363,29 @@ html[data-motion='paused'] *::after {
 .project-showcase__deep-dive-body > p {
   background: color-mix(in srgb, var(--color-bg) 82%, transparent);
 }
+
+/* Readability of the project text (from the independent review): the outcome quote gets a
+   little more line height, and the expanded notes stay within about 70 characters a line
+   (50 to 75 is the readable range) on wide screens. */
+.project-showcase__spotlight-copy { line-height: 1.45; }
+.project-showcase__deep-dive-body { max-width: 70ch; }
+
+/* Diagram labels are drawn in the SVG's own units, so they shrink with their column.
+   CaseFlow and the domain map get larger units so they reach about 12px on a wide screen;
+   on phones the labels are dropped, because they only repeat the stage buttons right below. */
+.project-diagram--steel svg:not(.query-log) text,
+.project-diagram--track svg text { font-size: 14px; }
+@media (max-width: 680px) {
+  .project-diagram--steel svg:not(.query-log) text,
+  .project-diagram--track svg text,
+  .project-diagram--signal svg text,
+  .project-diagram--vision svg text,
+  .project-diagram--flight-route svg text { display: none; }
+}
+
+/* The waveform and flight diagrams are drawn on a wider canvas (720 units), so they need
+   larger units to reach about 12px on screen. */
+.project-diagram--signal svg text,
+.project-diagram--vision svg text,
+.project-diagram--flight-route svg text,
+.project-diagram--flight-route .flight-route-node text { font-size: 17px; }
