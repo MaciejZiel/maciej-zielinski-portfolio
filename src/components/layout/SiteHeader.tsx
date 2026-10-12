@@ -47,8 +47,6 @@ export function SiteHeader({
             ))}
           </nav>
 
-          <MotionToggle />
-
           <div className="site-socials" aria-label="Social links">
             {socialLinks.map((link) => (
               <a
@@ -68,6 +66,8 @@ export function SiteHeader({
               </a>
             ))}
           </div>
+
+          <MotionToggle />
         </div>
       </div>
     </header>

@@ -323,3 +323,10 @@ html[data-motion='paused'] *::after {
   animation-play-state: paused !important;
   scroll-behavior: auto !important;
 }
+
+/* Header grouping (proximity, common region): navigation, social links and the motion switch
+   are three separate groups, each set apart by a rule, so the switch does not read as a menu item. */
+.motion-toggle { padding-left: 16px; border-left: 1px solid var(--color-border); }
+@media (max-width: 680px) {
+  .motion-toggle { padding-left: 0; border-left: 0; }
+}
