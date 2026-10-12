@@ -348,3 +348,18 @@ html[data-motion='paused'] *::after {
 @media (max-width: 340px) {
   :where(a[href], button, summary, input, [tabindex]) { scroll-margin-top: 160px; }
 }
+
+/* Text over the animated line field. A thin accent line under the pointer lowers the contrast of
+   the glyphs on top of it (muted text falls from 6.6:1 to about 3:1 under a line at 0.3 alpha).
+   Running text therefore sits on a calm backdrop that keeps the lines faint beneath it while
+   they stay visible in the gaps between blocks. */
+.about-section__bio p,
+.about-section__focus-item p,
+.project-showcase__headline,
+.project-showcase__spotlight-copy,
+.project-showcase__artifact-summary,
+.project-showcase__active-lane-summary,
+.project-showcase__summary,
+.project-showcase__deep-dive-body > p {
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+}
