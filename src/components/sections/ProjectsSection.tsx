@@ -21,16 +21,9 @@ export function ProjectsSection({
         <div className="section-intro__eyebrow">
           <span>Selected work</span>
         </div>
-        <div className="projects-section__intro-grid">
-          <h2 className="section-heading">
-            Five projects, each built around a different problem.
-          </h2>
-          <div className="projects-section__intro-copy">
-            <p className="section-copy">
-              A closer look at the decisions, engineering, and details behind each one.
-            </p>
-          </div>
-        </div>
+        <h2 className="section-heading projects-section__heading">
+          Five projects, each built around a different problem.
+        </h2>
       </MotionReveal>
 
       <div className="projects-section__list">

@@ -183,17 +183,11 @@
   max-width: 48ch;
 }
 
-.projects-section__intro-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
-  gap: clamp(24px, 4vw, 56px);
-  align-items: end;
+.projects-section__heading {
+  max-width: none;
   margin-bottom: clamp(36px, 5vw, 64px);
-}
-
-.projects-section__intro-copy {
-  display: grid;
-  gap: 12px;
+  font-size: clamp(2rem, 3.3vw, 3.1rem);
+  text-wrap: balance;
 }
 
 .projects-section__intro-note {
@@ -343,6 +337,12 @@
   letter-spacing: -0.07em;
   color: var(--color-text);
   text-wrap: balance;
+}
+
+.project-showcase__name--long {
+  padding-right: clamp(16px, 2.2vw, 32px);
+  font-size: clamp(1.6rem, 2.7vw, 2.55rem);
+  overflow-wrap: break-word;
 }
 
 @media (min-width: 761px) {
@@ -810,7 +810,6 @@
     border-top: 1px solid var(--color-border-strong);
     border-left: 0;
   }
-  .projects-section__intro-grid,
   .projects-rail,
   .skill-lane,
   .contact-section__links {
@@ -902,21 +901,14 @@
   border-block: 1px solid var(--color-border);
   color: var(--project-accent);
 }
-.project-diagram svg { width: 100%; height: auto; max-height: 210px; overflow: visible; }
+.project-diagram svg { width: 100%; height: auto; overflow: visible; }
 .project-diagram__visual { position: relative; }
-.project-diagram text { fill: var(--color-text-muted); font: 8px var(--mono-font); letter-spacing: .12em; }
-.diagram-route path { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-.diagram-route circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-.diagram-route--active path { stroke-width: 2.2; }
-.diagram-route--active circle { fill: var(--project-accent); }
-.diagram-route--active text { fill: var(--color-text); }
-.diagram-traveler { fill: none; stroke: var(--color-text); stroke-width: 1; stroke-dasharray: 3 9; vector-effect: non-scaling-stroke; opacity: .65; }
+.project-diagram text { fill: var(--color-text-muted); font: 13px var(--mono-font); letter-spacing: .06em; }
 .caseflow-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.caseflow-route-signal { fill: none; stroke: var(--color-accent); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.caseflow-route-signal { fill: none; stroke: var(--project-accent, var(--color-accent)); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .caseflow-route-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.48); stroke-width: 1.2; vector-effect: non-scaling-stroke; transition: fill 240ms ease, stroke 240ms ease; }
 .caseflow-route-node--active text { fill: var(--color-text); }
-.caseflow-route-traveler { fill: var(--color-accent); stroke: var(--color-bg); stroke-width: 2; vector-effect: non-scaling-stroke; }
-.project-diagram--signal svg { max-height: 176px; }
+.caseflow-route-traveler { fill: var(--project-accent, var(--color-accent)); stroke: var(--color-bg); stroke-width: 2; vector-effect: non-scaling-stroke; }
 .diagram-wave-mid { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 1; }
 .diagram-waveform { transform-box: view-box; transform-origin: 0 50% !important; }
 .diagram-wave-bar { fill: var(--project-accent); opacity: .32; }
@@ -934,23 +926,28 @@
 .diagram-transcript { color: var(--color-text); }
 .diagram-transcript path { fill: none; stroke: var(--color-text); stroke-width: 2; opacity: .76; vector-effect: non-scaling-stroke; }
 .diagram-transcript text { fill: var(--color-accent); }
-.project-diagram--vision svg { max-height: 205px; }
-.project-diagram--flight-route svg { max-height: 205px; }
+/* Query log: the rows stay, the stage changes what they mean. */
+.query-log-rule { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.query-row text { fill: var(--color-text-muted); font-size: 12px; letter-spacing: 0; }
+.project-diagram .query-note { font-size: 12px; letter-spacing: .04em; }
+.query-row--hot text { fill: var(--project-accent); }
+.query-row--focus text { fill: var(--color-text); }
+.query-bracket { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.project-diagram .query-big { fill: var(--project-accent); font: 800 52px var(--display-font); letter-spacing: -.04em; }
+.project-diagram .query-verdict { fill: var(--project-accent); }
+.query-plan-node rect { fill: var(--color-bg); stroke: rgba(255,255,255,.3); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.query-plan-node--bad rect { stroke-dasharray: 4 4; }
+.query-plan-node--good rect { fill: var(--project-accent-soft); stroke: var(--project-accent); }
+.project-diagram .query-plan-title { fill: var(--color-text); font-size: 12px; letter-spacing: 0; }
+.project-diagram .query-plan-sub { letter-spacing: 0; }
+.query-plan-arrow { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 .flight-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .flight-route-signal { fill: none; stroke: var(--project-accent); stroke-width: 1.1; vector-effect: non-scaling-stroke; }
 .flight-route-signal--active { stroke-width: 1.8; }
 .flight-route-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .flight-route-node--active circle { fill: var(--project-accent); }
 .flight-route-node--active text { fill: var(--color-text); }
-.flight-route-node text { fill: var(--color-text-muted); font-size: 7px; }
-.vision-loop-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.vision-loop-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.45); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-loop-node--active text { fill: var(--color-accent); }
-.vision-loop-traveler { fill: var(--color-accent); stroke: var(--color-bg); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
-.vision-target path { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-target--active path { stroke: var(--project-accent); stroke-width: 1.6; }
-.vision-target--active text { fill: var(--project-accent); }
+.flight-route-node text { fill: var(--color-text-muted); font-size: 12px; }
 .domain-link { fill: none; stroke: var(--project-accent); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .domain-link--active { stroke-width: 2.2; }
 .domain-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
@@ -964,7 +961,7 @@
 .contact-heading { max-width: 11ch; font-size: clamp(3.5rem, 8.3vw, 8.5rem); line-height: .85; letter-spacing: -.085em; }
 .contact-heading em { color: var(--color-accent); font-style: normal; }
 .contact-section__invitation { max-width: 34ch; margin: 0 0 20px; color: var(--color-text-muted); font-size: .95rem; line-height: 1.7; }
-.contact-section__availability-banner { display: flex; align-items: start; gap: 10px; padding-top: 16px; border-top: 1px solid var(--color-border-strong); color: var(--color-text-muted); font: .64rem/1.7 var(--mono-font); }
+.contact-section__availability-banner { display: flex; align-items: start; gap: 10px; padding-top: 16px; border-top: 1px solid var(--color-border-strong); color: var(--color-text-muted); font: max(.75rem, 12px)/1.7 var(--mono-font); }
 .contact-section__status-beacon { flex: 0 0 6px; height: 6px; margin-top: 5px; border-radius: 50%; background: var(--color-accent); animation: contact-beacon 2.8s ease-in-out infinite; }
 .contact-section__layout { margin-top: clamp(36px,6vw,88px); }
 .contact-section__links { grid-template-columns: minmax(0,1.5fr) repeat(2,minmax(0,.65fr)); gap: clamp(18px,4vw,56px); }
@@ -1010,7 +1007,6 @@
   .project-showcase:nth-child(even) .project-showcase__artifact { padding: 22px 0 0; border-right: 0; border-top: 1px solid var(--color-border-strong); }
   .project-showcase:nth-child(even) .project-showcase__rail-copy { text-align: left; }
   .project-showcase__name { font-size: clamp(1.6rem, 7.4vw, 2.8rem); }
-  .project-diagram svg { max-height: 180px; }
   .project-showcase__deep-dive-body .project-showcase__narrative { grid-template-columns: 1fr; }
   .contact-section .contact-section__intro-grid { grid-template-columns: 1fr; align-items: start; }
   .contact-heading { max-width: 12ch; }
@@ -1019,7 +1015,6 @@
 }
 @media (max-width: 420px) {
   .project-diagram { margin-inline: -2px; }
-  .project-diagram text { font-size: 7px; }
   .contact-heading { font-size: clamp(3.15rem, 14vw, 4rem); }
   .contact-section__links { grid-template-columns: 1fr; }
   .contact-section__link-wrap:first-child { grid-column: auto; }

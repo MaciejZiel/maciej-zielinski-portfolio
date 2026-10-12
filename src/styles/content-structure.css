@@ -3,12 +3,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-.project-overview__heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 32px;
-}
+.project-overview__heading { margin-bottom: clamp(18px, 2.4vw, 28px); }
 
 .project-overview__eyebrow,
 .about-section__eyebrow,
@@ -153,7 +148,7 @@
 .about-section__background {
   margin-top: 24px !important;
   color: var(--color-text-muted);
-  font: 0.7rem/1.6 var(--mono-font) !important;
+  font: max(0.75rem, 12px)/1.6 var(--mono-font) !important;
   text-transform: uppercase;
 }
 
@@ -176,7 +171,6 @@
 }
 
 @media (max-width: 860px) {
-  .project-overview__heading { display: block; }
   .project-overview__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-overview__list li:nth-child(3),
   .project-overview__list li:nth-child(5) { border-left: 0; }
@@ -195,3 +189,203 @@
   .project-overview__copy { max-width: 38ch; }
   .about-section__focus-item { grid-template-columns: 88px minmax(0, 1fr); gap: 12px; }
 }
+
+/* Readability floor from the accessibility review: nothing a visitor has to read is set
+   below 12px, and the running text of tabs, chips and tags is 13px. */
+.brand__headline,
+.site-nav__link,
+.site-socials__label,
+.hero-position__stack,
+.about-section__background,
+.about-section__focus-label,
+.about-section__eyebrow,
+.section-intro__eyebrow,
+.section-kicker,
+.project-showcase__status,
+.project-showcase__rail-copy,
+.project-showcase__stage-topline,
+.project-showcase__stage-sep,
+.project-showcase__lane-tab-index,
+.project-showcase__artifact-label,
+.project-showcase__active-lane-chips-title,
+.project-showcase__active-lane-num,
+.project-showcase__spotlight-label,
+.project-showcase__narrative-label,
+.project-overview__index,
+.projects-rail__label,
+.projects-rail__item-index,
+.contact-section__link-index,
+.project-showcase__metric dt,
+.project-showcase__deep-dive > summary,
+.site-footer p { font-size: max(0.75rem, 12px); }
+
+.project-showcase__lane-tab-label,
+.project-showcase__active-lane-chip,
+.tag-list__item,
+.skill-lane__item { font-size: max(0.8125rem, 13px); }
+
+/* Whitespace: projects and the blocks inside them get room to breathe. */
+.projects-section__list { gap: clamp(80px, 11vw, 150px); }
+.project-showcase__artifact-header { padding: 32px 0 24px; }
+.project-showcase__active-lane-card { padding: 24px 0 20px; }
+
+/* Expanded project notes. Overview and challenge sit under each other instead of squeezed
+   into two columns (about 60 characters a line, inside the 50 to 75 range recommended for
+   reading); the metrics are rows; text is 15px; each heading stays closer to its own text
+   (proximity) and blocks are separated by more space than lines inside a block. */
+.project-showcase__deep-dive-body { padding: 16px 0 28px; font-size: max(0.9375rem, 15px); line-height: 1.7; }
+.project-showcase__deep-dive-body > p { margin: 0 0 24px; }
+.project-showcase__deep-dive-body .project-showcase__narrative { grid-template-columns: 1fr; gap: 28px; }
+.project-showcase__narrative-block { gap: 8px; padding-top: 16px; }
+.project-showcase__summary { font-size: max(0.9375rem, 15px); line-height: 1.7; }
+.project-showcase__deep-dive-body .project-showcase__metrics { grid-template-columns: 1fr; gap: 0; margin-top: 28px; padding: 0; }
+.project-showcase__deep-dive-body .project-showcase__metric {
+  grid-template-columns: minmax(110px, 38%) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.project-showcase__deep-dive-body .project-showcase__metric:last-child { border-bottom: 0; }
+.project-showcase__metric dd { font-size: max(0.9375rem, 15px); line-height: 1.4; }
+.project-showcase__details { gap: 14px; margin-top: 28px; }
+.project-showcase__details li { font-size: max(0.9375rem, 15px); line-height: 1.6; }
+
+/* At 320px a ten-letter unbreakable title (QUERYGUARD, MOTORSPORT) at 1.6rem is wider than
+   the column and gets cut off. It scales with the screen on narrow viewports instead. */
+@media (max-width: 680px) {
+  .project-showcase__name--long { padding-right: 0; font-size: min(1.6rem, 6.4vw); }
+}
+
+/* WCAG 1.4.12 (text spacing): with the user's own spacing applied, text must wrap inside its
+   column and the header must reflow instead of overlapping. Nothing changes at default spacing. */
+.project-showcase__content,
+.project-showcase__artifact { min-width: 0; }
+.project-showcase__name,
+.project-showcase__headline,
+.project-showcase__spotlight-copy,
+.project-showcase__summary,
+.project-showcase__deep-dive-body { overflow-wrap: anywhere; }
+@media (max-width: 680px) {
+  .site-header__inner { flex-wrap: wrap; }
+  .brand__name { white-space: normal; }
+}
+/* On phones the name breaks over two lines so the navigation and the motion switch fit one row. */
+@media (max-width: 680px) {
+  .brand { width: min-content; }
+  .brand__name { line-height: 1.15; }
+}
+
+/* Pause motion (WCAG 2.2.2). The switch lives in the header; the page remembers the choice. */
+.motion-toggle {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: 500 max(0.75rem, 12px)/1 var(--mono-font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+.motion-toggle:hover { color: var(--color-text); }
+.motion-toggle__icon {
+  position: relative;
+  width: 10px;
+  height: 12px;
+  border-inline: 3px solid var(--color-accent);
+  box-sizing: border-box;
+}
+/* The icon shows what the button will do: pause bars while motion runs, play while it is paused. */
+.motion-toggle[data-paused='true'] .motion-toggle__icon {
+  width: 0;
+  height: 0;
+  border-inline: 0;
+  border-block: 6px solid transparent;
+  border-left: 10px solid var(--color-accent);
+}
+@media (max-width: 680px) {
+  .site-header__right { gap: 10px; }
+  .site-nav { gap: 14px; }
+  .motion-toggle { min-width: 32px; justify-content: center; }
+  .motion-toggle__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* A paused page freezes every CSS animation and stops smooth scrolling. */
+html[data-motion='paused'],
+html[data-motion='paused'] *,
+html[data-motion='paused'] *::before,
+html[data-motion='paused'] *::after {
+  animation-play-state: paused !important;
+  scroll-behavior: auto !important;
+}
+
+/* Header grouping (proximity, common region): navigation, social links and the motion switch
+   are three separate groups, each set apart by a rule, so the switch does not read as a menu item. */
+.motion-toggle { padding-left: 16px; border-left: 1px solid var(--color-border); }
+@media (max-width: 680px) {
+  .motion-toggle { padding-left: 0; border-left: 0; }
+}
+
+/* About section. Figure/ground: the line a recruiter looks for (availability) is the one that
+   stands out, marked with the accent. Continuity: both columns start on the same rule. */
+.about-section__availability {
+  padding-left: 16px;
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-text) !important;
+  font-size: 0.95rem !important;
+}
+.about-section__bio { padding-top: 14px; border-top: 1px solid var(--color-border); }
+
+/* WCAG 2.4.11: when keyboard focus scrolls a control into view (for example Shift+Tab up to a
+   repository link) it must not stop under the sticky header. The header is 73px tall, and
+   129px once its content wraps on very narrow screens. */
+:where(a[href], button, summary, input, [tabindex]) { scroll-margin-top: 104px; scroll-margin-bottom: 24px; }
+@media (max-width: 340px) {
+  :where(a[href], button, summary, input, [tabindex]) { scroll-margin-top: 160px; }
+}
+
+/* Text over the animated line field. A thin accent line under the pointer lowers the contrast of
+   the glyphs on top of it (muted text falls from 6.6:1 to about 3:1 under a line at 0.3 alpha).
+   Running text therefore sits on a calm backdrop that keeps the lines faint beneath it while
+   they stay visible in the gaps between blocks. */
+.about-section__bio p,
+.about-section__focus-item p,
+.project-showcase__headline,
+.project-showcase__spotlight-copy,
+.project-showcase__artifact-summary,
+.project-showcase__active-lane-summary,
+.project-showcase__summary,
+.project-showcase__deep-dive-body > p {
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+}
+
+/* Readability of the project text (from the independent review): the outcome quote gets a
+   little more line height, and the expanded notes stay within about 70 characters a line
+   (50 to 75 is the readable range) on wide screens. */
+.project-showcase__spotlight-copy { line-height: 1.45; }
+.project-showcase__deep-dive-body { max-width: 70ch; }
+
+/* Diagram labels are drawn in the SVG's own units, so they shrink with their column.
+   CaseFlow and the domain map get larger units so they reach about 12px on a wide screen;
+   on phones the labels are dropped, because they only repeat the stage buttons right below. */
+.project-diagram--steel svg:not(.query-log) text,
+.project-diagram--track svg text { font-size: 14px; }
+@media (max-width: 680px) {
+  .project-diagram--steel svg:not(.query-log) text,
+  .project-diagram--track svg text,
+  .project-diagram--signal svg text,
+  .project-diagram--vision svg text,
+  .project-diagram--flight-route svg text { display: none; }
+}
+
+/* The waveform and flight diagrams are drawn on a wider canvas (720 units), so they need
+   larger units to reach about 12px on screen. */
+.project-diagram--signal svg text,
+.project-diagram--vision svg text,
+.project-diagram--flight-route svg text,
+.project-diagram--flight-route .flight-route-node text { font-size: 17px; }

@@ -1,4 +1,5 @@
-import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'framer-motion'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { useState } from 'react'
 
 interface MotionRevealProps extends HTMLMotionProps<'div'> {
@@ -14,7 +15,7 @@ export function MotionReveal({
   className,
   ...props
 }: MotionRevealProps) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const [revealed, setRevealed] = useState(Boolean(reduceMotion))
 
   return (

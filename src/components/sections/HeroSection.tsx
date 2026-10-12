@@ -1,4 +1,5 @@
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
 
 import type { Profile } from '../../types/portfolio'
@@ -48,7 +49,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
   const burstActive = useRef(false)
   const [nameBurst, setNameBurst] = useState<NameBurst | null>(null)
   const [nameRevealComplete, setNameRevealComplete] = useState(false)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const [firstName, ...lastName] = profile.name.split(' ')
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const nameScrollY = useTransform(scrollYProgress, [0, 0.2, 0.72, 1], [0, -8, -92, -128])

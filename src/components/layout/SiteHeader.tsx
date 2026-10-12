@@ -2,6 +2,7 @@ import type { ActionLink, NavigationItem } from '../../types/portfolio'
 import { motion, type MotionValue } from 'framer-motion'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { Icon } from '../ui/Icon'
+import { MotionToggle } from './MotionToggle'
 
 interface SiteHeaderProps {
   name: string
@@ -65,6 +66,8 @@ export function SiteHeader({
               </a>
             ))}
           </div>
+
+          <MotionToggle />
         </div>
       </div>
     </header>

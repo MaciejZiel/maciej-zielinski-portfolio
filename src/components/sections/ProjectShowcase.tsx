@@ -1,14 +1,22 @@
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   AnimatePresence,
 } from 'framer-motion'
-import { useEffect, useRef, useState, type MouseEvent, type SyntheticEvent, type TransitionEvent } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type SyntheticEvent,
+  type TransitionEvent,
+} from 'react'
 
 import type { FeaturedProject } from '../../types/portfolio'
-import { projectAnchorId, projectDisplayName } from '../../data/portfolio'
+import { projectAccent, projectAnchorId, projectDisplayName } from '../../data/portfolio'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { Icon } from '../ui/Icon'
 import { MotionReveal } from '../ui/MotionReveal'
 import { ProjectDiagram } from './ProjectDiagram'
@@ -23,7 +31,17 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [activeLaneIndex, setActiveLaneIndex] = useState(0)
   const displayName = projectDisplayName(project.name)
-  const reduceMotion = useReducedMotion()
+  // A long unbreakable word (QUERYGUARD) overflows the wide display face at full size.
+  const longestWord = Math.max(...displayName.split(/[\s-]+/).map((word) => word.length))
+  const nameClass = longestWord > 9 ? 'project-showcase__name project-showcase__name--long' : 'project-showcase__name'
+  const reduceMotion = useReduceMotion()
+  const accent = projectAccent(project.name)
+  const accentStyle = accent
+    ? ({
+        '--project-accent': accent,
+        '--project-accent-soft': `color-mix(in srgb, ${accent} 8%, transparent)`,
+      } as CSSProperties)
+    : undefined
   const [notesOpen, setNotesOpen] = useState(false)
   const [notesExpanded, setNotesExpanded] = useState(false)
 
@@ -67,7 +85,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
   })
   const stageY = useTransform(scrollYProgress, [0, 1], [16, -16])
   const railScale = useTransform(scrollYProgress, [0, 0.18, 0.5, 0.82, 1], [0.88, 1, 1.1, 1, 0.88])
-  const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.4, 0.75, 1, 0.75, 0.4])
+  const railOpacity = useTransform(scrollYProgress, [0, 0.16, 0.5, 0.84, 1], [0.8, 0.9, 1, 0.9, 0.8])
   const activeLane = project.artifactLanes[activeLaneIndex] ?? project.artifactLanes[0]
 
   return (
@@ -77,6 +95,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
       className={`project-showcase project-showcase--${project.theme}`}
       data-chapter={project.theme}
       data-atmosphere={project.visualization === 'flight-route' ? 'flights' : undefined}
+      style={accentStyle}
     >
       <div className="project-showcase__rail-wrap">
         <MotionReveal className="project-showcase__rail" delay={0.04}>
@@ -120,7 +139,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
 
             <div className="project-showcase__header-block">
               <h3
-                className="project-showcase__name"
+                className={nameClass}
                 aria-label={displayName}
               >
                 {displayName}
@@ -129,7 +148,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             </div>
 
             <div className="project-showcase__spotlight">
-              <span className="project-showcase__spotlight-label">The through-line</span>
+              <span className="project-showcase__spotlight-label">Outcome</span>
               <p className="project-showcase__spotlight-copy">{project.outcome}</p>
             </div>
 
@@ -146,7 +165,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <div className="project-showcase__deep-dive-panel" onTransitionEnd={handleNotesTransitionEnd}>
               <div className="project-showcase__deep-dive-clip">
               <div className="project-showcase__deep-dive-body">
-                {project.theme === 'steel' ? <p>{project.outcome}</p> : null}
                 <p>{project.context}</p>
                 <div className="project-showcase__narrative">
                   <div className="project-showcase__narrative-block">
@@ -181,6 +199,7 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                   href={project.repositoryUrl}
                   rel="noreferrer"
                   target="_blank"
+                  aria-label={`${project.repositoryLabel} for ${project.name.replaceAll('_', ' ')} (opens in a new tab)`}
                 >
                   <span>{project.repositoryLabel}</span>
                   <Icon

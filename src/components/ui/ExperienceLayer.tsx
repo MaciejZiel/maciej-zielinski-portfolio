@@ -1,11 +1,11 @@
 import {
   motion,
   useMotionValue,
-  useReducedMotion,
   useSpring,
   type MotionValue,
 } from 'framer-motion'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useReduceMotion } from '../../hooks/useMotionPreference'
 import { usePageVisible } from '../../hooks/usePageVisible'
 import { SpatialField } from './SpatialField'
 
@@ -76,7 +76,7 @@ const chapterTransitionNodes = [
 ]
 
 export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReduceMotion()
   const pageVisible = usePageVisible()
   const pointerX = useMotionValue(-100)
   const pointerY = useMotionValue(-100)
@@ -84,12 +84,15 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
   const springY = useSpring(pointerY, { stiffness: 820, damping: 48, mass: 0.2 })
   const [visible, setVisible] = useState(false)
   const [chapter, setChapter] = useState('top')
+  // The accent follows the project on screen, not its motion theme: two projects can share a theme.
+  const [accent, setAccent] = useState(chapterAccents.top)
   const [projectTransition, setProjectTransition] = useState<{ chapter: string; id: number } | null>(null)
   const pointerTarget = useRef({ x: -1000, y: -1000, active: false })
   const previousMagnet = useRef<HTMLElement | null>(null)
   const activeChapter = useRef('top')
+  const activeKey = useRef('top')
   const transitionSequence = useRef(0)
-  const chapterAccent = chapterAccents[chapter] ?? chapterAccents.top
+  const chapterAccent = accent
 
   useEffect(() => {
     document.documentElement.style.setProperty('--scrollbar-accent', chapterAccent)
@@ -330,6 +333,13 @@ export function ExperienceLayer({ scrollYProgress }: { scrollYProgress: MotionVa
       const target = current.target as HTMLElement
       const project = target.dataset.atmosphere ?? target.className.match(/project-showcase--(steel|signal|vision|track)/)?.[1]
       const nextChapter = project ?? target.id ?? 'top'
+      const key = target.id || nextChapter
+      if (activeKey.current === key) return
+      activeKey.current = key
+      const projectAccent = target.classList.contains('project-showcase')
+        ? getComputedStyle(target).getPropertyValue('--project-accent').trim()
+        : ''
+      setAccent(projectAccent || chapterAccents[nextChapter] || chapterAccents.top)
       if (activeChapter.current === nextChapter) return
       const touchSizedViewport = window.innerWidth <= 760 || window.matchMedia('(pointer: coarse)').matches
       if (PROJECT_TRANSITIONS_ENABLED && projectChapters.has(activeChapter.current) && projectChapters.has(nextChapter) && !reduceMotion && !touchSizedViewport) {
