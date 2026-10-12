@@ -51,14 +51,15 @@
       }
     </script>
     <style>
-      html,body{background:#090c0b;color:#e8efeb;font-family:system-ui,sans-serif}
-      #root>main{max-width:70ch;margin:0 auto;padding:4rem 1.5rem;line-height:1.6}
-      #root a{color:#7be4b8}
+      .static-shell{min-height:100vh;box-sizing:border-box;padding:4rem 1.5rem;background:#090c0b;color:#e8efeb;font-family:system-ui,sans-serif;line-height:1.6}
+      .static-shell main{max-width:70ch;margin:0 auto}
+      .static-shell a{color:#7be4b8}
     </style>
     <title>Maciej Zieliński | Software Engineer</title>
   </head>
   <body>
     <div id="root">
+      <div class="static-shell">
       <main>
         <h1>Maciej Zieliński, Software Engineer</h1>
         <p>Python backend developer and fourth-year Computer Science student at PJATK in Warsaw. I build reliable backend systems and practical software, with a focus on Python, applied AI, computer vision, and real-time data.</p>
@@ -78,6 +79,7 @@
           <li><a href="https://pypi.org/user/MaciejZiel/">PyPI</a></li>
         </ul>
       </main>
+      </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
