@@ -330,3 +330,13 @@ html[data-motion='paused'] *::after {
 @media (max-width: 680px) {
   .motion-toggle { padding-left: 0; border-left: 0; }
 }
+
+/* About section. Figure/ground: the line a recruiter looks for (availability) is the one that
+   stands out, marked with the accent. Continuity: both columns start on the same rule. */
+.about-section__availability {
+  padding-left: 16px;
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-text) !important;
+  font-size: 0.95rem !important;
+}
+.about-section__bio { padding-top: 14px; border-top: 1px solid var(--color-border); }
