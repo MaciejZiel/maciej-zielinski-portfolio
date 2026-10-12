@@ -274,7 +274,7 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
             key={row.sql}
             className={`query-row${hot ? ' query-row--hot' : ''}${focus ? ' query-row--focus' : ''}`}
             initial={reduceMotion ? false : { opacity: 0, x: -10 }}
-            animate={{ opacity: dim ? 0.6 : 1, x: 0 }}
+            animate={{ opacity: dim ? 0.8 : 1, x: 0 }}
             transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
             <text className="query-row__no" x="14" y={queryRowY(index)}>{String(index + 1).padStart(2, '0')}</text>
