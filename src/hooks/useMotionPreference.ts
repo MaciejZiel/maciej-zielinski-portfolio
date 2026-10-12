@@ -1,4 +1,3 @@
-import { useReducedMotion } from 'framer-motion'
 import { useSyncExternalStore } from 'react'
 
 const STORAGE_KEY = 'portfolio-motion-paused'
@@ -39,9 +38,20 @@ export function useMotionPaused() {
   return useSyncExternalStore(subscribe, () => paused, () => false)
 }
 
+const SYSTEM_QUERY = '(prefers-reduced-motion: reduce)'
+
+// Subscribed to the media query itself, so changing the system setting while the page is open
+// takes effect at once instead of waiting for a reload.
+const subscribeSystem = (listener: () => void) => {
+  const query = window.matchMedia(SYSTEM_QUERY)
+  query.addEventListener('change', listener)
+  return () => query.removeEventListener('change', listener)
+}
+const systemSnapshot = () => window.matchMedia(SYSTEM_QUERY).matches
+
 /** The system's reduced-motion setting or the visitor's own pause, whichever is on. */
 export function useReduceMotion() {
-  const systemReduced = useReducedMotion()
+  const systemReduced = useSyncExternalStore(subscribeSystem, systemSnapshot, () => false)
   const userPaused = useMotionPaused()
-  return Boolean(systemReduced) || userPaused
+  return systemReduced || userPaused
 }
