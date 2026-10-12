@@ -356,19 +356,14 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const projectRail: ProjectRailItem[] = [
   {
-    name: 'RAG_Retrieval_Augmented_Generation',
-    description: 'Python retrieval workflow combining FAISS, semantic search, and LLM integration.',
-    href: 'https://github.com/MaciejZiel/RAG_Retrieval_Augmented_Generation',
+    name: 'agentic-rag-platform',
+    description: 'Multi-tenant FastAPI document Q&A with Qdrant retrieval and cited answers.',
+    href: 'https://github.com/MaciejZiel/agentic-rag-platform',
   },
   {
     name: 'hand_gesture_control',
     description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
     href: 'https://github.com/MaciejZiel/hand_gesture_control',
-  },
-  {
-    name: 'camera_object_recognition',
-    description: 'Real-time webcam object recognition with YOLOv8, FastAPI, OpenCV and Angular.',
-    href: 'https://github.com/MaciejZiel/camera_object_recognition',
   },
   {
     name: 'F1InfoMobileApp',
@@ -396,11 +391,10 @@ const projectDisplayNames: Record<string, string> = {
   CaseFlow: 'CASEFLOW',
   'pytest-queryguard': 'PYTEST-QUERYGUARD',
   clip_to_text: 'CLIP TO TEXT',
-  camera_object_recognition: 'CAMERA OBJECT RECOGNITION',
+  hand_gesture_control: 'HAND GESTURE CONTROL',
   Motorsport_API: 'MOTORSPORT API',
   live_flights_map: 'LIVE FLIGHTS MAP',
-  RAG_Retrieval_Augmented_Generation: 'RAG — RETRIEVAL AUGMENTED GENERATION',
-  hand_gesture_control: 'HAND GESTURE CONTROL',
+  'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
   F1InfoMobileApp: 'F1 INFO MOBILE APP',
 }
 
@@ -462,7 +456,6 @@ export const skillLanes: SkillLane[] = [
       'FAISS',
       'Semantic search',
       'Prompt engineering',
-      'Codex',
       'Faster-Whisper',
       'YOLOv8',
     ],

@@ -70,5 +70,9 @@ That includes:
 
 ## Notes
 
-- `CaseFlow` is presented as a featured backend project with a profile link because the main implementation is private.
+- `CaseFlow` links to its public repository.
 - The site uses semantic sections and basic accessibility support, including a skip link and keyboard-friendly link states.
+
+## License
+
+MIT License, see [LICENSE](LICENSE).
