@@ -252,6 +252,11 @@ const queryRows = [
 const queryRowY = (index: number) => 40 + index * 19
 const repeatedRows = queryRows.filter((row) => row.repeat).length
 
+// Fixing each label's length keeps the layout stable when a visitor widens letter spacing (WCAG 1.4.12).
+const fit = (text: string, perChar: number) => ({ textLength: text.length * perChar, lengthAdjust: 'spacingAndGlyphs' as const })
+const MONO = 7.2 // advance of 12px mono text
+const NOTE = 7.68 // the same with the 0.04em letter spacing used by notes
+
 function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const transition = reduceMotion ? { duration: 0 } : { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }
   const shown = (lane: number) => (activeLane === lane ? 1 : 0)
@@ -263,7 +268,7 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
       role="img"
       aria-label={`${projectDisplayName(project.name)} query log and plan`}
     >
-      <text className="query-note" x="14" y="14">TEST LOG / {queryRows.length} STATEMENTS</text>
+      <text className="query-note" x="14" y="14" {...fit(`TEST LOG / ${queryRows.length} STATEMENTS`, NOTE)}>TEST LOG / {queryRows.length} STATEMENTS</text>
       <path className="query-log-rule" d="M14 22H294M306 8V150" />
       {queryRows.map((row, index) => {
         const hot = activeLane === 1 && row.repeat
@@ -278,7 +283,7 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
             transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
             <text className="query-row__no" x="14" y={queryRowY(index)}>{String(index + 1).padStart(2, '0')}</text>
-            <text x="36" y={queryRowY(index)}>{row.sql}</text>
+            <text x="36" y={queryRowY(index)} {...fit(row.sql, MONO)}>{row.sql}</text>
           </motion.g>
         )
       })}
@@ -292,22 +297,22 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
 
       <motion.g initial={false} animate={{ opacity: shown(0) }} transition={transition}>
         <text className="query-big" x="318" y="80">{queryRows.length}</text>
-        <text className="query-note" x="318" y="102">STATEMENTS</text>
-        <text className="query-note" x="318" y="118">IN ONE TEST</text>
+        <text className="query-note" x="318" y="102" {...fit('STATEMENTS', NOTE)}>STATEMENTS</text>
+        <text className="query-note" x="318" y="118" {...fit('IN ONE TEST', NOTE)}>IN ONE TEST</text>
       </motion.g>
 
       <motion.g initial={false} animate={{ opacity: shown(1) }} transition={transition}>
         <text className="query-big" x="318" y="80">{repeatedRows}×</text>
-        <text className="query-note" x="318" y="102">SAME STATEMENT</text>
-        <text className="query-note" x="318" y="118">SAME CALL SITE</text>
-        <text className="query-note query-verdict" x="318" y="138">N+1 FOUND</text>
+        <text className="query-note" x="318" y="102" {...fit('SAME STATEMENT', NOTE)}>SAME STATEMENT</text>
+        <text className="query-note" x="318" y="118" {...fit('SAME CALL SITE', NOTE)}>SAME CALL SITE</text>
+        <text className="query-note query-verdict" x="318" y="138" {...fit('N+1 FOUND', NOTE)}>N+1 FOUND</text>
       </motion.g>
 
       <motion.g initial={false} animate={{ opacity: shown(2) }} transition={transition}>
         <g className="query-plan-node query-plan-node--bad">
           <rect x="318" y="22" width="134" height="42" rx="2" />
-          <text className="query-plan-title" x="328" y="39">Seq Scan</text>
-          <text className="query-plan-sub" x="328" y="55">on orders</text>
+          <text className="query-plan-title" x="328" y="39" {...fit('Seq Scan', MONO)}>Seq Scan</text>
+          <text className="query-plan-sub" x="328" y="55" {...fit('on orders', MONO)}>on orders</text>
         </g>
         <motion.path
           className="query-plan-arrow"
@@ -323,10 +328,10 @@ function QueryLog({ project, activeLane, reduceMotion }: ProjectDiagramProps & {
           transition={reduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.5 }}
         >
           <rect x="318" y="88" width="134" height="42" rx="2" />
-          <text className="query-plan-title" x="328" y="105">Index Scan</text>
-          <text className="query-plan-sub" x="328" y="121">customer_id_idx</text>
+          <text className="query-plan-title" x="328" y="105" {...fit('Index Scan', MONO)}>Index Scan</text>
+          <text className="query-plan-sub" x="328" y="121" {...fit('customer_id_idx', MONO)}>customer_id_idx</text>
         </motion.g>
-        <text className="query-note query-verdict" x="14" y="154">FIX: CREATE INDEX ON orders (customer_id)</text>
+        <text className="query-note query-verdict" x="14" y="154" {...fit('FIX: CREATE INDEX ON orders (customer_id)', NOTE)}>FIX: CREATE INDEX ON orders (customer_id)</text>
       </motion.g>
     </svg>
   )
