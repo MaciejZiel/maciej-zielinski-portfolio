@@ -109,58 +109,6 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
   )
 }
 
-function VisionFrame({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
-  const targets = [
-    { x: 132, y: 72, width: 110, height: 102 },
-    { x: 340, y: 54, width: 126, height: 142 },
-    { x: 495, y: 108, width: 94, height: 92 },
-  ]
-  const loopNodes = [['CAPTURE', 110], ['INFERENCE', 360], ['CONTROL', 610]] as const
-  const activeNodeX = loopNodes[activeLane]?.[1] ?? loopNodes[0][1]
-
-  return (
-    <svg viewBox="0 0 720 270" role="img" aria-label={`${projectDisplayName(project.name)} live frame and detection bounds`}>
-      {targets.map((box, index) => (
-        <g key={box.x} className={index === activeLane ? 'vision-target vision-target--active' : 'vision-target'}>
-          <path d={`M${box.x} ${box.y + 16}V${box.y}H${box.x + 16}M${box.x + box.width - 16} ${box.y}H${box.x + box.width}V${box.y + 16}M${box.x} ${box.y + box.height - 16}V${box.y + box.height}H${box.x + 16}M${box.x + box.width - 16} ${box.y + box.height}H${box.x + box.width}V${box.y + box.height - 16}`} />
-          <text x={box.x} y={box.y - 8}>{index === activeLane ? `TRACK 0${index + 1} / LOCKED` : `FRAME 0${index + 1}`}</text>
-        </g>
-      ))}
-      <path className="vision-loop-track" d="M70 230H650" />
-      <motion.line
-        className="vision-loop-signal"
-        x1="70"
-        y1="230"
-        x2={loopNodes[0][1]}
-        y2="230"
-        initial={false}
-        animate={{ x2: activeNodeX }}
-        transition={reduceMotion
-          ? { duration: 0 }
-          : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
-      />
-      {loopNodes.map(([label, x], index) => (
-        <g className={index === activeLane ? 'vision-loop-node vision-loop-node--active' : 'vision-loop-node'} key={label}>
-          <circle cx={x} cy="230" r="4" />
-          <text x={x} y="218" textAnchor="middle">{label}</text>
-        </g>
-      ))}
-      <motion.circle
-        className="vision-loop-traveler"
-        cx={loopNodes[0][1]}
-        cy="230"
-        r="6"
-        initial={false}
-        animate={{ cx: activeNodeX }}
-        transition={reduceMotion
-          ? { duration: 0 }
-          : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
-      />
-      <text x="20" y="265">FRAME BUFFER / CLOSED CONTROL LOOP</text>
-    </svg>
-  )
-}
-
 function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const nodes = [
     { x: 100, y: 70, label: 'SEASON' },
@@ -349,7 +297,6 @@ export function ProjectDiagram({ project, activeLane }: ProjectDiagramProps) {
       {project.visualization === 'query-log' ? <QueryLog project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'steel' && !project.visualization ? <FlowNodes project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'signal' ? <Waveform project={project} activeLane={activeLane} isVisible={isVisible} reduceMotion={reduceMotion ?? false} /> : null}
-      {project.theme === 'vision' && project.visualization !== 'flight-route' ? <VisionFrame project={project} activeLane={activeLane} reduceMotion={reduceMotion ?? false} /> : null}
       {project.theme === 'track' ? <DomainMap project={project} activeLane={activeLane} reduceMotion={reduceMotion ?? false} /> : null}
       </div>
     </div>

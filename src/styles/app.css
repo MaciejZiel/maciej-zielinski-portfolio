@@ -900,12 +900,6 @@
 .project-diagram svg { width: 100%; height: auto; overflow: visible; }
 .project-diagram__visual { position: relative; }
 .project-diagram text { fill: var(--color-text-muted); font: 13px var(--mono-font); letter-spacing: .06em; }
-.diagram-route path { fill: none; stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-.diagram-route circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
-.diagram-route--active path { stroke-width: 2.2; }
-.diagram-route--active circle { fill: var(--project-accent); }
-.diagram-route--active text { fill: var(--color-text); }
-.diagram-traveler { fill: none; stroke: var(--color-text); stroke-width: 1; stroke-dasharray: 3 9; vector-effect: non-scaling-stroke; opacity: .65; }
 .caseflow-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .caseflow-route-signal { fill: none; stroke: var(--project-accent, var(--color-accent)); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .caseflow-route-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.48); stroke-width: 1.2; vector-effect: non-scaling-stroke; transition: fill 240ms ease, stroke 240ms ease; }
@@ -950,14 +944,6 @@
 .flight-route-node--active circle { fill: var(--project-accent); }
 .flight-route-node--active text { fill: var(--color-text); }
 .flight-route-node text { fill: var(--color-text-muted); font-size: 12px; }
-.vision-loop-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-loop-signal { fill: none; stroke: var(--color-accent); stroke-width: 1.8; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.vision-loop-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.45); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-loop-node--active text { fill: var(--color-accent); }
-.vision-loop-traveler { fill: var(--color-accent); stroke: var(--color-bg); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
-.vision-target path { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.vision-target--active path { stroke: var(--project-accent); stroke-width: 1.6; }
-.vision-target--active text { fill: var(--project-accent); }
 .domain-link { fill: none; stroke: var(--project-accent); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .domain-link--active { stroke-width: 2.2; }
 .domain-node circle { fill: var(--color-bg); stroke: var(--project-accent); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
