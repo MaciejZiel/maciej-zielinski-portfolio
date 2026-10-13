@@ -179,17 +179,17 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     name: 'Reroute',
-    category: 'Live transit app and ML dataset',
+    category: 'Live transit app and delay model',
     headline:
       'A live Warsaw tram and bus map: click a stop, pick a line, see the vehicles and how late they are.',
     context:
       'Built around one question, is my tram or bus coming and is it late, on the Warsaw timetable and the live GTFS-Realtime vehicle feed.',
     summary:
-      'Click a stop to see every line that serves it with the next departures. Pick a line to see its route and its moving vehicles, outlined by delay, then click a vehicle for its delay against the timetable and its next stops. Underneath, a collector writes every vehicle observation and stop arrival to PostgreSQL with PostGIS, building a dataset for an upcoming delay-prediction model.',
+      'Click a stop to see every line that serves it with the next departures. Pick a line to see its route and its moving vehicles, outlined by delay, then click a vehicle for its delay against the timetable and its next stops. Underneath, a collector writes every vehicle observation and stop arrival to PostgreSQL with PostGIS, feeding a delay-prediction model that shows its reasoning and an 80% range for each stop.',
     challenge:
       'A delay is only meaningful if the live vehicle is matched to the right timetable trip. After-midnight trips, the daylight-saving night, loop lines, stale positions and gaps in the feed all break naive matching, so each case is covered by tests.',
     outcome:
-      'A working live map plus a growing dataset. The feature export is leak-free and a predictor seam is already in place: the API contract is fixed, and for now it returns the current delay until a trained model plugs in.',
+      'A working live map with a delay model on top. On a held-out last hour the model\'s mean error is about 41 seconds against 44 for simply keeping the current delay, around 9% lower, and its 80% range covers about 80% of outcomes. That is one evening of data, and the app says so.',
     details: [
       'Stop, line and vehicle in three steps, with a bottom sheet on small screens and a switch that limits a line to the vehicles still heading to your stop.',
       'A separate collector polls the feeds every 20 seconds and stores observations, derived arrival events and service alerts, with partitions, retention and replay of raw snapshots.',
@@ -210,7 +210,7 @@ export const featuredProjects: FeaturedProject[] = [
     repositoryUrl: 'https://github.com/MaciejZiel/Reroute',
     repositoryLabel: 'Source code',
     repositoryNote:
-      'The delay-prediction model is the next step; today the repository holds the live app, the collector and the dataset pipeline.',
+      'Includes the LightGBM delay model with a persistence baseline, per-prediction explanations and a documented evaluation, plus the live app, the collector and the training pipeline.',
     liveDemoUrl: 'https://reroute.maciejzielinski.dev',
     stageLabel: 'Transit pipeline',
     status: 'Live demo / collecting data',
@@ -219,11 +219,11 @@ export const featuredProjects: FeaturedProject[] = [
     metrics: [
       { label: 'Live data', value: 'GTFS timetable + GTFS-Realtime' },
       { label: 'Storage', value: 'PostgreSQL 16 + PostGIS' },
-      { label: 'Next', value: 'Delay-prediction ML model' },
+      { label: 'Model', value: 'LightGBM, about 9% lower error' },
     ],
     artifactTitle: 'From feed to prediction',
     artifactSummary:
-      'The same recorded observations drive the live view today and will train the delay model later.',
+      'The same recorded observations drive the live view and train the delay model.',
     artifactLanes: [
       {
         label: 'Ingest',
@@ -237,8 +237,8 @@ export const featuredProjects: FeaturedProject[] = [
       },
       {
         label: 'Predict',
-        summary: 'Recorded arrivals become training rows, and a predictor seam is ready for a model.',
-        items: ['Arrival events', 'Feature export', 'Predictor seam'],
+        summary: 'Recorded arrivals become training rows. A gradient-boosted model predicts the delay at each stop and explains the main factors.',
+        items: ['Arrival events', 'LightGBM model', 'Per-stop explanation'],
       },
     ],
   },
@@ -272,9 +272,10 @@ export const featuredProjects: FeaturedProject[] = [
     repositoryUrl: 'https://github.com/MaciejZiel/caseflow',
     repositoryLabel: 'Source code',
     repositoryNote:
-      'Public source, setup instructions, and verification details are available in the repository.',
+      'Read-only demo on a home server with a one-click demo account. Source, setup instructions and verification details are in the repository.',
+    liveDemoUrl: 'https://caseflow.maciejzielinski.dev',
     stageLabel: 'Workflow engine',
-    status: 'Public repository / multi-tenant backend',
+    status: 'Live demo / multi-tenant backend',
     year: '2026',
     theme: 'steel',
     metrics: [
