@@ -111,16 +111,16 @@ function Waveform({ project, activeLane, reduceMotion, isVisible }: ProjectDiagr
 
 function DomainMap({ project, activeLane, reduceMotion }: ProjectDiagramProps & { reduceMotion: boolean }) {
   const nodes = [
-    { x: 100, y: 70, label: 'SEASON' },
-    { x: 320, y: 70, label: 'RACE' },
-    { x: 540, y: 70, label: 'RESULT' },
-    { x: 210, y: 200, label: 'TEAM' },
-    { x: 430, y: 200, label: 'DRIVER' },
+    { x: 100, y: 70, label: 'STOP' },
+    { x: 320, y: 70, label: 'LINE' },
+    { x: 540, y: 70, label: 'VEHICLE' },
+    { x: 210, y: 200, label: 'ARRIVALS' },
+    { x: 430, y: 200, label: 'PREDICTOR' },
   ]
   const paths = ['M100 70H320', 'M320 70H540', 'M100 70L210 200', 'M320 70L210 200', 'M320 70L430 200', 'M540 70L430 200']
 
   return (
-    <svg viewBox="0 30 640 206" role="img" aria-label={`${projectDisplayName(project.name)} motorsport domain map`}>
+    <svg viewBox="0 30 640 206" role="img" aria-label={`${projectDisplayName(project.name)} transit data map`}>
       {paths.map((path, index) => {
         const linkActive =
           activeLane === 0 || (activeLane === 1 && index < 2) || (activeLane === 2 && index > 1)
@@ -176,11 +176,11 @@ function FlightRoute({ project, activeLane, reduceMotion }: ProjectDiagramProps 
         </g>
       ))}
       {[
-        { x: 78, y: 62, label: 'OPENSKY', active: true },
-        { x: 78, y: 202, label: 'ADSB.LOL', active: true },
-        { x: 332, y: 132, label: 'FLASK API', active: true },
-        { x: 576, y: 62, label: 'LIVE MAP', active: activeLane >= 2 },
-        { x: 576, y: 202, label: 'SQLITE ARCHIVE', active: activeLane >= 1 },
+        { x: 78, y: 62, label: 'ADSB.LOL', active: true },
+        { x: 78, y: 202, label: 'REFERENCE DATA', active: true },
+        { x: 332, y: 132, label: 'TILE CACHE', active: true },
+        { x: 576, y: 62, label: 'WEBGL MAP', active: activeLane >= 2 },
+        { x: 576, y: 202, label: 'FLIGHT TRACKS', active: activeLane >= 1 },
       ].map((node) => (
         <g className={`flight-route-node${node.active ? ' flight-route-node--active' : ''}`} key={node.label}>
           <circle cx={node.x} cy={node.y} r="5" />
