@@ -214,9 +214,9 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                       href={project.liveDemoUrl}
                       rel="noreferrer"
                       target="_blank"
-                      aria-label={`Live demo of ${project.name.replaceAll('_', ' ')} (opens in a new tab)`}
+                      aria-label={`Try ${project.name.replaceAll('_', ' ')} live (opens in a new tab)`}
                     >
-                      <span>Live demo</span>
+                      <span>Try it live</span>
                       <Icon
                         name="arrow-up-right"
                         className="project-showcase__link-icon"

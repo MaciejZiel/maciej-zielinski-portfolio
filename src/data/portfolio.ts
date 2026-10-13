@@ -79,7 +79,7 @@ export const featuredProjects: FeaturedProject[] = [
       'mypy --strict',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/pytest-queryguard',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     repositoryNote:
       'Install with pip install pytest-queryguard. Source, changelog, documentation and design notes are in the repository.',
     stageLabel: 'Published package',
@@ -142,7 +142,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Playwright',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/contrail',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     repositoryNote:
       'Self-hosted on a home server. Data from ADSB.lol, credited in the app.',
     liveDemoUrl: 'https://contrail.maciejzielinski.dev',
@@ -208,7 +208,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Docker',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/Reroute',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     repositoryNote:
       'The delay-prediction model is the next step; today the repository holds the live app, the collector and the dataset pipeline.',
     liveDemoUrl: 'https://reroute.maciejzielinski.dev',
@@ -270,7 +270,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Integration Tests',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/caseflow',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     repositoryNote:
       'Public source, setup instructions, and verification details are available in the repository.',
     stageLabel: 'Workflow engine',
@@ -331,7 +331,7 @@ export const featuredProjects: FeaturedProject[] = [
       'SRT Export',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/clip_to_text',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     stageLabel: 'Transcription pipeline',
     status: 'Public repo / updated 2026',
     year: '2026',
@@ -401,7 +401,7 @@ export const projectRail: ProjectRailItem[] = [
 
 export const selfHostedDemos: SelfHostedDemos = {
   label: 'Self-hosted demos',
-  statusLabel: 'status',
+  statusLabel: 'System status',
   statusUrl: 'https://status.maciejzielinski.dev',
 }
 

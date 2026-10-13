@@ -68,9 +68,9 @@ export function ProjectsSection({
                   href={item.liveDemoUrl}
                   rel="noreferrer"
                   target="_blank"
-                  aria-label={`Live demo of ${item.name.replaceAll('_', ' ')} (opens in a new tab)`}
+                  aria-label={`Try ${item.name.replaceAll('_', ' ')} live (opens in a new tab)`}
                 >
-                  <span>Live demo</span>
+                  <span>Try it live</span>
                   <Icon name="arrow-up-right" className="projects-rail__live-icon" />
                 </a>
               ) : null}
@@ -85,7 +85,7 @@ export function ProjectsSection({
             href={selfHostedDemos.statusUrl}
             rel="noreferrer"
             target="_blank"
-            aria-label={`Status page for the self-hosted demos (opens in a new tab)`}
+            aria-label={`System status page for the self-hosted demos (opens in a new tab)`}
           >
             {selfHostedDemos.statusLabel}
           </a>
