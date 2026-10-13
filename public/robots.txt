@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://maciej-zielinski-portfolio.pages.dev/sitemap.xml
+Sitemap: https://maciejzielinski.dev/sitemap.xml
