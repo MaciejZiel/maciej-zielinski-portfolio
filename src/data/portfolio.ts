@@ -191,7 +191,7 @@ export const featuredProjects: FeaturedProject[] = [
     outcome:
       'A working live map plus a growing dataset. The feature export is leak-free and a predictor seam is already in place: the API contract is fixed, and for now it returns the current delay until a trained model plugs in.',
     details: [
-      'Stop, line and vehicle in three steps, with a bottom sheet on phones and a switch that limits a line to the vehicles still heading to your stop.',
+      'Stop, line and vehicle in three steps, with a bottom sheet on small screens and a switch that limits a line to the vehicles still heading to your stop.',
       'A separate collector polls the feeds every 20 seconds and stores observations, derived arrival events and service alerts, with partitions, retention and replay of raw snapshots.',
       'FastAPI backend with a PostGIS schema, a React and MapLibre frontend, and CI that runs the database tests against a PostGIS service.',
     ],
