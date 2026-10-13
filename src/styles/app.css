@@ -1027,3 +1027,18 @@
   .project-showcase__link-icon,
   .contact-section__link-icon { transition: none; }
 }
+
+/* Live demo links sit next to the repository link and share its look. */
+.project-showcase__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; }
+.project-showcase__link--live { border-bottom-style: dashed; }
+
+.projects-rail__entry { display: flex; flex-direction: column; border-top: 1px solid var(--color-border); transition: border-color 180ms ease; }
+.projects-rail__entry:hover,
+.projects-rail__entry:focus-within { border-color: var(--color-accent); }
+.projects-rail__entry .projects-rail__item { border-top: 0; flex: 1 1 auto; }
+.projects-rail__live { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-bottom: 4px; font-family: var(--mono-font); font-size: max(0.75rem, 12px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); text-decoration: none; border-bottom: 1px dashed var(--color-accent); }
+.projects-rail__live:hover { color: var(--color-text); }
+.projects-rail__live-icon { width: 14px; height: 14px; }
+.projects-rail__demos { grid-column: 1 / -1; margin: 0; padding-top: 14px; border-top: 1px solid var(--color-border); font-family: var(--mono-font); font-size: max(0.75rem, 12px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); }
+.projects-rail__demos a { color: var(--color-accent); }
+.projects-rail__demos a:hover { color: var(--color-text); }
