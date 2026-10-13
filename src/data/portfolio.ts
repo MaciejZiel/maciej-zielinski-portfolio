@@ -4,6 +4,7 @@ import type {
   NavigationItem,
   Profile,
   ProjectRailItem,
+  SelfHostedDemos,
   SkillLane,
 } from '../types/portfolio'
 
@@ -365,6 +366,28 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const projectRail: ProjectRailItem[] = [
   {
+    name: 'pgqueue',
+    description:
+      'A job queue on PostgreSQL: SKIP LOCKED claiming, leases, retries and a live SSE dashboard.',
+    href: 'https://github.com/MaciejZiel/pgqueue',
+    liveDemoUrl: 'https://pgqueue.maciejzielinski.dev',
+  },
+  {
+    name: 'plan-bot',
+    description: 'A Discord and Telegram bot that answers timetable questions from an ICS feed.',
+    href: 'https://github.com/MaciejZiel/plan-bot',
+  },
+  {
+    name: 'firm-radar',
+    description: 'Polish company profiles from public registries, with change tracking.',
+    href: 'https://github.com/MaciejZiel/firm-radar',
+  },
+  {
+    name: 'Motorsport_API',
+    description: 'A documented Django REST API for race results, teams, drivers and standings.',
+    href: 'https://github.com/MaciejZiel/Motorsport_API',
+  },
+  {
     name: 'agentic-rag-platform',
     description: 'Multi-tenant FastAPI document Q&A with Qdrant retrieval and cited answers.',
     href: 'https://github.com/MaciejZiel/agentic-rag-platform',
@@ -374,21 +397,21 @@ export const projectRail: ProjectRailItem[] = [
     description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
     href: 'https://github.com/MaciejZiel/hand_gesture_control',
   },
-  {
-    name: 'F1InfoMobileApp',
-    description: 'Android app for live motorsport telemetry and race-focused mobile interfaces.',
-    href: 'https://github.com/MaciejZiel/F1InfoMobileApp',
-  },
 ]
+
+export const selfHostedDemos: SelfHostedDemos = {
+  label: 'Self-hosted demos',
+  statusLabel: 'status',
+  statusUrl: 'https://status.maciejzielinski.dev',
+}
 
 // One accent per project, so no two projects share a colour whatever their motion theme.
 const projectAccents: Record<string, string> = {
-  CaseFlow: '#7be4b8',
   'pytest-queryguard': '#f2d76b',
+  Contrail: '#f07887',
+  Reroute: '#82b1ff',
+  CaseFlow: '#7be4b8',
   clip_to_text: '#ffb86c',
-  Motorsport_API: '#d4a5e0',
-  live_flights_map: '#f07887',
-  'Live Flights Map': '#f07887',
 }
 
 export const projectAccent = (name: string) => projectAccents[name]
@@ -397,14 +420,17 @@ export const projectAnchorId = (name: string) =>
   `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
 
 const projectDisplayNames: Record<string, string> = {
-  CaseFlow: 'CASEFLOW',
   'pytest-queryguard': 'PYTEST-QUERYGUARD',
+  Contrail: 'CONTRAIL',
+  Reroute: 'REROUTE',
+  CaseFlow: 'CASEFLOW',
   clip_to_text: 'CLIP TO TEXT',
-  hand_gesture_control: 'HAND GESTURE CONTROL',
   Motorsport_API: 'MOTORSPORT API',
-  live_flights_map: 'LIVE FLIGHTS MAP',
+  hand_gesture_control: 'HAND GESTURE CONTROL',
   'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
-  F1InfoMobileApp: 'F1 INFO MOBILE APP',
+  'plan-bot': 'PLAN-BOT',
+  'firm-radar': 'FIRM-RADAR',
+  pgqueue: 'PGQUEUE',
 }
 
 export const projectDisplayName = (name: string) =>
@@ -417,6 +443,16 @@ export const projectHighlights = [
     anchorId: projectAnchorId('pytest-queryguard'),
   },
   {
+    name: 'Contrail',
+    description: 'A live flight tracker on WebGL with a photo, the full track and the route ahead for every aircraft.',
+    anchorId: projectAnchorId('Contrail'),
+  },
+  {
+    name: 'Reroute',
+    description: 'Live Warsaw trams and buses with delays, collecting a dataset for a prediction model.',
+    anchorId: projectAnchorId('Reroute'),
+  },
+  {
     name: 'CaseFlow',
     description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',
     anchorId: projectAnchorId('CaseFlow'),
@@ -425,16 +461,6 @@ export const projectHighlights = [
     name: 'clip_to_text',
     description: 'An audio-to-transcript workflow with live job progress and practical exports.',
     anchorId: projectAnchorId('clip_to_text'),
-  },
-  {
-    name: 'Motorsport_API',
-    description: 'A documented API for race results, teams, drivers, and standings.',
-    anchorId: projectAnchorId('Motorsport_API'),
-  },
-  {
-    name: 'Live Flights Map',
-    description: 'A real-time aircraft map with search, history replay, and provider fallback.',
-    anchorId: projectAnchorId('live_flights_map'),
   },
 ] as const
 
