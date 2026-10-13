@@ -1027,3 +1027,33 @@
   .project-showcase__link-icon,
   .contact-section__link-icon { transition: none; }
 }
+
+/* Live demo: the primary action. Filled accent button, larger than the outlined source link. */
+.project-showcase__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px; }
+.project-showcase__live,
+.projects-rail__live { --live-accent: var(--project-accent, var(--color-accent)); display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px; border: 1px solid var(--live-accent); border-radius: 2px; background: var(--live-accent); color: #090c0b; font-family: var(--mono-font); font-size: max(0.875rem, 14px); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease; }
+.project-showcase__live:hover,
+.projects-rail__live:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 8px 22px -10px var(--live-accent); color: #090c0b; }
+.project-showcase__live:focus-visible,
+.projects-rail__live:focus-visible { outline: 2px solid var(--color-text); outline-offset: 4px; }
+.project-showcase__live .project-showcase__link-icon,
+.projects-rail__live-icon { width: 18px; height: 18px; flex: 0 0 18px; }
+.project-showcase__live:hover .project-showcase__link-icon,
+.projects-rail__live:hover .projects-rail__live-icon { transform: translate(3px, -3px); }
+.project-showcase__live-dot { position: relative; width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #090c0b; }
+.project-showcase__live-dot::after { position: absolute; inset: -4px; border: 1px solid #090c0b; border-radius: 50%; content: ''; animation: live-pulse 1.8s ease-out infinite; }
+@keyframes live-pulse { 0% { transform: scale(0.5); opacity: 0.9; } 100% { transform: scale(1.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .project-showcase__live-dot::after { animation: none; opacity: 0.5; } }
+html[data-motion='paused'] .project-showcase__live-dot::after { animation: none; opacity: 0.5; }
+.project-showcase__live,
+.projects-rail__live { white-space: nowrap; }
+
+.projects-rail__entry { display: flex; flex-direction: column; border-top: 1px solid var(--color-border); transition: border-color 180ms ease; }
+.projects-rail__entry:hover,
+.projects-rail__entry:focus-within { border-color: var(--color-accent); }
+.projects-rail__entry .projects-rail__item { border-top: 0; flex: 1 1 auto; }
+.projects-rail__live { align-self: flex-start; margin: 4px 0 12px; min-height: 48px; padding: 0 18px; }
+.projects-rail__demos { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0; padding-top: 14px; border-top: 1px solid var(--color-border); font-family: var(--mono-font); font-size: max(0.75rem, 12px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); }
+.projects-rail__demos a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--color-accent); border-radius: 2px; background: var(--color-accent); color: #090c0b; font-weight: 700; text-decoration: none; transition: transform 180ms ease, filter 180ms ease; }
+.projects-rail__demos a:hover { transform: translateY(-2px); filter: brightness(1.08); color: #090c0b; }
+.projects-rail__demos a:focus-visible { outline: 2px solid var(--color-text); outline-offset: 4px; }

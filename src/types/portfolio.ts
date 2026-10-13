@@ -52,6 +52,7 @@ export interface FeaturedProject {
   repositoryUrl: string
   repositoryLabel: string
   repositoryNote?: string
+  liveDemoUrl?: string
   stageLabel: string
   status: string
   year: string
@@ -67,6 +68,13 @@ export interface ProjectRailItem {
   name: string
   description: string
   href: string
+  liveDemoUrl?: string
+}
+
+export interface SelfHostedDemos {
+  label: string
+  statusLabel: string
+  statusUrl: string
 }
 
 export interface ProjectHighlight {

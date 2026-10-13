@@ -4,6 +4,7 @@ import type {
   NavigationItem,
   Profile,
   ProjectRailItem,
+  SelfHostedDemos,
   SkillLane,
 } from '../types/portfolio'
 
@@ -57,15 +58,15 @@ export const featuredProjects: FeaturedProject[] = [
     context:
       'A published Python package for teams that use SQLAlchemy 2: it watches the SQL a test sends and turns silent performance problems into failing tests.',
     summary:
-      'pytest-queryguard counts the statements each test sends, recognises the N+1 pattern, enforces per-test query budgets and, on PostgreSQL 16+, plans every distinct SELECT to find reads that no index serves. A failure names the offending line and suggests the fix, such as selectinload or CREATE INDEX.',
+      'pytest-queryguard counts the statements each test sends, recognises the N+1 pattern, enforces per-test query and time budgets and, with the opt-in index check, plans every distinct SELECT to find reads that no index serves. A failure names the offending line and suggests the fix, such as selectinload or CREATE INDEX.',
     challenge:
       'A test can pass while the code behind it sends 101 queries for 100 rows. The hard part was reporting this precisely enough to trust: no noise on harmless repetition, and no race conditions in the cached catalog the index check relies on.',
     outcome:
-      'On PyPI with CI across Python 3.10 to 3.14 and PostgreSQL 15 to 17. Three independent review rounds fixed real concurrency and API issues before 0.3.0 shipped.',
+      'Stable 0.3.0 is on PyPI with CI across Python 3.10 to 3.14. Release 0.4.0 is in release-candidate testing and adds a baseline so only new findings fail, SARIF output with a GitHub Action, per-finding ignore patterns, and the index check on SQLite, MySQL and MariaDB.',
     details: [
-      'N+1 detection and query budgets for sync, async (asyncpg) and FastAPI test setups, with call sites in every message.',
-      'Opt-in missing-index check: EXPLAIN in a savepoint with sequential scans off, so the test database is left untouched.',
-      'A small public API, record_queries(), for asserting on the queries a block sent.',
+      'N+1 detection, repeated-statement and column-reload checks, and query and time budgets for sync, async and FastAPI test setups, with the call site in every message.',
+      'Opt-in missing-index check that proposes the CREATE INDEX and the Alembic call; on PostgreSQL 16+ it runs EXPLAIN with sequential scans off, so the test database is left untouched.',
+      'A small public API, record_queries(), for asserting on the queries a block sent. It sees only statements that go through SQLAlchemy, and the documentation lists its limits.',
     ],
     technologies: [
       'Python',
@@ -78,18 +79,18 @@ export const featuredProjects: FeaturedProject[] = [
       'mypy --strict',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/pytest-queryguard',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     repositoryNote:
-      'Install with pip install pytest-queryguard. Source, changelog and design notes are in the repository.',
+      'Install with pip install pytest-queryguard. Source, changelog, documentation and design notes are in the repository.',
     stageLabel: 'Published package',
-    status: 'v0.3.0 on PyPI / open source',
+    status: 'v0.3.0 on PyPI / 0.4.0 coming / open source',
     year: '2026',
     theme: 'steel',
     visualization: 'query-log',
     metrics: [
-      { label: 'Release', value: 'v0.3.0 on PyPI' },
-      { label: 'Quality bar', value: '630+ tests, 99% coverage' },
-      { label: 'Runs on', value: 'Python 3.10-3.14, PostgreSQL 15-17' },
+      { label: 'Release', value: 'v0.3.0 on PyPI, 0.4.0 next' },
+      { label: 'Quality bar', value: 'mypy --strict, coverage-gated CI' },
+      { label: 'Runs on', value: 'Python 3.10-3.14, SQLAlchemy 2' },
     ],
     artifactTitle: 'How a failing test is found',
     artifactSummary:
@@ -107,8 +108,137 @@ export const featuredProjects: FeaturedProject[] = [
       },
       {
         label: 'Verify',
-        summary: 'Optionally, PostgreSQL itself says whether a query reads a whole table.',
+        summary: 'Optionally, the database itself says whether a query reads a whole table.',
         items: ['EXPLAIN in a savepoint', 'Missing-index hints', 'asyncpg support'],
+      },
+    ],
+  },
+  {
+    name: 'Contrail',
+    category: 'Real-time data app',
+    headline:
+      'A live flight tracker where aircraft glide on a WebGL map and every flight shows its whole track and the route ahead.',
+    context:
+      'A self-hosted air-traffic map built on ADSB.lol data: a fast map for browsing traffic, plus a panel for any single flight.',
+    summary:
+      'Every aircraft is drawn on its own WebGL layer and extrapolated each frame from its track and ground speed, so nothing jumps between updates. Click one to see a photo of it, its route, live altitude and speed with history, the track flown since take-off and the dashed route ahead with an arrival estimate. Search finds flights, airports and airlines, airport cards show decoded weather, and filters narrow the picture.',
+    challenge:
+      'The public ADSB.lol feed answers a limited circle per request and often says 429, so the server fetches small tiles under a request budget and shares them between viewers. The map has to stay smooth and honest about how old each area is, and no source provides a complete trace, so the track is the server’s own record of what it has seen.',
+    outcome:
+      'A map that stays smooth with thousands of aircraft, a photo for every aircraft (the exact airframe, a representative type photo, or an illustration), and a compact binary API that costs a 304 for unchanged areas. Its README states the data limits plainly.',
+    details: [
+      'WebGL2 aircraft layer on MapLibre with dead reckoning, corrections eased in over 1.5 s, and one representative aircraft per grid cell when zoomed far out.',
+      'Flight panel with photo, route, history charts, the whole track since take-off and the route ahead, plus search, airports with METAR and TAF, and filters that live in the URL.',
+      'Pure-Python Starlette server with a shared tile cache, SQLite track checkpoints and no native wheels, documented for self-hosting on a small always-on server.',
+    ],
+    technologies: [
+      'Python',
+      'Starlette',
+      'Svelte 5',
+      'TypeScript',
+      'MapLibre GL',
+      'WebGL2',
+      'SQLite',
+      'Playwright',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/contrail',
+    repositoryLabel: 'Source code',
+    repositoryNote:
+      'Self-hosted on a home server. Data from ADSB.lol, credited in the app.',
+    liveDemoUrl: 'https://contrail.maciejzielinski.dev',
+    stageLabel: 'Live data route',
+    status: 'Live demo / self-hosted',
+    year: '2026',
+    theme: 'vision',
+    visualization: 'flight-route',
+    metrics: [
+      { label: 'Live feed', value: 'ADSB.lol, tiled and budgeted' },
+      { label: 'Rendering', value: 'WebGL2 with dead reckoning' },
+      { label: 'Per flight', value: 'Photo, track since take-off, route ahead' },
+    ],
+    artifactTitle: 'Live position pipeline',
+    artifactSummary:
+      'One polite fetcher feeds a shared tile cache; the browser turns compact binary tiles into moving aircraft.',
+    artifactLanes: [
+      {
+        label: 'Sources',
+        summary: 'Aircraft positions arrive in 5 degree tiles, fetched under a request budget that backs off on 429.',
+        items: ['ADSB.lol tiles', 'Request budget', 'Reference data'],
+      },
+      {
+        label: 'Tracks',
+        summary: 'The server keeps compact tiles and the track of each flight it has seen.',
+        items: ['32-byte records', 'Track since take-off', 'SQLite checkpoints'],
+      },
+      {
+        label: 'Map',
+        summary: 'The browser extrapolates every aircraft each frame and opens a panel per flight.',
+        items: ['WebGL2 layer', 'Dead reckoning', 'Photo, route, ETA'],
+      },
+    ],
+  },
+  {
+    name: 'Reroute',
+    category: 'Live transit app and ML dataset',
+    headline:
+      'A live Warsaw tram and bus map: click a stop, pick a line, see the vehicles and how late they are.',
+    context:
+      'Built around one question, is my tram or bus coming and is it late, on the Warsaw timetable and the live GTFS-Realtime vehicle feed.',
+    summary:
+      'Click a stop to see every line that serves it with the next departures. Pick a line to see its route and its moving vehicles, outlined by delay, then click a vehicle for its delay against the timetable and its next stops. Underneath, a collector writes every vehicle observation and stop arrival to PostgreSQL with PostGIS, building a dataset for an upcoming delay-prediction model.',
+    challenge:
+      'A delay is only meaningful if the live vehicle is matched to the right timetable trip. After-midnight trips, the daylight-saving night, loop lines, stale positions and gaps in the feed all break naive matching, so each case is covered by tests.',
+    outcome:
+      'A working live map plus a growing dataset. The feature export is leak-free and a predictor seam is already in place: the API contract is fixed, and for now it returns the current delay until a trained model plugs in.',
+    details: [
+      'Stop, line and vehicle in three steps, with a bottom sheet on small screens and a switch that limits a line to the vehicles still heading to your stop.',
+      'A separate collector polls the feeds every 20 seconds and stores observations, derived arrival events and service alerts, with partitions, retention and replay of raw snapshots.',
+      'FastAPI backend with a PostGIS schema, a React and MapLibre frontend, and CI that runs the database tests against a PostGIS service.',
+    ],
+    technologies: [
+      'Python',
+      'FastAPI',
+      'SQLAlchemy 2',
+      'PostgreSQL',
+      'PostGIS',
+      'React',
+      'TypeScript',
+      'MapLibre GL',
+      'GTFS-Realtime',
+      'Docker',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/Reroute',
+    repositoryLabel: 'Source code',
+    repositoryNote:
+      'The delay-prediction model is the next step; today the repository holds the live app, the collector and the dataset pipeline.',
+    liveDemoUrl: 'https://reroute.maciejzielinski.dev',
+    stageLabel: 'Transit pipeline',
+    status: 'Live demo / collecting data',
+    year: '2026',
+    theme: 'track',
+    metrics: [
+      { label: 'Live data', value: 'GTFS timetable + GTFS-Realtime' },
+      { label: 'Storage', value: 'PostgreSQL 16 + PostGIS' },
+      { label: 'Next', value: 'Delay-prediction ML model' },
+    ],
+    artifactTitle: 'From feed to prediction',
+    artifactSummary:
+      'The same recorded observations drive the live view today and will train the delay model later.',
+    artifactLanes: [
+      {
+        label: 'Ingest',
+        summary: 'A collector polls the realtime feeds and stores every observation next to the imported timetable.',
+        items: ['GTFS-Realtime feeds', 'Timetable import', 'PostGIS storage'],
+      },
+      {
+        label: 'Serve',
+        summary: 'The API matches live vehicles to timetable trips and works out each delay.',
+        items: ['Stop panel', 'Line focus', 'Vehicle delay'],
+      },
+      {
+        label: 'Predict',
+        summary: 'Recorded arrivals become training rows, and a predictor seam is ready for a model.',
+        items: ['Arrival events', 'Feature export', 'Predictor seam'],
       },
     ],
   },
@@ -140,7 +270,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Integration Tests',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/caseflow',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     repositoryNote:
       'Public source, setup instructions, and verification details are available in the repository.',
     stageLabel: 'Workflow engine',
@@ -201,7 +331,7 @@ export const featuredProjects: FeaturedProject[] = [
       'SRT Export',
     ],
     repositoryUrl: 'https://github.com/MaciejZiel/clip_to_text',
-    repositoryLabel: 'View repository',
+    repositoryLabel: 'Source code',
     stageLabel: 'Transcription pipeline',
     status: 'Public repo / updated 2026',
     year: '2026',
@@ -232,129 +362,31 @@ export const featuredProjects: FeaturedProject[] = [
       },
     ],
   },
-  {
-    name: 'Motorsport_API',
-    category: 'Backend API',
-    headline:
-      'A production-minded Django REST API with standings logic, JWT auth, filtering, and documented contracts.',
-    context:
-      'A domain-heavy REST API where the backend has to model seasons, teams, races, results, and standings cleanly.',
-    summary:
-      'Motorsport_API models seasons, teams, drivers, races, and race results with domain logic that goes beyond CRUD. It layers in JWT authentication, filtering, pagination, Swagger/OpenAPI documentation, Dockerized setup, and testable backend structure.',
-    challenge:
-      'The core challenge was modeling a sports domain where standings and result logic matter, then exposing it as a clean API with documented contracts and usable auth.',
-    outcome:
-      'That makes it a solid backend API case study: domain modeling, contract clarity, authentication, and the operational basics needed for a maintainable service.',
-    details: [
-      'Backend domain modeling for standings, race results, teams, and drivers.',
-      'JWT authentication, pagination, and filtering for usable API consumption.',
-      'OpenAPI documentation and Dockerized local workflow for maintainability.',
-    ],
-    technologies: [
-      'Django',
-      'Django REST Framework',
-      'JWT',
-      'OpenAPI',
-      'Swagger',
-      'Docker',
-      'Testing',
-      'CI/CD',
-    ],
-    repositoryUrl: 'https://github.com/MaciejZiel/Motorsport_API',
-    repositoryLabel: 'View repository',
-    stageLabel: 'API domain layer',
-    status: 'Public repo / updated 2026',
-    year: '2026',
-    theme: 'track',
-    metrics: [
-      { label: 'Framework', value: 'Django REST Framework' },
-      { label: 'API concerns', value: 'JWT, filtering, pagination' },
-      { label: 'Contracts', value: 'Swagger + OpenAPI' },
-    ],
-    artifactTitle: 'API domain map',
-    artifactSummary:
-      'The strength of the project is the backend contract: coherent models, standings logic, and a usable interface for consumers.',
-    artifactLanes: [
-      {
-        label: 'Domain',
-        summary: 'The model layer reflects the season and race structure clearly.',
-        items: ['Teams', 'Drivers', 'Races'],
-      },
-      {
-        label: 'API',
-        summary: 'Endpoints are shaped for real consumption rather than raw data dumping.',
-        items: ['JWT auth', 'Filtering', 'Pagination'],
-      },
-      {
-        label: 'Contracts',
-        summary: 'The service is documented and runnable in a clean local setup.',
-        items: ['Swagger UI', 'OpenAPI', 'Docker workflow'],
-      },
-    ],
-  },
-  {
-    name: 'live_flights_map',
-    category: 'Full-stack real-time data app',
-    headline:
-      'A live aircraft map with a resilient path from external feeds to searchable flight history.',
-    context:
-      'A full-stack flight-tracking application that combines external position feeds, a local archive, and a map-based interface.',
-    summary:
-      'OpenSky is the primary live data provider, with ADSB.lol available as a fallback. A Flask service brokers the requests and stores aircraft positions in SQLite for later search and replay.',
-    challenge:
-      'The application needs to make changing external data useful over time: handle provider availability, retain position history, and keep aircraft movement legible on a live map.',
-    outcome:
-      'The result connects live tracking with a searchable local archive, replay, and flight trails instead of treating each provider response as a disposable snapshot.',
-    details: [
-      'OpenSky primary feed with ADSB.lol provider fallback.',
-      'Flask proxy, bounding-box caching, and a SQLite position archive.',
-      'Svelte and Leaflet map with polling by default and optional server-sent events.',
-    ],
-    technologies: [
-      'Flask',
-      'SQLite',
-      'Svelte',
-      'Leaflet',
-      'OpenSky',
-      'ADSB.lol',
-      'Server-Sent Events',
-    ],
-    repositoryUrl: 'https://github.com/MaciejZiel/live_flights_map',
-    repositoryLabel: 'View repository',
-    stageLabel: 'Live data route',
-    status: 'Public repository / real-time aircraft tracking',
-    year: '2026',
-    theme: 'vision',
-    visualization: 'flight-route',
-    metrics: [
-      { label: 'Live feeds', value: 'OpenSky + ADSB.lol fallback' },
-      { label: 'Archive', value: 'SQLite position history' },
-      { label: 'Map', value: 'Svelte + Leaflet' },
-    ],
-    artifactTitle: 'Live position pipeline',
-    artifactSummary:
-      'Provider feeds pass through a Flask service before live map updates and searchable position history.',
-    artifactLanes: [
-      {
-        label: 'Sources',
-        summary: 'Live aircraft states come from a primary provider with a fallback source.',
-        items: ['OpenSky', 'ADSB.lol fallback', 'Bounding-box cache'],
-      },
-      {
-        label: 'Archive',
-        summary: 'The Flask service stores positions so past activity can be explored later.',
-        items: ['Flask proxy', 'SQLite archive', 'Position search'],
-      },
-      {
-        label: 'Map & replay',
-        summary: 'The map turns position history into movement, trails, and replay.',
-        items: ['Svelte + Leaflet', 'Flight trails', 'Polling / optional SSE'],
-      },
-    ],
-  },
 ]
 
 export const projectRail: ProjectRailItem[] = [
+  {
+    name: 'pgqueue',
+    description:
+      'A job queue on PostgreSQL: SKIP LOCKED claiming, leases, retries and a live SSE dashboard.',
+    href: 'https://github.com/MaciejZiel/pgqueue',
+    liveDemoUrl: 'https://pgqueue.maciejzielinski.dev',
+  },
+  {
+    name: 'plan-bot',
+    description: 'A Discord and Telegram bot that answers timetable questions from an ICS feed.',
+    href: 'https://github.com/MaciejZiel/plan-bot',
+  },
+  {
+    name: 'firm-radar',
+    description: 'Polish company profiles from public registries, with change tracking.',
+    href: 'https://github.com/MaciejZiel/firm-radar',
+  },
+  {
+    name: 'Motorsport_API',
+    description: 'A documented Django REST API for race results, teams, drivers and standings.',
+    href: 'https://github.com/MaciejZiel/Motorsport_API',
+  },
   {
     name: 'agentic-rag-platform',
     description: 'Multi-tenant FastAPI document Q&A with Qdrant retrieval and cited answers.',
@@ -365,21 +397,21 @@ export const projectRail: ProjectRailItem[] = [
     description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
     href: 'https://github.com/MaciejZiel/hand_gesture_control',
   },
-  {
-    name: 'F1InfoMobileApp',
-    description: 'Android app for live motorsport telemetry and race-focused mobile interfaces.',
-    href: 'https://github.com/MaciejZiel/F1InfoMobileApp',
-  },
 ]
+
+export const selfHostedDemos: SelfHostedDemos = {
+  label: 'Self-hosted demos',
+  statusLabel: 'System status',
+  statusUrl: 'https://status.maciejzielinski.dev',
+}
 
 // One accent per project, so no two projects share a colour whatever their motion theme.
 const projectAccents: Record<string, string> = {
-  CaseFlow: '#7be4b8',
   'pytest-queryguard': '#f2d76b',
+  Contrail: '#f07887',
+  Reroute: '#82b1ff',
+  CaseFlow: '#7be4b8',
   clip_to_text: '#ffb86c',
-  Motorsport_API: '#d4a5e0',
-  live_flights_map: '#f07887',
-  'Live Flights Map': '#f07887',
 }
 
 export const projectAccent = (name: string) => projectAccents[name]
@@ -388,14 +420,17 @@ export const projectAnchorId = (name: string) =>
   `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
 
 const projectDisplayNames: Record<string, string> = {
-  CaseFlow: 'CASEFLOW',
   'pytest-queryguard': 'PYTEST-QUERYGUARD',
+  Contrail: 'CONTRAIL',
+  Reroute: 'REROUTE',
+  CaseFlow: 'CASEFLOW',
   clip_to_text: 'CLIP TO TEXT',
-  hand_gesture_control: 'HAND GESTURE CONTROL',
   Motorsport_API: 'MOTORSPORT API',
-  live_flights_map: 'LIVE FLIGHTS MAP',
+  hand_gesture_control: 'HAND GESTURE CONTROL',
   'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
-  F1InfoMobileApp: 'F1 INFO MOBILE APP',
+  'plan-bot': 'PLAN-BOT',
+  'firm-radar': 'FIRM-RADAR',
+  pgqueue: 'PGQUEUE',
 }
 
 export const projectDisplayName = (name: string) =>
@@ -408,6 +443,16 @@ export const projectHighlights = [
     anchorId: projectAnchorId('pytest-queryguard'),
   },
   {
+    name: 'Contrail',
+    description: 'A live flight tracker on WebGL with a photo, the full track and the route ahead for every aircraft.',
+    anchorId: projectAnchorId('Contrail'),
+  },
+  {
+    name: 'Reroute',
+    description: 'Live Warsaw trams and buses with delays, collecting a dataset for a prediction model.',
+    anchorId: projectAnchorId('Reroute'),
+  },
+  {
     name: 'CaseFlow',
     description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',
     anchorId: projectAnchorId('CaseFlow'),
@@ -416,16 +461,6 @@ export const projectHighlights = [
     name: 'clip_to_text',
     description: 'An audio-to-transcript workflow with live job progress and practical exports.',
     anchorId: projectAnchorId('clip_to_text'),
-  },
-  {
-    name: 'Motorsport_API',
-    description: 'A documented API for race results, teams, drivers, and standings.',
-    anchorId: projectAnchorId('Motorsport_API'),
-  },
-  {
-    name: 'Live Flights Map',
-    description: 'A real-time aircraft map with search, history replay, and provider fallback.',
-    anchorId: projectAnchorId('live_flights_map'),
   },
 ] as const
 

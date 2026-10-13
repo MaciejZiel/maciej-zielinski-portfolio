@@ -194,19 +194,37 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
             <div className="project-showcase__footer">
               <TagList items={project.technologies} />
               <div className="project-showcase__link-group">
-                <a
-                  className="project-showcase__link"
-                  href={project.repositoryUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                  aria-label={`${project.repositoryLabel} for ${project.name.replaceAll('_', ' ')} (opens in a new tab)`}
-                >
-                  <span>{project.repositoryLabel}</span>
-                  <Icon
-                    name="arrow-up-right"
-                    className="project-showcase__link-icon"
-                  />
-                </a>
+                <div className="project-showcase__actions">
+                  {project.liveDemoUrl ? (
+                    <a
+                      className="project-showcase__live"
+                      href={project.liveDemoUrl}
+                      rel="noreferrer"
+                      target="_blank"
+                      aria-label={`Try ${project.name.replaceAll('_', ' ')} live (opens in a new tab)`}
+                    >
+                      <span className="project-showcase__live-dot" aria-hidden="true" />
+                      <span>Try it live</span>
+                      <Icon
+                        name="arrow-up-right"
+                        className="project-showcase__link-icon"
+                      />
+                    </a>
+                  ) : null}
+                  <a
+                    className="project-showcase__link"
+                    href={project.repositoryUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                    aria-label={`${project.repositoryLabel} for ${project.name.replaceAll('_', ' ')} (opens in a new tab)`}
+                  >
+                    <span>{project.repositoryLabel}</span>
+                    <Icon
+                      name="arrow-up-right"
+                      className="project-showcase__link-icon"
+                    />
+                  </a>
+                </div>
                 {project.repositoryNote ? (
                   <p className="project-showcase__note">{project.repositoryNote}</p>
                 ) : null}
