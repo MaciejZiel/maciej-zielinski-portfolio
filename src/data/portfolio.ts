@@ -388,11 +388,6 @@ export const projectRail: ProjectRailItem[] = [
     href: 'https://github.com/MaciejZiel/Motorsport_API',
   },
   {
-    name: 'agentic-rag-platform',
-    description: 'Multi-tenant FastAPI document Q&A with Qdrant retrieval and cited answers.',
-    href: 'https://github.com/MaciejZiel/agentic-rag-platform',
-  },
-  {
     name: 'hand_gesture_control',
     description: 'OpenCV + MediaPipe gesture control with smoothing and configurable mappings.',
     href: 'https://github.com/MaciejZiel/hand_gesture_control',
@@ -427,7 +422,6 @@ const projectDisplayNames: Record<string, string> = {
   clip_to_text: 'CLIP TO TEXT',
   Motorsport_API: 'MOTORSPORT API',
   hand_gesture_control: 'HAND GESTURE CONTROL',
-  'agentic-rag-platform': 'AGENTIC RAG PLATFORM',
   'plan-bot': 'PLAN-BOT',
   'firm-radar': 'FIRM-RADAR',
   pgqueue: 'PGQUEUE',
