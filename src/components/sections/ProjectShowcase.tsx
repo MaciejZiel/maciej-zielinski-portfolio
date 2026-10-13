@@ -195,6 +195,22 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
               <TagList items={project.technologies} />
               <div className="project-showcase__link-group">
                 <div className="project-showcase__actions">
+                  {project.liveDemoUrl ? (
+                    <a
+                      className="project-showcase__live"
+                      href={project.liveDemoUrl}
+                      rel="noreferrer"
+                      target="_blank"
+                      aria-label={`Try ${project.name.replaceAll('_', ' ')} live (opens in a new tab)`}
+                    >
+                      <span className="project-showcase__live-dot" aria-hidden="true" />
+                      <span>Try it live</span>
+                      <Icon
+                        name="arrow-up-right"
+                        className="project-showcase__link-icon"
+                      />
+                    </a>
+                  ) : null}
                   <a
                     className="project-showcase__link"
                     href={project.repositoryUrl}
@@ -208,21 +224,6 @@ export function ProjectShowcase({ index, project }: ProjectShowcaseProps) {
                       className="project-showcase__link-icon"
                     />
                   </a>
-                  {project.liveDemoUrl ? (
-                    <a
-                      className="project-showcase__link project-showcase__link--live"
-                      href={project.liveDemoUrl}
-                      rel="noreferrer"
-                      target="_blank"
-                      aria-label={`Try ${project.name.replaceAll('_', ' ')} live (opens in a new tab)`}
-                    >
-                      <span>Try it live</span>
-                      <Icon
-                        name="arrow-up-right"
-                        className="project-showcase__link-icon"
-                      />
-                    </a>
-                  ) : null}
                 </div>
                 {project.repositoryNote ? (
                   <p className="project-showcase__note">{project.repositoryNote}</p>

@@ -70,6 +70,7 @@ export function ProjectsSection({
                   target="_blank"
                   aria-label={`Try ${item.name.replaceAll('_', ' ')} live (opens in a new tab)`}
                 >
+                  <span className="project-showcase__live-dot" aria-hidden="true" />
                   <span>Try it live</span>
                   <Icon name="arrow-up-right" className="projects-rail__live-icon" />
                 </a>
