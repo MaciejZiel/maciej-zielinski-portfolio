@@ -14,6 +14,7 @@ import {
   navigationItems,
   profile,
   projectRail,
+  selfHostedDemos,
   skillLanes,
 } from './data/portfolio'
 import './styles/app.css'
@@ -49,6 +50,7 @@ function PortfolioExperience() {
             <ProjectsSection
               featuredProjects={featuredProjects}
               projectRail={projectRail}
+              selfHostedDemos={selfHostedDemos}
             />
             <SkillsSection skillLanes={skillLanes} />
             <ContactSection contactMethods={contactMethods} />
