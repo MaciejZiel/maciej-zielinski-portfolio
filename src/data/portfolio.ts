@@ -378,6 +378,7 @@ export const projectRail: ProjectRailItem[] = [
     description:
       'An interactive Solar System viewer: a Pygame desktop app and a Three.js browser version with JPL orbital elements.',
     href: 'https://gravity.maciejzielinski.dev',
+    liveDemoUrl: 'https://gravity.maciejzielinski.dev',
   },
   {
     name: 'plan-bot',
