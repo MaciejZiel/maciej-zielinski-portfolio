@@ -377,7 +377,7 @@ export const projectRail: ProjectRailItem[] = [
     name: 'Gravity Studio',
     description:
       'An interactive Solar System viewer: a Pygame desktop app and a Three.js browser version with JPL orbital elements.',
-    href: 'https://gravity.maciejzielinski.dev',
+    href: 'https://github.com/MaciejZiel/gravity_studio',
     liveDemoUrl: 'https://gravity.maciejzielinski.dev',
   },
   {
