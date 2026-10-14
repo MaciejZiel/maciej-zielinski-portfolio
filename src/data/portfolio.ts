@@ -374,6 +374,12 @@ export const projectRail: ProjectRailItem[] = [
     liveDemoUrl: 'https://pgqueue.maciejzielinski.dev',
   },
   {
+    name: 'Gravity Studio',
+    description:
+      'An interactive Solar System viewer: a Pygame desktop app and a Three.js browser version with JPL orbital elements.',
+    href: 'https://gravity.maciejzielinski.dev',
+  },
+  {
     name: 'plan-bot',
     description: 'A Discord and Telegram bot that answers timetable questions from an ICS feed.',
     href: 'https://github.com/MaciejZiel/plan-bot',
@@ -444,7 +450,7 @@ export const projectHighlights = [
   },
   {
     name: 'Reroute',
-    description: 'Live Warsaw trams and buses with delays, collecting a dataset for a prediction model.',
+    description: 'Live Warsaw trams and buses with delays, and a model that predicts arrival delays.',
     anchorId: projectAnchorId('Reroute'),
   },
   {
