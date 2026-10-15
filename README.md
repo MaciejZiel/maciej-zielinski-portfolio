@@ -70,7 +70,7 @@ That includes:
 
 ## Notes
 
-- `CaseFlow` links to its public repository.
+- `Undercut` links to its public repository and the live site.
 - The site uses semantic sections and basic accessibility support, including a skip link and keyboard-friendly link states.
 
 ## License

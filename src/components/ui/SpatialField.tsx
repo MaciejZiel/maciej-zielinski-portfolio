@@ -17,10 +17,10 @@ interface ColorStop {
 const fieldColorAnchors: Array<{ selector: string; rgb: RGB }> = [
   { selector: '#top', rgb: [194, 225, 126] },
   { selector: '#about', rgb: [194, 225, 126] },
+  { selector: '#project-undercut', rgb: [123, 228, 184] },
   { selector: '#project-pytest-queryguard', rgb: [242, 215, 107] },
   { selector: '#project-contrail', rgb: [240, 120, 135] },
   { selector: '#project-reroute', rgb: [130, 177, 255] },
-  { selector: '#project-caseflow', rgb: [123, 228, 184] },
   { selector: '#project-clip-to-text', rgb: [255, 184, 108] },
   { selector: '#skills', rgb: [194, 225, 126] },
   { selector: '#contact', rgb: [194, 225, 126] },

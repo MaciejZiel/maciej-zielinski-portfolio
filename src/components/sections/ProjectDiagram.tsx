@@ -29,9 +29,9 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
 
   return (
     <svg viewBox="0 0 640 104" role="img" aria-label={`${projectDisplayName(project.name)} system flow diagram`}>
-      <path className="caseflow-route-track" d="M48 72H592" />
+      <path className="flow-route-track" d="M48 72H592" />
       <motion.line
-        className="caseflow-route-signal"
+        className="flow-route-signal"
         x1="48"
         y1="72"
         x2={nodeX[0]}
@@ -43,13 +43,13 @@ function FlowNodes({ project, activeLane, reduceMotion }: ProjectDiagramProps & 
           : { duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       />
       {nodeX.map((x, index) => (
-        <g key={x} className={index === activeLane ? 'caseflow-route-node caseflow-route-node--active' : 'caseflow-route-node'}>
+        <g key={x} className={index === activeLane ? 'flow-route-node flow-route-node--active' : 'flow-route-node'}>
           <circle cx={x} cy="72" r="7" />
           <text x={x} y="40" textAnchor="middle">0{index + 1} / {labels[index] ?? 'Stage'}</text>
         </g>
       ))}
       <motion.circle
-        className="caseflow-route-traveler"
+        className="flow-route-traveler"
         cx={nodeX[0]}
         cy="72"
         r="12"

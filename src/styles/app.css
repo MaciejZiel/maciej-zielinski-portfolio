@@ -904,11 +904,11 @@
 .project-diagram svg { width: 100%; height: auto; overflow: visible; }
 .project-diagram__visual { position: relative; }
 .project-diagram text { fill: var(--color-text-muted); font: 13px var(--mono-font); letter-spacing: .06em; }
-.caseflow-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.caseflow-route-signal { fill: none; stroke: var(--project-accent, var(--color-accent)); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.caseflow-route-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.48); stroke-width: 1.2; vector-effect: non-scaling-stroke; transition: fill 240ms ease, stroke 240ms ease; }
-.caseflow-route-node--active text { fill: var(--color-text); }
-.caseflow-route-traveler { fill: var(--project-accent, var(--color-accent)); stroke: var(--color-bg); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.flow-route-track { fill: none; stroke: rgba(255,255,255,.18); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.flow-route-signal { fill: none; stroke: var(--project-accent, var(--color-accent)); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.flow-route-node circle { fill: var(--color-bg); stroke: rgba(255,255,255,.48); stroke-width: 1.2; vector-effect: non-scaling-stroke; transition: fill 240ms ease, stroke 240ms ease; }
+.flow-route-node--active text { fill: var(--color-text); }
+.flow-route-traveler { fill: var(--project-accent, var(--color-accent)); stroke: var(--color-bg); stroke-width: 2; vector-effect: non-scaling-stroke; }
 .diagram-wave-mid { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 1; }
 .diagram-waveform { transform-box: view-box; transform-origin: 0 50% !important; }
 .diagram-wave-bar { fill: var(--project-accent); opacity: .32; }

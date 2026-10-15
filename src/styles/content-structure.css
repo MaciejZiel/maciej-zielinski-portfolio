@@ -371,7 +371,7 @@ html[data-motion='paused'] *::after {
 .project-showcase__deep-dive-body { max-width: 70ch; }
 
 /* Diagram labels are drawn in the SVG's own units, so they shrink with their column.
-   CaseFlow and the domain map get larger units so they reach about 12px on a wide screen;
+   Undercut and the domain map get larger units so they reach about 12px on a wide screen;
    on phones the labels are dropped, because they only repeat the stage buttons right below. */
 .project-diagram--steel svg:not(.query-log) text,
 .project-diagram--track svg text { font-size: 14px; }

@@ -52,6 +52,71 @@ export const profile: Profile = {
 
 export const featuredProjects: FeaturedProject[] = [
   {
+    name: 'Undercut',
+    category: 'Full-stack web service',
+    headline: 'A Formula 1 stats and analysis site with every season since 1950, race replay and a podium prediction game.',
+    context:
+      'An unofficial, non-commercial fan project built as a production service: real data, accounts, scheduled syncs and its own deployment.',
+    summary:
+      'Browse every season, driver and constructor since 1950, then open a race from 2023 onwards for lap-by-lap positions, lap times, tyre strategy, pit stops, weather and race control messages, or play it back with a timeline at up to 60x. Signed-in users follow drivers, pick the podium before qualifying and compete in global and private leagues. Results and standings update themselves after each session.',
+    challenge:
+      'Several modules react to the same real-world fact, a session finishing: standings, prediction scores, cache purges and e-mails. Doing that without a message broker, and without ever recording a result without its follow-up work, shaped the whole backend.',
+    outcome:
+      'Running in production at undercut.maciejzielinski.dev. The repository holds more than 1,000 backend and frontend tests, and CI runs the type checker, a 90% backend coverage gate, a dependency audit and browser tests against the full stack. The e-mail and Google sign-in setup are still being finished.',
+    details: [
+      'Django modular monolith; modules never import each other\'s models, import-linter enforces it in CI, and they communicate through events written to a PostgreSQL transactional outbox in the same transaction as the data change. Delivery is at-least-once, tracked per handler, and every handler is idempotent.',
+      'Google sign-in is a small OpenID Connect client on the standard library with state, nonce and PKCE, written to avoid a new dependency. Accounts link only to verified e-mail addresses.',
+      'Analytics come from OpenF1; track outlines are drawn from the x/y positions of the winner\'s clean lap. The frontend is Next.js with tag-based cache purges triggered by data events.',
+      'Production runs on a home server without Docker: PostgreSQL, gunicorn, the outbox worker, the scheduler and Next.js as supervised processes behind nginx and a Cloudflare Tunnel, with a documented deploy and rollback runbook.',
+    ],
+    technologies: [
+      'Python',
+      'Django 6',
+      'DRF',
+      'PostgreSQL',
+      'Next.js',
+      'TypeScript',
+      'Tailwind',
+      'ECharts',
+      'TanStack Query',
+      'GitHub Actions',
+    ],
+    repositoryUrl: 'https://github.com/MaciejZiel/undercut',
+    repositoryLabel: 'Source code',
+    repositoryNote:
+      'Architecture notes, decision records, the event catalog and the deployment runbook are in the repository.',
+    liveDemoUrl: 'https://undercut.maciejzielinski.dev',
+    stageLabel: 'Outbox pipeline',
+    status: 'Live / self-hosted',
+    year: '2026',
+    theme: 'steel',
+    metrics: [
+      { label: 'Data', value: 'Jolpica-F1 since 1950, OpenF1 from 2023' },
+      { label: 'Backend', value: 'Django 6, PostgreSQL outbox, no broker' },
+      { label: 'Quality bar', value: 'Over 1,000 tests, 90% coverage gate' },
+    ],
+    artifactTitle: 'From a finished session to an e-mail',
+    artifactSummary:
+      'Every step is an event in the outbox, written in the same transaction as the data it describes, so nothing is recorded without its follow-up work.',
+    artifactLanes: [
+      {
+        label: 'Sync',
+        summary: 'A scheduler asks for results after each session ends; the worker claims the event and imports results and standings.',
+        items: ['Scheduler', 'Jolpica API', 'OpenF1 backfill'],
+      },
+      {
+        label: 'React',
+        summary: 'Independent modules handle the same event and can be retried one by one.',
+        items: ['Prediction scoring', 'Idempotent handlers', 'Per-handler retries'],
+      },
+      {
+        label: 'Publish',
+        summary: 'Only the pages affected by the new data are purged from the cache, and opted-in users get one e-mail per round.',
+        items: ['Cache tag purge', 'Post-race e-mail', 'Exactly once per user'],
+      },
+    ],
+  },
+  {
     name: 'pytest-queryguard',
     category: 'Open-source developer tool',
     headline: 'A pytest plugin that fails tests which hide N+1 queries and missing indexes.',
@@ -243,68 +308,6 @@ export const featuredProjects: FeaturedProject[] = [
     ],
   },
   {
-    name: 'CaseFlow',
-    category: 'Multi-tenant backend platform',
-    headline: 'A multi-tenant FastAPI backend designed like a production B2B system.',
-    context:
-      'A backend-first B2B platform focused on case and document workflows, tenant separation, and operational reliability.',
-    summary:
-      'CaseFlow is the strongest example of how I approach backend engineering: tenant-aware architecture, RBAC, session-backed authentication, document workflow state, audit logs, webhook delivery, retry logic, background processing, Dockerized services, and integration testing around operational paths.',
-    challenge:
-      'The interesting part was not exposing endpoints. It was designing a backend where permissions, workflow transitions, and downstream delivery all stay coherent as the domain gets more complex.',
-    outcome:
-      'The result is a backend case study that looks closer to a real B2B system than a student CRUD app: policy gates, operational paths, auditable state, and test coverage around failure-prone workflows.',
-    details: [
-      'Tenant isolation with role-based access control and session-backed auth flows.',
-      'Document workflow orchestration with auditable actions and event delivery.',
-      'Retry and background processing patterns designed around reliability rather than demo-only behavior.',
-    ],
-    technologies: [
-      'FastAPI',
-      'SQLAlchemy',
-      'Alembic',
-      'RBAC',
-      'Session Auth',
-      'Webhooks',
-      'Docker',
-      'Integration Tests',
-    ],
-    repositoryUrl: 'https://github.com/MaciejZiel/caseflow',
-    repositoryLabel: 'Source code',
-    repositoryNote:
-      'Read-only demo on a home server with a one-click demo account. Source, setup instructions and verification details are in the repository.',
-    liveDemoUrl: 'https://caseflow.maciejzielinski.dev',
-    stageLabel: 'Workflow engine',
-    status: 'Live demo / multi-tenant backend',
-    year: '2026',
-    theme: 'steel',
-    metrics: [
-      { label: 'Core stack', value: 'FastAPI + SQLAlchemy' },
-      { label: 'System concerns', value: 'Auth, workflows, auditability' },
-      { label: 'Quality bar', value: 'Docker + integration tests' },
-    ],
-    artifactTitle: 'Operational architecture',
-    artifactSummary:
-      'The system is organized around clear policy boundaries, explicit workflow state, and delivery infrastructure that can be observed and retried.',
-    artifactLanes: [
-      {
-        label: 'Policy gate',
-        summary: 'The request layer enforces who can act and in which tenant context.',
-        items: ['Session auth', 'RBAC rules', 'Tenant isolation'],
-      },
-      {
-        label: 'Workflow core',
-        summary: 'Documents move through controlled transitions instead of ad hoc updates.',
-        items: ['State transitions', 'Action handlers', 'Audit records'],
-      },
-      {
-        label: 'Delivery layer',
-        summary: 'Operational side effects are dispatched outside the request path.',
-        items: ['Webhook queue', 'Retry logic', 'Background processing'],
-      },
-    ],
-  },
-  {
     name: 'clip_to_text',
     category: 'Applied AI system',
     headline:
@@ -413,7 +416,7 @@ const projectAccents: Record<string, string> = {
   'pytest-queryguard': '#f2d76b',
   Contrail: '#f07887',
   Reroute: '#82b1ff',
-  CaseFlow: '#7be4b8',
+  Undercut: '#7be4b8',
   clip_to_text: '#ffb86c',
 }
 
@@ -426,7 +429,7 @@ const projectDisplayNames: Record<string, string> = {
   'pytest-queryguard': 'PYTEST-QUERYGUARD',
   Contrail: 'CONTRAIL',
   Reroute: 'REROUTE',
-  CaseFlow: 'CASEFLOW',
+  Undercut: 'UNDERCUT',
   clip_to_text: 'CLIP TO TEXT',
   Motorsport_API: 'MOTORSPORT API',
   hand_gesture_control: 'HAND GESTURE CONTROL',
@@ -439,6 +442,11 @@ export const projectDisplayName = (name: string) =>
   projectDisplayNames[name] ?? name.replaceAll('_', ' ').toLocaleUpperCase('en-US')
 
 export const projectHighlights = [
+  {
+    name: 'Undercut',
+    description: 'A Formula 1 stats and analysis site with race replay, a prediction game and an event-driven Django backend.',
+    anchorId: projectAnchorId('Undercut'),
+  },
   {
     name: 'pytest-queryguard',
     description: 'A published pytest plugin that turns N+1 queries and missing indexes into failing tests.',
@@ -453,11 +461,6 @@ export const projectHighlights = [
     name: 'Reroute',
     description: 'Live Warsaw trams and buses with delays, and a model that predicts arrival delays.',
     anchorId: projectAnchorId('Reroute'),
-  },
-  {
-    name: 'CaseFlow',
-    description: 'A multi-tenant workflow platform with clear access rules and reliable delivery.',
-    anchorId: projectAnchorId('CaseFlow'),
   },
   {
     name: 'clip_to_text',
