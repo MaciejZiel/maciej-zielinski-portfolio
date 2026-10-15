@@ -62,7 +62,7 @@ export const featuredProjects: FeaturedProject[] = [
     challenge:
       'Several modules react to the same real-world fact, a session finishing: standings, prediction scores, cache purges and e-mails. Doing that without a message broker, and without ever recording a result without its follow-up work, shaped the whole backend.',
     outcome:
-      'Running in production at undercut.maciejzielinski.dev. The repository holds more than 1,000 backend and frontend tests, and CI runs the type checker, a 90% backend coverage gate, a dependency audit and browser tests against the full stack. The e-mail and Google sign-in setup are still being finished.',
+      'Running in production at undercut.maciejzielinski.dev. The repository holds more than 1,000 backend and frontend tests, and CI runs the type checker, a 90% backend coverage gate, a dependency audit and browser tests against the full stack.',
     details: [
       'Django modular monolith; modules never import each other\'s models, import-linter enforces it in CI, and they communicate through events written to a PostgreSQL transactional outbox in the same transaction as the data change. Delivery is at-least-once, tracked per handler, and every handler is idempotent.',
       'Google sign-in is a small OpenID Connect client on the standard library with state, nonce and PKCE, written to avoid a new dependency. Accounts link only to verified e-mail addresses.',
@@ -127,7 +127,7 @@ export const featuredProjects: FeaturedProject[] = [
     challenge:
       'A test can pass while the code behind it sends 101 queries for 100 rows. The hard part was reporting this precisely enough to trust: no noise on harmless repetition, and no race conditions in the cached catalog the index check relies on.',
     outcome:
-      'Stable 0.3.0 is on PyPI with CI across Python 3.10 to 3.14. Release 0.4.0 is in release-candidate testing and adds a baseline so only new findings fail, SARIF output with a GitHub Action, per-finding ignore patterns, and the index check on SQLite, MySQL and MariaDB.',
+      'Version 0.4.0 is on PyPI with CI across Python 3.10 to 3.14. It adds a baseline so only new findings fail, SARIF output with a GitHub Action, per-finding ignore patterns, and the missing-index check on SQLite as well as PostgreSQL.',
     details: [
       'N+1 detection, repeated-statement and column-reload checks, and query and time budgets for sync, async and FastAPI test setups, with the call site in every message.',
       'Opt-in missing-index check that proposes the CREATE INDEX and the Alembic call; on PostgreSQL 16+ it runs EXPLAIN with sequential scans off, so the test database is left untouched.',
@@ -148,12 +148,12 @@ export const featuredProjects: FeaturedProject[] = [
     repositoryNote:
       'Install with pip install pytest-queryguard. Source, changelog, documentation and design notes are in the repository.',
     stageLabel: 'Published package',
-    status: 'v0.3.0 on PyPI / 0.4.0 coming / open source',
+    status: 'v0.4.0 on PyPI / open source',
     year: '2026',
     theme: 'steel',
     visualization: 'query-log',
     metrics: [
-      { label: 'Release', value: 'v0.3.0 on PyPI, 0.4.0 next' },
+      { label: 'Release', value: 'v0.4.0 on PyPI' },
       { label: 'Quality bar', value: 'mypy --strict, coverage-gated CI' },
       { label: 'Runs on', value: 'Python 3.10-3.14, SQLAlchemy 2' },
     ],
@@ -278,7 +278,7 @@ export const featuredProjects: FeaturedProject[] = [
       'Includes the LightGBM delay model with a persistence baseline, per-prediction explanations and a documented evaluation, plus the live app, the collector and the training pipeline.',
     liveDemoUrl: 'https://reroute.maciejzielinski.dev',
     stageLabel: 'Transit pipeline',
-    status: 'Live demo / collecting data',
+    status: 'Live demo / self-hosted',
     year: '2026',
     theme: 'track',
     metrics: [
@@ -372,9 +372,8 @@ export const projectRail: ProjectRailItem[] = [
   {
     name: 'pgqueue',
     description:
-      'A job queue on PostgreSQL: SKIP LOCKED claiming, leases, retries and a live SSE dashboard.',
+      'A job queue on PostgreSQL: SKIP LOCKED claiming, leases, retries, cron and an admin dashboard.',
     href: 'https://github.com/MaciejZiel/pgqueue',
-    liveDemoUrl: 'https://pgqueue.maciejzielinski.dev',
   },
   {
     name: 'Gravity Studio',
